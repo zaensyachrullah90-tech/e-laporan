@@ -5,12 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#0f172a">
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>E-GenLap | SDM PKH</title>
+  <title>E-GenLap | SDM PKH Pro Modular</title>
   
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- LIBRARY SHEETJS UNTUK PARSING EXCEL DI BROWSER -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
   <style>
     /* Tema Biru, Putih, Oranye */
     .glossy-monster { background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(2, 6, 23, 0.95) 100%);
@@ -31,10 +33,7 @@
     .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.02); border-radius: 4px; }
     .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(59, 130, 246, 0.5); border-radius: 4px; }
     
-    /* Responsive Desktop Tweaks */
-    @media (min-width: 768px) {
-        .mobile-nav-spacing { padding-bottom: 0px !important; }
-    }
+    @media (min-width: 768px) { .mobile-nav-spacing { padding-bottom: 0px !important; } }
   </style>
 </head>
 <body class="font-sans antialiased text-gray-100 selection:bg-orange-500 selection:text-white flex h-screen overflow-hidden">
@@ -59,21 +58,21 @@
           <i class="fas fa-bolt text-3xl text-orange-500 drop-shadow-md"></i>
           <div>
               <h1 class="text-xl font-black text-white tracking-wider">E-GenLap</h1>
-              <p class="text-[10px] text-blue-400 uppercase tracking-widest">SDM PKH Pro</p>
+              <p class="text-[10px] text-blue-400 uppercase tracking-widest">Sistem Modular</p>
           </div>
       </div>
       <div class="flex-grow p-4 space-y-2 overflow-y-auto custom-scrollbar sidebar-menu-container">
-          <!-- Populated by JS on Login -->
+          <!-- Populated by JS Menu Module -->
       </div>
       <div class="p-4 border-t border-blue-900/50">
           <button onclick="logout()" class="w-full bg-red-500/10 text-red-400 border border-red-500/30 py-2 rounded-lg text-sm font-bold hover:bg-red-500/20 transition-all"><i class="fas fa-power-off mr-2"></i> Logout</button>
       </div>
   </aside>
 
-  <!-- MAIN CONTENT AREA (RESPONSIVE) -->
+  <!-- MAIN CONTENT AREA -->
   <div class="flex-1 flex flex-col relative h-full w-full overflow-hidden bg-gradient-to-br from-[#020617] to-[#0f172a]">
     
-    <!-- HEADER (MOBILE & DESKTOP) -->
+    <!-- HEADER -->
     <header class="glossy-monster p-4 shadow-lg flex-shrink-0 z-10 border-b border-blue-500/30">
         <div class="flex justify-between items-center max-w-7xl mx-auto w-full">
             <h1 class="text-xl font-bold text-white md:hidden"><i class="fas fa-bolt text-orange-400 mr-1"></i> E-GenLap</h1>
@@ -88,16 +87,16 @@
         </div>
     </header>
 
-    <!-- CONTENT SECTIONS -->
+    <!-- CONTENT SECTIONS (MODULAR) -->
     <main class="flex-grow overflow-y-auto custom-scrollbar p-4 md:p-8 mobile-nav-spacing pb-24" id="mainContent">
       <div class="max-w-7xl mx-auto w-full relative">
       
-        <!-- AUTH SECTION -->
+        <!-- MODUL 0: AUTH SECTION -->
         <section id="sec-auth" class="glossy-monster p-6 md:p-10 rounded-2xl mb-6 max-w-md mx-auto mt-10">
             <div class="text-center mb-6">
                 <i class="fas fa-user-shield text-6xl text-blue-500 mb-3 drop-shadow-lg"></i>
                 <h2 class="text-2xl font-bold text-white">Sistem Login</h2>
-                <p class="text-xs text-slate-400 mt-1">E-GenLap Terintegrasi Vercel & Firebase</p>
+                <p class="text-xs text-slate-400 mt-1">Multi-Role Modular System</p>
             </div>
             <div id="formLogin">
                 <input type="email" id="logEmail" class="w-full p-4 text-sm rounded-xl glossy-input mb-4" placeholder="Email Anda" required>
@@ -119,7 +118,7 @@
             </div>
         </section>
 
-        <!-- DASHBOARD SECTION -->
+        <!-- MODUL 1: DASHBOARD -->
         <section id="sec-dashboard" class="section-hidden space-y-6">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="glossy-monster p-5 rounded-2xl col-span-1 md:col-span-2 flex justify-between items-center bg-gradient-to-r from-blue-900/40 to-slate-900/80 border-l-4 border-l-blue-500">
@@ -138,23 +137,11 @@
                     <p class="text-[10px] text-slate-400 text-center">AI Generate Docx/PDF</p>
                 </div>
             </div>
-            
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="glossy-monster p-5 rounded-2xl text-center border-b-2 border-b-green-500">
-                    <h3 class="text-3xl font-black text-green-400">0</h3>
-                    <p class="text-[10px] text-slate-400 mt-1 uppercase tracking-wide">Sukses Dibuat</p>
-                </div>
-                <div class="glossy-monster p-5 rounded-2xl text-center border-b-2 border-b-red-500">
-                    <h3 class="text-3xl font-black text-red-400">0</h3>
-                    <p class="text-[10px] text-slate-400 mt-1 uppercase tracking-wide">Gagal / Error</p>
-                </div>
-                <!-- Tempat statistik tambahan jika diperlukan di desktop -->
-            </div>
         </section>
 
-        <!-- PENGATURAN (SETTINGS) SECTION - FITUR AUTO FILL CERDAS -->
+        <!-- MODUL 2: PENGATURAN (PROFIL AUTO-FILL) -->
         <section id="sec-pengaturan" class="section-hidden max-w-2xl mx-auto">
-            <div class="glossy-monster p-6 rounded-2xl">
+            <div class="glossy-monster p-6 rounded-2xl border-l-4 border-l-blue-500">
                 <div class="flex items-center gap-3 border-b border-slate-700 pb-4 mb-5">
                     <i class="fas fa-cog text-2xl text-orange-500"></i>
                     <div>
@@ -169,19 +156,19 @@
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <div>
-                        <label class="block text-xs font-bold text-blue-300 mb-1">Jabatan (Mengatur Smart Filter)</label>
+                        <label class="block text-xs font-bold text-blue-300 mb-1">Jabatan (Mengatur Filter Kegiatan)</label>
                         <select id="setJabatan" class="w-full p-3 text-sm rounded-xl glossy-input">
+                            <option value="KATIM PROV">KATIM PROV</option>
+                            <option value="KORKAB">KORKAB</option>
+                            <option value="PENDAMPING SOSIAL">PENDAMPING SOSIAL</option>
                             <option value="Penata layanan operasional">Penata layanan operasional</option>
-                            <option value="Pengelola layanan operasional">Pengelola layanan operasional</option>
-                            <option value="Pendamping Sosial">Pendamping Sosial</option>
-                            <option value="Koordinator Kabupaten">Koordinator Kabupaten</option>
                         </select>
                     </div>
                     <div><label class="block text-xs font-bold text-blue-300 mb-1">Kabupaten/Kota</label><input type="text" id="setKab" class="w-full p-3 text-sm rounded-xl glossy-input"></div>
                 </div>
 
                 <div class="mb-6">
-                    <label class="block text-xs font-bold text-blue-300 mb-2">Upload Tanda Tangan (Format Transparan PNG disarankan)</label>
+                    <label class="block text-xs font-bold text-blue-300 mb-2">Upload Tanda Tangan (Format PNG transparan disarankan)</label>
                     <input type="file" accept="image/png, image/jpeg" class="w-full text-sm rounded-xl glossy-input text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-l-xl file:border-0 file:text-xs file:font-bold file:bg-blue-600 file:text-white cursor-pointer" onchange="prosesTtdSettings(event)">
                     <div id="previewTtdSettings" class="hidden mt-3 relative w-[120px] h-[60px] bg-white rounded-lg p-1 border border-blue-500/50 shadow-md">
                        <img id="imgTtdSettingsPreview" src="" class="w-full h-full object-contain">
@@ -193,26 +180,52 @@
             </div>
         </section>
 
-        <!-- GENERATE FORM SECTION (KUNCI BLUEPRINT RESTORED) -->
+        <!-- MODUL 3: SUPER ADMIN (BARU & MODULAR) -->
+        <section id="sec-admin" class="section-hidden max-w-4xl mx-auto space-y-6">
+            <div class="glossy-monster p-6 rounded-2xl border-l-4 border-l-orange-500">
+                <h2 class="text-xl font-bold text-white mb-2"><i class="fas fa-user-shield text-orange-400 mr-2"></i> Panel Super Admin</h2>
+                <p class="text-xs text-slate-400 mb-6">Kelola konfigurasi master dan data pengguna sistem.</p>
+                
+                <!-- RHK EXCEL UPLOADER -->
+                <div class="bg-black/40 p-5 rounded-xl border border-slate-700/50 mb-5">
+                    <h3 class="font-bold text-blue-400 mb-2"><i class="fas fa-file-excel mr-1 text-green-500"></i> Import Master RHK dari Excel</h3>
+                    <p class="text-[10px] text-slate-300 mb-4 text-justify">Sistem otomatis mendeteksi kolom: <b class="text-white">NO RHK, RENCANA HASIL KERJA, PILIHAN LAPORAN HARIAN, TARGET TAHUNAN, TARGET BULANAN, JABATAN</b>. Sistem menggunakan algoritma <i>Forward-Fill</i> cerdas untuk memetakan kolom kosong (seperti pada target tahunan dibagi bulanan).</p>
+                    <input type="file" id="excelRHKUpload" accept=".xlsx, .xls" class="w-full text-sm rounded-xl glossy-input text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-l-xl file:border-0 file:text-xs file:font-bold file:bg-blue-600 file:text-white cursor-pointer" onchange="uploadMasterRHK(event)">
+                </div>
+            </div>
+        </section>
+
+        <!-- MODUL 4: MODUL KOSONG (CONTOH KERANGKA MODULAR) -->
+        <section id="sec-modul_kosong" class="section-hidden max-w-4xl mx-auto space-y-6">
+            <div class="glossy-monster p-6 rounded-2xl border-l-4 border-l-slate-500">
+                <h2 class="text-xl font-bold text-white mb-2"><i class="fas fa-box-open text-slate-400 mr-2"></i> Modul Tambahan</h2>
+                <p class="text-xs text-slate-400 mb-6">Anda dapat menggandakan kerangka menu modular ini untuk kebutuhan fitur baru di masa depan (e.g., Laporan Keuangan, Log Transaksi, dll).</p>
+                <div class="bg-black/40 p-4 rounded-xl border border-slate-700/50 flex flex-col items-center justify-center h-40">
+                    <i class="fas fa-hammer text-4xl text-slate-600 mb-3"></i>
+                    <p class="text-slate-500 font-bold">Modul Under Construction</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- MODUL 5: GENERATE LAPORAN -->
         <section id="sec-generate" class="section-hidden max-w-4xl mx-auto">
-            <div class="glossy-monster p-5 md:p-8 rounded-2xl mb-6">
+            <div class="glossy-monster p-5 md:p-8 rounded-2xl mb-6 border-t-4 border-t-orange-500">
                 <div class="flex justify-between items-center border-b border-slate-700 pb-4 mb-5">
                      <h2 class="text-xl font-bold text-white"><i class="fas fa-magic mr-2 text-orange-500"></i> Form AI Laporan</h2>
                      <span class="text-xs bg-blue-900/50 text-blue-300 px-3 py-1.5 rounded-lg border border-blue-500/30 font-bold">Sisa Token: <b id="formTokenCount">0</b></span>
                 </div>
 
-                <!-- INFO PROFIL CERDAS (MENGGANTIKAN INPUT MANUAL) -->
+                <!-- Info Profil Auto-Fill -->
                 <div class="bg-blue-900/20 p-4 rounded-xl border border-blue-500/30 flex justify-between items-center mb-6 shadow-inner">
                     <div>
-                        <p class="text-[10px] text-slate-400 uppercase tracking-widest mb-1"><i class="fas fa-user-check text-green-400 mr-1"></i> Identitas Pelapor (Auto-Fill Aktif)</p>
+                        <p class="text-[10px] text-slate-400 uppercase tracking-widest mb-1"><i class="fas fa-user-check text-green-400 mr-1"></i> Identitas Pelapor (Auto-Fill)</p>
                         <p class="text-sm font-bold text-white" id="infoPelaporNama">-</p>
                         <p class="text-[10px] text-orange-300 mt-0.5" id="infoPelaporJabatan">-</p>
                     </div>
-                    <button type="button" onclick="nav('pengaturan')" class="text-xs bg-slate-800 hover:bg-slate-700 text-blue-400 px-4 py-2 rounded-lg border border-blue-500/50 transition-all"><i class="fas fa-edit mr-1"></i> Edit Profil</button>
+                    <button type="button" onclick="nav('pengaturan')" class="text-xs bg-slate-800 hover:bg-slate-700 text-blue-400 px-4 py-2 rounded-lg border border-blue-500/50 transition-all"><i class="fas fa-edit mr-1"></i> Ubah</button>
                 </div>
               
                 <form id="reportForm" onsubmit="tampilkanReview(event)">
-                   
                   <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
                       <div class="bg-black/30 p-4 rounded-xl border border-slate-700/50">
                           <p class="text-[10px] text-blue-400 font-bold mb-3 uppercase tracking-wider"><i class="fas fa-envelope-open-text mr-1 text-orange-400"></i> Referensi Surat</p>
@@ -239,42 +252,36 @@
                   </div>
         
                   <div class="mb-5 bg-gradient-to-r from-blue-900/30 to-transparent p-4 rounded-xl border-l-4 border-l-orange-500">
-                     <label class="block text-sm font-bold text-white mb-1">Pilih Kegiatan (Smart Filter RHK)</label>
-                     <p class="text-[10px] text-slate-400 mb-3">Pilihan ini telah disesuaikan dengan jabatan Anda (<span id="lblJabatanFilter" class="text-orange-400 font-bold"></span>).</p>
-                     <select id="kegiatanSelect" class="w-full p-3 text-sm rounded-xl glossy-input font-medium" onchange="renderDynamicForm()" required>
-                        <!-- Injected by Smart Filter -->
+                     <label class="block text-sm font-bold text-white mb-1">Kegiatan Harian (Smart Filter RHK Cloud)</label>
+                     <p class="text-[10px] text-slate-400 mb-3">Kegiatan disinkronkan otomatis dari database Master berdasarkan jabatan (<span id="lblJabatanFilter" class="text-orange-400 font-bold"></span>).</p>
+                     <select id="kegiatanSelect" class="w-full p-3 text-sm rounded-xl glossy-input font-medium text-slate-300" onchange="renderDynamicForm()" required>
+                        <option value="">Memuat data dari cloud...</option>
                      </select>
                   </div>
         
                   <div id="dynamicFormArea" class="space-y-4 mb-5 transition-all duration-300"></div>
         
+                  <!-- Limit Foto & Lampiran (Sesuai Blueprint Asli) -->
                   <div class="mb-5 bg-black/40 p-4 rounded-xl border border-slate-700/50">
                       <div class="flex flex-col md:flex-row gap-5">
-                          <!-- Foto -->
                           <div class="flex-1">
                               <div class="flex justify-between items-center mb-2">
                                   <label class="block text-xs font-bold text-blue-300">Foto (Maks 10)</label>
                                   <span id="photoStatus" class="text-[10px] text-slate-400">0/10</span>
                               </div>
                               <div class="flex flex-wrap gap-2 items-center">
-                                 <div onclick="document.getElementById('inputGaleri').click()" class="w-12 h-12 bg-blue-500/10 border border-dashed border-blue-500/50 flex flex-col items-center justify-center rounded-lg cursor-pointer text-blue-400 hover:bg-blue-500/20 shrink-0">
-                                      <i class="fas fa-camera"></i>
-                                 </div>
+                                 <div onclick="document.getElementById('inputGaleri').click()" class="w-12 h-12 bg-blue-500/10 border border-dashed border-blue-500/50 flex flex-col items-center justify-center rounded-lg cursor-pointer text-blue-400 hover:bg-blue-500/20 shrink-0"><i class="fas fa-camera"></i></div>
                                  <div id="previewContainer" class="flex flex-wrap gap-2"></div>
                               </div>
                               <input type="file" id="inputGaleri" accept="image/*" multiple class="hidden" onchange="prosesFoto(event)">
                           </div>
-                          
-                          <!-- Lampiran -->
                           <div class="flex-1 md:border-l md:border-slate-700/50 md:pl-5">
                               <div class="flex justify-between items-center mb-2">
                                   <label class="block text-xs font-bold text-blue-300">Lampiran (Maks 3)</label>
                                   <span id="lampiranStatus" class="text-[10px] text-slate-400">0/3</span>
                               </div>
                               <div class="flex flex-wrap gap-2 items-center">
-                                 <div onclick="document.getElementById('lampiranFile').click()" class="w-12 h-12 bg-orange-500/10 border border-dashed border-orange-500/50 flex flex-col items-center justify-center rounded-lg cursor-pointer text-orange-400 hover:bg-orange-500/20 shrink-0">
-                                      <i class="fas fa-paperclip"></i>
-                                 </div>
+                                 <div onclick="document.getElementById('lampiranFile').click()" class="w-12 h-12 bg-orange-500/10 border border-dashed border-orange-500/50 flex flex-col items-center justify-center rounded-lg cursor-pointer text-orange-400 hover:bg-orange-500/20 shrink-0"><i class="fas fa-paperclip"></i></div>
                                  <div id="previewLampiranContainer" class="flex flex-wrap gap-2"></div>
                               </div>
                               <input type="file" id="lampiranFile" accept="image/*" multiple class="hidden" onchange="prosesLampiran(event)">
@@ -285,7 +292,7 @@
                 <div class="mb-6 flex gap-4 items-center bg-blue-900/10 p-4 rounded-xl border border-blue-500/30">
                     <label class="block text-xs font-bold text-white mr-2"><i class="fas fa-file-export mr-1 text-orange-400"></i> Ekspor:</label>
                     <label class="flex items-center gap-2 text-sm text-slate-300 cursor-pointer"><input type="checkbox" id="formatPDF" value="PDF" checked class="accent-orange-500 w-4 h-4"> PDF</label>
-                    <label class="flex items-center gap-2 text-sm text-slate-300 cursor-pointer"><input type="checkbox" id="formatDOCX" value="DOCX" class="accent-orange-500 w-4 h-4"> Word (DOC)</label>
+                    <label class="flex items-center gap-2 text-sm text-slate-300 cursor-pointer"><input type="checkbox" id="formatDOCX" value="DOCX" class="accent-orange-500 w-4 h-4"> Word</label>
                 </div>
         
                 <button type="submit" id="btnSubmit" class="w-full bg-gradient-to-r from-orange-500 to-orange-400 text-white font-extrabold py-4 px-4 rounded-xl shadow-[0_5px_20px_rgba(249,115,22,0.4)] hover:shadow-[0_5px_25px_rgba(249,115,22,0.6)] transform transition-all tracking-wider flex justify-center items-center gap-2">
@@ -298,23 +305,13 @@
       </div>
     </main>
     
-    <!-- MOBILE BOTTOM NAVIGATION -->
+    <!-- MOBILE BOTTOM NAVIGATION (DIBANGUN DINAMIS MELALUI JS) -->
     <nav id="bottomNav" class="md:hidden fixed bottom-0 w-full bg-[#0f172a] border-t border-blue-900/60 shadow-[0_-10px_20px_rgba(0,0,0,0.6)] flex justify-between px-2 py-2 z-40 h-16 items-center rounded-t-3xl backdrop-blur-xl bg-opacity-95 hidden">
-        <button onclick="nav('dashboard')" class="nav-btn flex-1 flex flex-col items-center text-blue-400"><i class="fas fa-home text-lg"></i><span class="text-[9px] font-bold mt-1">Beranda</span></button>
-        <button onclick="nav('report')" class="nav-btn flex-1 flex flex-col items-center text-slate-500 hover:text-blue-300"><i class="fas fa-history text-lg"></i><span class="text-[9px] font-bold mt-1">Riwayat</span></button>
-        
-        <div class="relative flex-[1.2] flex justify-center">
-           <button onclick="nav('generate')" class="absolute top-0 transform -translate-y-[50%] bg-gradient-to-tr from-orange-500 to-orange-400 text-white w-14 h-14 rounded-full border-4 border-[#0f172a] flex items-center justify-center fab-button z-50">
-              <i class="fas fa-plus text-xl drop-shadow-md"></i>
-          </button>
-        </div>
-        
-        <button onclick="nav('token')" class="nav-btn flex-1 flex flex-col items-center text-slate-500 hover:text-blue-300"><i class="fas fa-coins text-lg"></i><span class="text-[9px] font-bold mt-1">Token</span></button>
-        <button onclick="nav('pengaturan')" class="nav-btn flex-1 flex flex-col items-center text-slate-500 hover:text-blue-300"><i class="fas fa-cog text-lg"></i><span class="text-[9px] font-bold mt-1">Profil</span></button>
+        <!-- Rendered by renderNavigation() -->
     </nav>
   </div>
 
-  <!-- MODAL REVIEW (DISEMPURNAKAN) -->
+  <!-- MODAL REVIEW AI -->
   <div id="modalReview" class="fixed inset-0 bg-[#020617]/90 backdrop-blur-sm z-[950] hidden flex-col items-center justify-center p-4 transition-opacity">
     <div class="glossy-monster w-full max-w-lg rounded-2xl p-5 border border-blue-500/30 shadow-2xl relative">
         <h3 class="text-lg font-bold text-white border-b border-slate-700 pb-2 mb-3"><i class="fas fa-clipboard-check text-orange-400 mr-2"></i> Review AI</h3>
@@ -326,12 +323,11 @@
     </div>
   </div>
 
-  <!-- SCRIPT FIREBASE & LOGIKA UTAMA -->
+  <!-- SCRIPT BAGIAN 1: FIREBASE CORE MODULE -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getDatabase, ref, set, get, child, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-    // Konfigurasi Firebase dari Blueprint Anda
     const firebaseConfig = {
       apiKey: "AIzaSyD8cDqjSKusErZWTVP0AKP0LqUuvMD2XfY",
       authDomain: "laporanpkh-502f1.firebaseapp.com",
@@ -341,16 +337,36 @@
     };
 
     const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
+    // Expose ke global (window) agar bisa dipanggil dari UI/Logic Javascript
+    window.db = getDatabase(app);
+    window.dbSet = set;
+    window.dbGet = get;
+    window.dbRef = ref;
+    window.dbChild = child;
+    window.dbUpdate = update;
+  </script>
 
+  <!-- SCRIPT BAGIAN 2: LOGIKA APLIKASI UTAMA (MODULAR) -->
+  <script>
     // KUNCI BLUEPRINT: URL Google Apps Script Web App Anda (GANTI INI)
     const GAS_API_URL = "https://script.google.com/macros/library/d/1QGq5JtK7AhRbbInMBAQPPV7al7MAMeSpa6354ueDXTAmxpAVCZXn3yk9/1";
 
-    // Global State
+    // GLOBAL STATE
     let currentUser = null;
     let tempTtdSettings = null; 
     let arrayFotoBase64 = [];
     let arrayLampiranBase64 = [];
+
+    // -----------------------------------------------------
+    // MODULE: KONFIGURASI MENU MODULAR (Hanya Tambah Disini)
+    // -----------------------------------------------------
+    const APP_MENUS = [
+        { id: 'dashboard', icon: 'fa-home', text: 'Beranda', roles: ['user', 'super_admin'] },
+        { id: 'generate', icon: 'fa-magic', text: 'Lapor', roles: ['user', 'super_admin'], isFab: true },
+        { id: 'pengaturan', icon: 'fa-cog', text: 'Profil', roles: ['user', 'super_admin'] },
+        { id: 'admin', icon: 'fa-user-shield', text: 'Super Admin', roles: ['super_admin'], color: 'text-orange-400' },
+        { id: 'modul_kosong', icon: 'fa-box', text: 'Modul', roles: ['super_admin'] } 
+    ];
 
     // Helper Functions
     function encodeEmail(email) { return email.replace(/\./g, ','); }
@@ -378,19 +394,26 @@
         document.getElementById('formRegister').classList.toggle('hidden');
     }
 
-    // --- AUTH LOGIC ---
+    // -----------------------------------------------------
+    // MODULE: AUTHENTICATION
+    // -----------------------------------------------------
     window.eksekusiRegister = async () => {
         const email = document.getElementById('regEmail').value, pass = document.getElementById('regPassword').value;
         if(!email || !pass) return showToast("Lengkapi Form", "error");
+        
         showLoadingUI(true);
         const emailKey = encodeEmail(email);
+        // Bypass Super Admin Khusus 
+        const userRole = (email.toLowerCase() === 'zaensyachrullah90@gmail.com' || email.toLowerCase() === 'admin@admin.com') ? 'super_admin' : 'user';
+        
         try {
-            const snap = await get(child(ref(db), `users/${emailKey}`));
+            const snap = await window.dbGet(window.dbChild(window.dbRef(window.db), `users/${emailKey}`));
             if (snap.exists()) { showLoadingUI(false); return showToast("Email terdaftar", "error"); }
-            await set(ref(db, 'users/' + emailKey), {
-                email, password: pass, nama: "User Baru", jabatan: "Penata layanan operasional", kabupaten: "Tapin", token: 1, role: "user"
+            
+            await window.dbSet(window.dbRef(window.db, 'users/' + emailKey), {
+                email, password: pass, nama: "User Baru", jabatan: "Penata layanan operasional", kabupaten: "Tapin", token: 1, role: userRole
             });
-            showLoadingUI(false); showToast("Registrasi sukses!", "success"); toggleAuthForm();
+            showLoadingUI(false); showToast(`Registrasi sukses (${userRole})`, "success"); toggleAuthForm();
         } catch(e) { showLoadingUI(false); showToast("Gagal Daftar", "error"); }
     }
 
@@ -399,7 +422,7 @@
         if (!email || !pass) return showToast("Isi Email & Pass", "error");
         showLoadingUI(true);
         try {
-            const snap = await get(child(ref(db), `users/${encodeEmail(email)}`));
+            const snap = await window.dbGet(window.dbChild(window.dbRef(window.db), `users/${encodeEmail(email)}`));
             if (snap.exists() && snap.val().password === pass) {
                 currentUser = snap.val();
                 localStorage.setItem('egenlap_user', JSON.stringify(currentUser));
@@ -410,36 +433,45 @@
 
     window.logout = () => { localStorage.removeItem('egenlap_user'); location.reload(); }
 
-    function renderSidebar() {
-        // Tampilan Navigasi Khusus PC/Desktop
-        const container = document.querySelector('.sidebar-menu-container');
-        const menus = [
-            { id: 'dashboard', icon: 'fa-home', text: 'Beranda' },
-            { id: 'generate', icon: 'fa-magic', text: 'Buat Laporan', color: 'text-orange-400' },
-            { id: 'report', icon: 'fa-history', text: 'Riwayat' },
-            { id: 'token', icon: 'fa-coins', text: 'Beli Token' },
-            { id: 'pengaturan', icon: 'fa-cog', text: 'Pengaturan Profil' }
-        ];
-        let html = '';
-        menus.forEach(m => {
-            html += `<button onclick="nav('${m.id}')" class="w-full text-left p-3 rounded-xl font-bold flex items-center gap-3 transition-all text-slate-400 hover:bg-blue-900/30 hover:text-white nav-btn-desktop" data-target="${m.id}">
-                <i class="fas ${m.icon} w-5 ${m.color || ''}"></i> ${m.text}
+    // -----------------------------------------------------
+    // MODULE: RENDER SYSTEM & NAVIGATION
+    // -----------------------------------------------------
+    function renderNavigation() {
+        const role = currentUser?.role || 'user';
+        const allowedMenus = APP_MENUS.filter(m => m.roles.includes(role));
+        
+        // 1. Render Desktop Sidebar
+        let deskHtml = '';
+        allowedMenus.forEach(m => {
+            deskHtml += `<button onclick="nav('${m.id}')" class="w-full text-left p-3 rounded-xl font-bold flex items-center gap-3 transition-all text-slate-400 hover:bg-blue-900/30 hover:text-white nav-btn-desktop" data-target="${m.id}">
+                <i class="fas ${m.icon} w-5 ${m.color || (m.isFab ? 'text-orange-400' : '')}"></i> ${m.text}
             </button>`;
         });
-        container.innerHTML = html;
+        document.querySelector('.sidebar-menu-container').innerHTML = deskHtml;
+        
+        // 2. Render Mobile Bottom Nav
+        let mobHtml = '';
+        allowedMenus.forEach((m) => {
+            if(m.isFab) {
+                 mobHtml += `<div class="relative flex-[1.2] flex justify-center"><button onclick="nav('${m.id}')" class="absolute top-0 transform -translate-y-[50%] bg-gradient-to-tr from-orange-500 to-orange-400 text-white w-14 h-14 rounded-full border-4 border-[#0f172a] flex items-center justify-center fab-button z-50 shadow-[0_0_15px_rgba(249,115,22,0.6)]"><i class="fas ${m.icon} text-xl drop-shadow-md"></i></button></div>`;
+            } else {
+                 mobHtml += `<button onclick="nav('${m.id}')" class="nav-btn flex-1 flex flex-col items-center text-slate-500 hover:text-blue-300" data-target="${m.id}"><i class="fas ${m.icon} text-lg ${m.color || ''}"></i><span class="text-[9px] font-bold mt-1">${m.text}</span></button>`;
+            }
+        });
+        document.getElementById('bottomNav').innerHTML = mobHtml;
     }
 
     function terapkanSesi() {
         document.getElementById('bottomNav').classList.remove('hidden');
         document.getElementById('desktopSidebar').classList.remove('hidden');
         
-        // Update Dashboard Text
+        // Terapkan Identitas
         document.getElementById('userGreeting').innerText = "Halo, " + (currentUser.nama || "User");
-        document.getElementById('userRoleBadge').innerText = currentUser.jabatan || "Role User";
+        document.getElementById('userRoleBadge').innerText = `${currentUser.role.toUpperCase()} - ${currentUser.jabatan || ""}`;
         document.getElementById('sisaTokenDash').innerText = currentUser.token;
         document.getElementById('formTokenCount').innerText = currentUser.token;
 
-        // Auto-fill Profil (Pengaturan)
+        // Auto-fill Input Pengaturan
         document.getElementById('setNama').value = currentUser.nama || "";
         document.getElementById('setNIP').value = currentUser.nip || "";
         document.getElementById('setJabatan').value = currentUser.jabatan || "Penata layanan operasional";
@@ -450,14 +482,18 @@
             document.getElementById('previewTtdSettings').classList.remove('hidden');
         }
 
-        renderSidebar();
-        applySmartFilter();
+        renderNavigation();
+        applySmartFilterRHK();
         nav('dashboard');
     }
 
     window.onload = () => {
+        if(typeof XLSX === 'undefined') console.warn("Peringatan: Pustaka SheetJS (Excel) belum selesai dimuat.");
         const stored = localStorage.getItem('egenlap_user');
-        if (stored) { currentUser = JSON.parse(stored); terapkanSesi(); }
+        if (stored) { 
+            // Cek agar saat load kita pastikan variable DB dari script type module sudah siap
+            setTimeout(() => { currentUser = JSON.parse(stored); terapkanSesi(); }, 500); 
+        }
         setInterval(() => {
             const now = new Date();
             document.getElementById('realtimeClock').innerText = now.toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit', second:'2-digit'}).replace(/\./g, ':');
@@ -465,32 +501,35 @@
         }, 1000);
     }
 
-    // --- NAVIGATION LOGIC ---
     window.nav = (target) => {
         document.querySelectorAll('section').forEach(s => s.classList.add('section-hidden'));
         document.getElementById('sec-' + target)?.classList.remove('section-hidden');
         
-        // Style Mobile Nav
+        // Logic Styling Mobile & Desktop Menu
         document.querySelectorAll('.nav-btn').forEach(btn => { btn.classList.remove('text-blue-400'); btn.classList.add('text-slate-500'); });
-        if(event && event.currentTarget && event.currentTarget.classList.contains('nav-btn')){
-            event.currentTarget.classList.remove('text-slate-500'); event.currentTarget.classList.add('text-blue-400');
-        }
-        
-        // Style Desktop Sidebar
         document.querySelectorAll('.nav-btn-desktop').forEach(btn => { btn.classList.remove('bg-blue-600', 'text-white', 'shadow-lg'); btn.classList.add('text-slate-400'); });
+        
+        if(event && event.currentTarget) {
+            if(event.currentTarget.classList.contains('nav-btn')){
+                event.currentTarget.classList.remove('text-slate-500'); event.currentTarget.classList.add('text-blue-400');
+            }
+        }
         const deskBtn = document.querySelector(`.nav-btn-desktop[data-target="${target}"]`);
         if(deskBtn) deskBtn.classList.add('bg-blue-600', 'text-white', 'shadow-lg');
         
-        document.getElementById('headerPageTitle').innerText = target.charAt(0).toUpperCase() + target.slice(1);
+        document.getElementById('headerPageTitle').innerText = target.charAt(0).toUpperCase() + target.slice(1).replace('_', ' ');
         
+        // Khusus Form Generate (Pastikan Filter & Info Sinkron)
         if(target === 'generate') {
             document.getElementById('infoPelaporNama').innerText = currentUser.nama || "Belum diset";
             document.getElementById('infoPelaporJabatan').innerText = `${currentUser.jabatan} | NIP: ${currentUser.nip || '-'}`;
-            applySmartFilter();
+            applySmartFilterRHK();
         }
     }
 
-    // --- PENGATURAN (SETTINGS) LOGIC ---
+    // -----------------------------------------------------
+    // MODULE: PENGATURAN (PROFIL AUTO-FILL)
+    // -----------------------------------------------------
     window.prosesTtdSettings = (e) => {
         const file = e.target.files[0]; if(!file) return;
         const reader = new FileReader();
@@ -507,44 +546,103 @@
         }
         reader.readAsDataURL(file);
     }
-    window.hapusTtdSettings = () => {
-        tempTtdSettings = null; document.getElementById('previewTtdSettings').classList.add('hidden');
-    }
+    window.hapusTtdSettings = () => { tempTtdSettings = null; document.getElementById('previewTtdSettings').classList.add('hidden'); }
+    
     window.simpanPengaturan = async () => {
         showLoadingUI(true);
         const updatedData = {
-            nama: document.getElementById('setNama').value,
-            nip: document.getElementById('setNIP').value,
-            jabatan: document.getElementById('setJabatan').value,
-            kabupaten: document.getElementById('setKab').value,
+            nama: document.getElementById('setNama').value, nip: document.getElementById('setNIP').value,
+            jabatan: document.getElementById('setJabatan').value, kabupaten: document.getElementById('setKab').value,
             ttd: tempTtdSettings || ""
         };
         try {
-            await update(ref(db, `users/${encodeEmail(currentUser.email)}`), updatedData);
+            await window.dbUpdate(window.dbRef(window.db, `users/${encodeEmail(currentUser.email)}`), updatedData);
             currentUser = { ...currentUser, ...updatedData };
             localStorage.setItem('egenlap_user', JSON.stringify(currentUser));
-            document.getElementById('userGreeting').innerText = "Halo, " + currentUser.nama;
-            document.getElementById('userRoleBadge').innerText = currentUser.jabatan;
+            terapkanSesi(); 
             showLoadingUI(false); showToast("Profil Disimpan", "success");
         } catch(e) { showLoadingUI(false); showToast("Gagal Menyimpan", "error"); }
     }
 
-    // --- SMART FILTER & BLUEPRINT FORM DINAMIS (RESTORED) ---
-    const RHK_MASTER = {
-        "Penata layanan operasional": ["P2K2", "VERIFIKASI KOMITMEN", "SUPERVISI", "GRADUASI KPM", "LAINNYA (UMUM)"],
-        "Pengelola layanan operasional": ["KUNJUNGAN KPM", "REKONSILIASI DATA", "LAINNYA (UMUM)"],
-        "Pendamping Sosial": ["P2K2", "VERIFIKASI KOMITMEN", "PEMUTAKHIRAN DATA", "LAINNYA (UMUM)"],
-        "Koordinator Kabupaten": ["SUPERVISI KECAMATAN", "RAKOR KABUPATEN", "LAINNYA (UMUM)"]
+    // -----------------------------------------------------
+    // MODULE: SUPER ADMIN (EXCEL RHK PARSER dengan Forward Fill)
+    // -----------------------------------------------------
+    window.uploadMasterRHK = async (event) => {
+        const file = event.target.files[0]; if(!file) return;
+        if(typeof XLSX === 'undefined') return showToast("Library Excel gagal dimuat, silakan refresh.", "error");
+        
+        showLoadingUI(true);
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+            try {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, {type: 'array'});
+                const sheetName = workbook.SheetNames[0];
+                const jsonData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {defval: ""});
+
+                let currentJabatan = "";
+                let currentRHK = "";
+                let currentTargetT = 0;
+                let currentTargetB = 0;
+                let finalData = [];
+
+                // Algoritma Forward-Fill untuk baris-baris kosong Excel (Grouped Cells)
+                jsonData.forEach(row => {
+                    if(row['JABATAN'] && String(row['JABATAN']).trim() !== "") currentJabatan = String(row['JABATAN']).trim();
+                    if(row['RENCANA HASIL KERJA'] && String(row['RENCANA HASIL KERJA']).trim() !== "") currentRHK = String(row['RENCANA HASIL KERJA']).trim();
+                    if(row['TARGET TAHUNAN'] !== "") currentTargetT = row['TARGET TAHUNAN'];
+                    if(row['TARGET BULANAN'] !== "") currentTargetB = row['TARGET BULANAN'];
+
+                    const harian = String(row['PILIHAN LAPORAN HARIAN'] || "").trim();
+                    if(harian !== "") {
+                        finalData.push({ jabatan: currentJabatan, rhk: currentRHK, laporan_harian: harian, target_tahunan: currentTargetT, target_bulanan: currentTargetB });
+                    }
+                });
+
+                // Group Data by Jabatan untuk memudahkan Smart Filter Query di Cloud
+                let groupedRHK = {};
+                finalData.forEach(item => {
+                    if(!groupedRHK[item.jabatan]) groupedRHK[item.jabatan] = [];
+                    groupedRHK[item.jabatan].push(item);
+                });
+
+                // Save ke Firebase
+                await window.dbSet(window.dbRef(window.db, 'master_rhk'), groupedRHK);
+                showLoadingUI(false); showToast("Master RHK Berhasil Diupload & Diperbarui!", "success");
+                event.target.value = ""; 
+            } catch(err) {
+                console.error(err); showLoadingUI(false); showToast("Gagal memproses file Excel.", "error");
+            }
+        };
+        reader.readAsArrayBuffer(file);
     };
 
-    function applySmartFilter() {
+    // -----------------------------------------------------
+    // MODULE: SMART FILTER & FORM DINAMIS (CLOUD INTEGRATED)
+    // -----------------------------------------------------
+    window.applySmartFilterRHK = async () => {
         const jabatan = currentUser?.jabatan || "Penata layanan operasional";
         document.getElementById('lblJabatanFilter').innerText = jabatan;
-        const options = RHK_MASTER[jabatan] || RHK_MASTER["Penata layanan operasional"];
-        let html = '<option value="">-- Pilih Kegiatan Prioritas --</option>';
-        options.forEach(opt => html += `<option value="${opt}">${opt}</option>`);
-        document.getElementById('kegiatanSelect').innerHTML = html;
-    }
+        const selectEl = document.getElementById('kegiatanSelect');
+        selectEl.innerHTML = '<option value="">Memuat dari Database Master...</option>';
+        
+        try {
+            const snap = await window.dbGet(window.dbChild(window.dbRef(window.db), `master_rhk/${jabatan}`));
+            let html = '<option value="">-- Pilih Kegiatan Prioritas --</option>';
+            
+            if (snap.exists()) {
+                const rhkList = snap.val();
+                rhkList.forEach(item => {
+                    html += `<option value="${item.laporan_harian}">${item.laporan_harian} (Tgt: ${item.target_bulanan}/Bln)</option>`;
+                });
+            } else {
+                html += `<option value="P2K2">P2K2</option><option value="VERIFIKASI KOMITMEN">VERIFIKASI KOMITMEN</option><option value="LAINNYA (UMUM)">LAINNYA (UMUM)</option>`;
+            }
+            selectEl.innerHTML = html;
+        } catch(err) {
+            console.error(err); selectEl.innerHTML = '<option value="">Gagal Memuat Data</option>';
+        }
+    };
 
     window.renderDynamicForm = () => {
        const selected = document.getElementById('kegiatanSelect').value.toUpperCase();
@@ -567,7 +665,7 @@
        if(selected.includes("P2K2")) tambahP2K2();
     }
 
-    // Fungsi Form Dinamis Array
+    // Fungsi Form Dinamis
     window.tambahSurat = () => {
         document.getElementById('containerDataSurat').insertAdjacentHTML('beforeend', `
             <div class="surat-item grid grid-cols-2 gap-2 mb-2 relative pt-2 border-t border-slate-700/50 mt-2">
@@ -593,7 +691,7 @@
         </div>`);
     };
 
-    // --- FOTO & LAMPIRAN LOGIC ---
+    // Upload & Handle Lampiran/Foto 
     window.prosesFoto = (e) => processImages(e, arrayFotoBase64, 10, 'previewContainer', 'photoStatus');
     window.prosesLampiran = (e) => processImages(e, arrayLampiranBase64, 3, 'previewLampiranContainer', 'lampiranStatus');
     
@@ -633,16 +731,18 @@
         else { arrayLampiranBase64.splice(idx, 1); renderImages(arrayLampiranBase64, cId, sId, max); }
     }
 
-    // --- SUBMIT AI GENERATE ---
+    // -----------------------------------------------------
+    // MODULE: EKSEKUSI API AI 
+    // -----------------------------------------------------
     window.tampilkanReview = (e) => {
         e.preventDefault();
-        if(currentUser.token <= 0) return showToast("Token Habis! Beli Token di Menu.", "error");
-        if(!currentUser.ttd) return showToast("Tanda Tangan Belum Diset di Profil!", "error");
+        if(currentUser.token <= 0) return showToast("Token Habis! Hubungi Admin.", "error");
+        if(!currentUser.ttd) return showToast("Tanda Tangan Belum Diset di Menu Profil!", "error");
         
-        let info = `<div class="p-3 bg-blue-900/20 rounded-xl mb-3"><p class="font-bold text-blue-300">Data Profil Terkunci:</p><ul class="list-disc pl-4 mt-1"><li>Nama: ${currentUser.nama}</li><li>Jabatan: ${currentUser.jabatan}</li><li>Kab: ${currentUser.kabupaten}</li></ul></div>`;
+        let info = `<div class="p-3 bg-blue-900/20 rounded-xl mb-3"><p class="font-bold text-blue-300 text-[10px] uppercase">Data Tersimpan (Auto-Fill):</p><ul class="list-disc pl-4 mt-1"><li>Pelapor: ${currentUser.nama}</li><li>Jabatan: ${currentUser.jabatan}</li><li>Kabupaten: ${currentUser.kabupaten}</li></ul></div>`;
         info += `<p><b>Kegiatan:</b> ${document.getElementById('kegiatanSelect').value}</p>`;
-        info += `<p><b>Tgl:</b> ${document.getElementById('tanggalLaporan').value} / Jam: ${document.getElementById('jamMulai').value}</p>`;
-        info += `<p class="mt-2 text-xs text-orange-400 italic">Pastikan data ini benar. AI akan membuat dokumen komprehensif berdasarkan input lapangan Anda.</p>`;
+        info += `<p><b>Pelaksanaan:</b> ${document.getElementById('tanggalLaporan').value} / Jam ${document.getElementById('jamMulai').value}</p>`;
+        info += `<p class="mt-2 text-[10px] text-orange-400 italic font-bold text-justify">Penting: Eksekusi memotong 1 Token Anda. AI akan membuat dokumen sesuai Aturan Kemensos & RHK Anda.</p>`;
         
         document.getElementById('reviewContent').innerHTML = info;
         document.getElementById('modalReview').classList.remove('hidden');
@@ -654,7 +754,7 @@
 
         const dynamicData = { Hasil_Umum: document.getElementById('hasilKegiatan')?.value || "" };
         
-        // Pengecekan Form Spesifik (Blueprint Asli)
+        // Pengecekan Form Spesifik
         if (document.getElementById('containerGraduasi')) {
             dynamicData["Data_Graduasi"] = Array.from(document.querySelectorAll('.graduasi-item')).map(el => ({
                 NIK: el.querySelector('.gradNIK').value, Nama: el.querySelector('.gradNama').value, Desa: el.querySelector('.gradDesa').value, Ket: el.querySelector('.gradKet').value
@@ -669,7 +769,7 @@
         const payload = {
             currentUserEmail: currentUser.email,
             currentUserRole: currentUser.role,
-            namaPetugas: currentUser.nama, // Diambil Langsung dari Session (Pengaturan)
+            namaPetugas: currentUser.nama, 
             jabatan: currentUser.jabatan,
             nip: currentUser.nip,
             kabupaten: currentUser.kabupaten,
@@ -679,7 +779,7 @@
             waktu: document.getElementById('waktu').value,
             lokasi: document.getElementById('lokasi').value,
             kegiatan: document.getElementById('kegiatanSelect').value,
-            formatOutput: ["PDF", "DOCX"],
+            formatOutput: ["PDF", "DOCX"], // Default dual
             dynamicData: dynamicData,
             koleksiFoto: arrayFotoBase64,
             lampiranPendukung: arrayLampiranBase64
@@ -690,7 +790,6 @@
             const data = await res.json();
             
             if(data.status === 'success' && data.files) {
-                // Konversi Base64 API Response ke File Download Lokal (Blueprint Asli)
                 data.files.forEach(f => {
                     const bytes = new Uint8Array(atob(f.base64).split('').map(c => c.charCodeAt(0)));
                     const url = window.URL.createObjectURL(new Blob([bytes], {type: f.mimeType}));
@@ -698,9 +797,9 @@
                     document.body.appendChild(a); a.click(); window.URL.revokeObjectURL(url);
                 });
                 
-                // Potong Token di Firebase setelah sukses
+                // Potong Token di DB
                 const emailKey = encodeEmail(currentUser.email);
-                await update(ref(db, `users/${emailKey}`), { token: currentUser.token - 1 });
+                await window.dbUpdate(window.dbRef(window.db, `users/${emailKey}`), { token: currentUser.token - 1 });
                 currentUser.token -= 1; localStorage.setItem('egenlap_user', JSON.stringify(currentUser));
                 
                 document.getElementById('reportForm').reset();
@@ -709,7 +808,7 @@
                 document.getElementById('photoStatus').innerText = '0/10'; document.getElementById('lampiranStatus').innerText = '0/3';
                 terapkanSesi();
                 
-                showLoadingUI(false); showToast("File Laporan Terunduh!", "success");
+                showLoadingUI(false); showToast("Dokumen Sukses Diunduh!", "success");
             } else { showLoadingUI(false); showToast(data.message || "Gagal membuat laporan", "error"); }
         } catch(e) { showLoadingUI(false); showToast("Koneksi ke Web App (API) Error", "error"); }
     }

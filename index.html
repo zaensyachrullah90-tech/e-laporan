@@ -3,153 +3,198 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#09090b">
+  <meta name="theme-color" content="#ffffff">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="display" content="standalone">
-  <title>E-GenLap | SDM PKH</title>
+  <title>E-GenLap | SDM PKH Enterprise</title>
   
   <link rel="apple-touch-icon" href="https://drive.google.com/uc?export=download&id=1uPpCYwoX2w2ZrA0-mvmi69cBafF88J1e">
+
+  <!-- Tailwind & Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- LIBRARY SHEETJS UNTUK SUPER ADMIN UPLOAD EXCEL RHK -->
+  <!-- Library Excel Parsing -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
   <style>
-    .glossy-monster { background: linear-gradient(135deg, rgba(24, 24, 27, 0.9) 0%, rgba(9, 9, 11, 0.95) 100%);
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(132, 204, 22, 0.15); color: white; }
-    .glossy-input { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(132, 204, 22, 0.2); color: white; backdrop-filter: blur(5px); transition: all 0.3s ease; }
-    .glossy-input:focus { background: rgba(255, 255, 255, 0.1); border-color: #a3e635; outline: none; box-shadow: 0 0 15px rgba(132, 204, 22, 0.3); }
-    .glossy-input option { background: #09090b; color: #a3e635; }
-    html, body { width: 100%; min-height: 100%; margin: 0; padding: 0; }
-    input, textarea { user-select: text; }
-    .app-bg { background: linear-gradient(180deg, #09090b 0%, #18181b 100%); }
+    /* TEMA BIRU, UNGU, PUTIH - DOMINAN PUTIH GLOSSY */
+    body { background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 50%, #faf5ff 100%); background-attachment: fixed; color: #334155; }
+    
+    .glossy-monster { 
+        background: rgba(255, 255, 255, 0.85); 
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08); 
+        backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); 
+        border: 1px solid rgba(255, 255, 255, 1); 
+        border-radius: 1.5rem;
+    }
+    
+    .glossy-input { 
+        background: rgba(255, 255, 255, 0.7); 
+        border: 1px solid rgba(199, 210, 254, 0.6);
+        color: #1e293b; backdrop-filter: blur(5px); transition: all 0.3s ease; 
+    }
+    
+    .glossy-input:focus { 
+        background: #ffffff; border-color: #8b5cf6; outline: none; 
+        box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.15); 
+    }
+    
+    .glossy-input option { background: #ffffff; color: #1e293b; }
+    
     .section-hidden { display: none !important; }
-    .fab-button { box-shadow: 0 0 20px rgba(132, 204, 22, 0.6); animation: pulse-glow 2s infinite; }
-    @keyframes pulse-glow { 0%, 100% { transform: translateY(-50%) scale(1); box-shadow: 0 0 15px rgba(132, 204, 22, 0.4); } 50% { transform: translateY(-50%) scale(1.05); box-shadow: 0 0 30px rgba(132, 204, 22, 0.9); } }
-    .custom-scrollbar::-webkit-scrollbar { height: 6px; width: 4px; }
-    .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.02); border-radius: 4px; }
-    .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(132, 204, 22, 0.5); border-radius: 4px; }
+    
+    .fab-button { 
+        background: linear-gradient(to right, #3b82f6, #8b5cf6);
+        box-shadow: 0 10px 25px rgba(139, 92, 246, 0.4); 
+        animation: pulse-glow 2s infinite; 
+    }
+    
+    @keyframes pulse-glow { 
+        0%, 100% { transform: translateY(-50%) scale(1); box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3); } 
+        50% { transform: translateY(-50%) scale(1.05); box-shadow: 0 15px 35px rgba(139, 92, 246, 0.6); } 
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar { height: 6px; width: 5px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.02); border-radius: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(139, 92, 246, 0.3); border-radius: 4px; }
   </style>
 </head>
-<body class="app-bg font-sans antialiased text-gray-100 selection:bg-lime-500 selection:text-black">
+<body class="font-sans antialiased selection:bg-purple-500 selection:text-white">
 
   <!-- FULLSCREEN LOADING -->
-  <div id="fullscreenLoading" class="fixed inset-0 bg-[#09090b]/95 backdrop-blur-xl z-[900] hidden flex-col items-center justify-center transition-opacity duration-500 opacity-0 h-screen w-screen">
+  <div id="fullscreenLoading" class="fixed inset-0 bg-white/90 backdrop-blur-xl z-[900] hidden flex-col items-center justify-center transition-opacity duration-500 opacity-0 h-screen w-screen">
       <div class="relative w-32 h-32 flex items-center justify-center mb-8 mx-auto">
-          <div class="absolute inset-0 border-4 border-lime-900/50 rounded-full animate-ping"></div>
-          <div class="absolute inset-2 border-4 border-lime-500/30 rounded-full animate-spin shadow-[0_0_30px_rgba(132,204,22,0.4)]" style="animation-direction: reverse; animation-duration: 3s;"></div>
-          <div class="absolute inset-4 border-4 border-lime-400 rounded-full border-t-transparent animate-spin shadow-[0_0_20px_rgba(132,204,22,0.8)]" style="animation-duration: 1.5s;"></div>
-          <div class="relative z-10 bg-zinc-900 w-16 h-16 rounded-full flex items-center justify-center border border-lime-400 shadow-[0_0_15px_rgba(132,204,22,0.5)]">
-              <i class="fas fa-bolt text-3xl text-lime-400 animate-pulse"></i>
+          <div class="absolute inset-0 border-4 border-blue-200 rounded-full animate-ping"></div>
+          <div class="absolute inset-2 border-4 border-purple-300 rounded-full animate-spin shadow-lg" style="animation-direction: reverse; animation-duration: 3s;"></div>
+          <div class="absolute inset-4 border-4 border-blue-500 rounded-full border-t-transparent animate-spin shadow-xl" style="animation-duration: 1.5s;"></div>
+          <div class="relative z-10 bg-white w-16 h-16 rounded-full flex items-center justify-center border border-purple-200 shadow-xl">
+              <i class="fas fa-bolt text-3xl text-purple-600 animate-pulse"></i>
           </div>
       </div>
-      <h2 class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-lime-200 to-lime-500 tracking-[0.2em] mb-3 animate-pulse text-center">MEMPROSES DATA</h2>
+      <h2 class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 tracking-[0.2em] mb-3 animate-pulse text-center">MEMPROSES DATA</h2>
   </div>
 
   <div id="toastContainer" class="fixed top-5 left-1/2 transform -translate-x-1/2 w-11/12 max-w-sm z-[999] flex flex-col gap-2"></div>
 
-  <!-- CONTAINER UTAMA: Rapi max-w-md untuk HP, melebar max-w-4xl di Tablet/PC (Responsive) -->
-  <div class="w-full max-w-md md:max-w-4xl lg:max-w-5xl mx-auto relative min-h-screen shadow-2xl bg-black/40 flex flex-col pb-24">
+  <!-- CONTAINER UTAMA: Responsif All Device -->
+  <div class="w-full max-w-md md:max-w-4xl lg:max-w-5xl mx-auto relative min-h-screen flex flex-col pb-24 shadow-2xl bg-white/40">
     
-    <!-- HEADER APP -->
-    <header class="glossy-monster p-4 rounded-b-3xl shadow-lg flex-shrink-0 z-10 border-b border-lime-500/30 sticky top-0">
-        <div class="flex justify-between items-center">
-            <h1 class="text-2xl font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-lime-300 to-lime-500"><i class="fas fa-bolt mr-1"></i> E-GenLap</h1>
-            <div class="flex items-center gap-3">
+    <header class="glossy-monster p-4 rounded-b-3xl flex-shrink-0 z-10 sticky top-0 !rounded-t-none border-t-0">
+        <div class="flex justify-between items-center px-2">
+            <h1 class="text-2xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600"><i class="fas fa-bolt mr-1 text-purple-500"></i> E-GenLap</h1>
+            <div class="flex items-center gap-4">
                 <div class="text-right text-sm">
-                  <div id="realtimeClock" class="font-mono font-bold text-lime-400">00:00:00</div>
-                  <div id="realtimeDate" class="text-[10px] text-zinc-400 uppercase tracking-wide">Tanggal</div>
+                  <div id="realtimeClock" class="font-mono font-bold text-blue-600">00:00:00</div>
+                  <div id="realtimeDate" class="text-[10px] text-slate-500 uppercase tracking-wide font-bold">Tanggal</div>
                 </div>
                 
                 <!-- MENU ADMIN KHUSUS -->
-                <div id="adminHeaderMenu" class="hidden flex items-center gap-2 border-l border-zinc-700 pl-2">
-                    <button onclick="nav('keuangan')" class="bg-yellow-500/10 text-yellow-500 w-8 h-8 rounded-full border border-yellow-500/30 flex items-center justify-center hover:bg-yellow-500/30 transition-all shadow-lg" title="Menu Keuangan"><i class="fas fa-wallet text-sm"></i></button>
-                    <button onclick="nav('admin')" class="bg-blue-500/10 text-blue-500 w-8 h-8 rounded-full border border-blue-500/30 flex items-center justify-center hover:bg-blue-500/30 transition-all shadow-lg" title="Menu Super Admin"><i class="fas fa-user-shield text-sm"></i></button>
+                <div id="adminHeaderMenu" class="hidden flex items-center gap-2 border-l border-slate-200 pl-3">
+                    <button onclick="nav('keuangan')" class="bg-blue-50 text-blue-600 w-9 h-9 rounded-full border border-blue-200 flex items-center justify-center hover:bg-blue-100 transition-all shadow-sm" title="Menu Keuangan"><i class="fas fa-wallet text-sm"></i></button>
+                    <button onclick="nav('admin')" class="bg-purple-50 text-purple-600 w-9 h-9 rounded-full border border-purple-200 flex items-center justify-center hover:bg-purple-100 transition-all shadow-sm" title="Menu Super Admin"><i class="fas fa-user-shield text-sm"></i></button>
                 </div>
-                <!-- LOGOUT -->
-                <button onclick="logout()" id="btnLogoutHeader" class="hidden bg-red-500/10 text-red-500 w-8 h-8 rounded-full border border-red-500/30 flex items-center justify-center hover:bg-red-500/30 transition-all shadow-lg"><i class="fas fa-power-off text-sm"></i></button>
+                <button onclick="logout()" id="btnLogoutHeader" class="hidden bg-red-50 text-red-500 w-9 h-9 rounded-full border border-red-200 flex items-center justify-center hover:bg-red-100 transition-all shadow-sm"><i class="fas fa-power-off text-sm"></i></button>
             </div>
         </div>
     </header>
 
-    <main class="p-5 flex-grow" id="mainContent">
+    <main class="p-4 md:p-8 flex-grow" id="mainContent">
       
-      <!-- ============================================== -->
-      <!-- MODUL 1: AUTENTIKASI -->
-      <!-- ============================================== -->
-      <section id="sec-auth" class="glossy-monster p-6 rounded-2xl mb-6 mt-4 md:mt-10 max-w-md mx-auto">
-        <div class="text-center mb-6">
-             <i class="fas fa-user-circle text-5xl text-lime-400 mb-2"></i>
-            <h2 class="text-xl font-bold text-white">Selamat Datang</h2>
-            <p class="text-xs text-zinc-400">Silakan masuk atau daftar.</p>
+      <!-- 1. AUTHENTICATION -->
+      <section id="sec-auth" class="glossy-monster p-6 md:p-10 rounded-3xl mb-6 mt-4 md:mt-10 max-w-md mx-auto">
+        <div class="text-center mb-8">
+             <div class="w-20 h-20 bg-gradient-to-tr from-blue-100 to-purple-100 rounded-full flex items-center justify-center mx-auto mb-4 shadow-inner border border-white">
+                 <i class="fas fa-user-lock text-4xl text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500"></i>
+             </div>
+            <h2 class="text-2xl font-black text-slate-800">Selamat Datang</h2>
+            <p class="text-xs text-slate-500 mt-1 font-medium">Sistem Pelaporan SDM PKH Terintegrasi.</p>
         </div>
 
-        <div id="formLogin">
-            <input type="email" id="logEmail" class="w-full p-3 text-sm rounded-xl glossy-input mb-3" placeholder="Email Anda" required>
-            <div class="relative mb-4">
-                <input type="password" id="logPassword" class="w-full p-3 text-sm rounded-xl glossy-input pr-10" placeholder="Password">
-                <button type="button" onclick="togglePass('logPassword', 'eyeLog')" class="absolute inset-y-0 right-3 flex items-center text-zinc-400 hover:text-lime-400"><i id="eyeLog" class="fas fa-eye"></i></button>
+        <div id="formLogin" class="space-y-4">
+            <div>
+                <label class="block text-xs font-bold text-slate-500 mb-1 ml-1">Alamat Email</label>
+                <input type="email" id="logEmail" class="w-full p-3.5 text-sm rounded-xl glossy-input shadow-sm" placeholder="Masukkan email terdaftar" required>
             </div>
-            <button onclick="prosesLogin()" class="w-full bg-lime-500 text-black font-extrabold py-3 rounded-xl hover:bg-lime-400 transition-all text-sm mb-3 shadow-[0_0_15px_rgba(132,204,22,0.3)]"><i class="fas fa-sign-in-alt mr-2"></i> Masuk</button>
-            <p class="text-center text-xs text-zinc-400 mt-2">Belum punya akun? <span onclick="toggleAuthForm()" class="text-lime-400 cursor-pointer font-bold underline">Daftar Disini</span></p>
+            <div class="relative">
+                <label class="block text-xs font-bold text-slate-500 mb-1 ml-1">Kata Sandi / PIN</label>
+                <input type="password" id="logPassword" class="w-full p-3.5 text-sm rounded-xl glossy-input shadow-sm pr-10" placeholder="Masukkan password">
+                <button type="button" onclick="togglePass('logPassword', 'eyeLog')" class="absolute bottom-3.5 right-4 flex items-center text-slate-400 hover:text-purple-500"><i id="eyeLog" class="fas fa-eye"></i></button>
+            </div>
+            <button onclick="prosesLogin()" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-extrabold py-3.5 rounded-xl hover:shadow-[0_8px_25px_rgba(139,92,246,0.3)] transition-all text-sm mt-2"><i class="fas fa-sign-in-alt mr-2"></i> Masuk Sekarang</button>
+            <p class="text-center text-xs text-slate-500 mt-4 font-medium">Belum punya akun? <span onclick="toggleAuthForm()" class="text-purple-600 cursor-pointer font-bold hover:underline">Daftar Disini</span></p>
         </div>
         
-        <div id="formRegister" class="hidden">
-            <input type="text" id="regNama" class="w-full p-3 text-sm rounded-xl glossy-input mb-3" placeholder="Nama Lengkap" required>
-            <input type="email" id="regEmail" class="w-full p-3 text-sm rounded-xl glossy-input mb-3" placeholder="Email Valid" required>
-            <div class="relative mb-3">
-                <input type="password" id="regPassword" class="w-full p-3 text-sm rounded-xl glossy-input pr-10" placeholder="Buat Password" required>
-                <button type="button" onclick="togglePass('regPassword', 'eyeReg')" class="absolute inset-y-0 right-3 flex items-center text-zinc-400 hover:text-lime-400"><i id="eyeReg" class="fas fa-eye"></i></button>
+        <div id="formRegister" class="hidden space-y-4">
+            <input type="text" id="regNama" class="w-full p-3.5 text-sm rounded-xl glossy-input shadow-sm" placeholder="Nama Lengkap" required>
+            <input type="email" id="regEmail" class="w-full p-3.5 text-sm rounded-xl glossy-input shadow-sm" placeholder="Email Valid" required>
+            <div class="relative">
+                <input type="password" id="regPassword" class="w-full p-3.5 text-sm rounded-xl glossy-input shadow-sm pr-10" placeholder="Buat Password" required>
+                <button type="button" onclick="togglePass('regPassword', 'eyeReg')" class="absolute bottom-3.5 right-4 flex items-center text-slate-400"><i id="eyeReg" class="fas fa-eye"></i></button>
             </div>
-            <button onclick="eksekusiRegister()" class="w-full bg-lime-500 text-black font-extrabold py-3 rounded-xl hover:bg-lime-400 transition-all text-sm mb-3"><i class="fas fa-user-plus mr-2"></i> Daftar Akun</button>
-            <p class="text-center text-xs text-zinc-400 mt-2">Sudah punya akun? <span onclick="toggleAuthForm()" class="text-lime-400 cursor-pointer font-bold underline">Kembali Login</span></p>
+            <button onclick="eksekusiRegister()" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-extrabold py-3.5 rounded-xl hover:shadow-lg transition-all text-sm mt-2"><i class="fas fa-user-plus mr-2"></i> Daftar Akun</button>
+            <p class="text-center text-xs text-slate-500 mt-4 font-medium">Sudah punya akun? <span onclick="toggleAuthForm()" class="text-blue-600 cursor-pointer font-bold hover:underline">Kembali Login</span></p>
         </div>
       </section>
 
-      <!-- ============================================== -->
-      <!-- MODUL 2: DASHBOARD UTAMA -->
-      <!-- ============================================== -->
-      <section id="sec-dashboard" class="glossy-monster p-5 md:p-8 rounded-2xl mb-6 section-hidden">
-        <div class="flex justify-between items-center mb-4">
+      <!-- 2. DASHBOARD -->
+      <section id="sec-dashboard" class="glossy-monster p-6 rounded-3xl mb-6 section-hidden">
+        <div class="flex justify-between items-center mb-6">
             <div>
-                <h2 class="text-lg font-bold text-lime-400" id="userGreeting">Halo, User</h2>
-                <p class="text-[10px] text-zinc-400" id="userRoleBadge">Role: User</p>
+                <h2 class="text-xl font-black text-slate-800" id="userGreeting">Halo, User</h2>
+                <span class="inline-block mt-1 px-2.5 py-1 bg-purple-100 text-purple-700 text-[10px] font-bold rounded-md" id="userRoleBadge">Role: User</span>
             </div>
-            <div class="bg-lime-900/30 border border-lime-500/50 px-3 py-1.5 rounded-xl text-center shadow-inner">
-                <p class="text-[9px] text-lime-200" id="labelTokenDashboard">SISA TOKEN</p>
-                <p class="text-2xl font-black text-lime-400" id="sisaTokenDash">0</p>
+            <div class="bg-blue-50 border border-blue-200 px-4 py-2 rounded-2xl text-center shadow-sm">
+                <p class="text-[9px] text-blue-600 font-bold uppercase tracking-widest">SISA TOKEN</p>
+                <p class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-br from-blue-600 to-purple-600" id="sisaTokenDash">0</p>
             </div>
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-5">
-          <div class="col-span-2 md:col-span-2 bg-gradient-to-br from-zinc-800 to-zinc-900 p-5 rounded-xl text-center border border-lime-500/30 shadow-lg">
-            <h3 class="text-4xl font-black text-lime-400 drop-shadow-md" id="countSukses">0</h3>
-            <p class="text-xs font-bold text-zinc-400 mt-2 tracking-wide uppercase">Sukses Generate</p>
+        
+        <div class="grid grid-cols-2 gap-4 mt-2">
+          <div class="bg-gradient-to-br from-white to-green-50 p-5 rounded-2xl text-center border border-green-200 shadow-sm relative overflow-hidden">
+            <i class="fas fa-check-circle absolute -right-3 -bottom-3 text-5xl text-green-100"></i>
+            <h3 class="text-4xl font-black text-green-600 relative z-10" id="countSukses">0</h3>
+            <p class="text-xs font-bold text-green-800 mt-1 uppercase tracking-wider relative z-10">Sukses</p>
           </div>
-          <div class="col-span-2 md:col-span-2 bg-gradient-to-br from-zinc-800 to-zinc-900 p-5 rounded-xl text-center border border-red-500/30 shadow-lg">
-            <h3 class="text-4xl font-black text-red-500 drop-shadow-md" id="countGagal">0</h3>
-            <p class="text-xs font-bold text-zinc-400 mt-2 tracking-wide uppercase">Gagal / Error</p>
+          <div class="bg-gradient-to-br from-white to-red-50 p-5 rounded-2xl text-center border border-red-200 shadow-sm relative overflow-hidden">
+            <i class="fas fa-times-circle absolute -right-3 -bottom-3 text-5xl text-red-100"></i>
+            <h3 class="text-4xl font-black text-red-500 relative z-10" id="countGagal">0</h3>
+            <p class="text-xs font-bold text-red-800 mt-1 uppercase tracking-wider relative z-10">Gagal</p>
           </div>
+        </div>
+
+        <div class="mt-6 bg-white/60 p-5 rounded-2xl border border-slate-200 shadow-sm">
+           <h3 class="text-sm font-bold text-slate-700 mb-3 flex items-center gap-2"><i class="fas fa-chart-bar text-blue-500"></i> Ringkasan Kegiatan Anda</h3>
+           <div class="rounded-xl border border-slate-200 overflow-hidden">
+               <table class="w-full text-left text-[11px] text-slate-600 bg-white">
+                 <thead class="bg-slate-50 text-slate-800 font-bold border-b border-slate-200">
+                    <tr><th class="p-3">Nama Kegiatan Harian</th><th class="p-3 text-center">Jumlah Dokumen</th></tr>
+                 </thead>
+                 <tbody id="ringkasanKegiatanTable" class="divide-y divide-slate-100">
+                    <tr><td colspan="2" class="text-center italic text-slate-400 p-4">Memuat data...</td></tr>
+                 </tbody>
+               </table>
+           </div>
         </div>
       </section>
 
-      <!-- ============================================== -->
-      <!-- MODUL 3: PENGATURAN (PROFIL AUTO-FILL) -->
-      <!-- ============================================== -->
-      <section id="sec-pengaturan" class="glossy-monster p-5 md:p-8 rounded-2xl mb-6 section-hidden">
-        <h2 class="text-lg font-bold text-lime-400 border-b border-zinc-700 pb-2 mb-4"><i class="fas fa-user-edit mr-2"></i> Profil & Auto-Fill (Smart Filter)</h2>
-        <p class="text-[10px] text-zinc-300 mb-5 text-justify">Biodata ini akan tersimpan otomatis dan menyinkronkan <b>Pilihan Laporan Harian</b> Anda di menu Generate sesuai dengan Jabatan Fungsional (RHK Master Excel).</p>
+      <!-- 3. PENGATURAN (PROFIL AUTO-FILL) -->
+      <section id="sec-pengaturan" class="glossy-monster p-6 rounded-3xl mb-6 section-hidden border-t-4 border-t-purple-500">
+        <h2 class="text-xl font-black text-slate-800 border-b border-slate-200 pb-3 mb-4 flex items-center gap-2"><i class="fas fa-user-cog text-purple-500"></i> Profil & Auto-Fill</h2>
+        <p class="text-[11px] text-slate-500 mb-6 font-medium leading-relaxed bg-blue-50 p-3 rounded-lg border border-blue-100">
+            <i class="fas fa-info-circle text-blue-500 mr-1"></i> Data di bawah ini akan terkunci otomatis pada Laporan Anda. Pilihan <b>Jabatan</b> menentukan Filter RHK Laporan secara cerdas.
+        </p>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            <div><label class="block text-xs font-bold text-lime-300 mb-1">Nama Lengkap</label><input type="text" id="setNama" class="w-full p-3 text-sm rounded-xl glossy-input"></div>
-            <div><label class="block text-xs font-bold text-lime-300 mb-1">NIP (Opsional)</label><input type="text" id="setNIP" class="w-full p-3 text-sm rounded-xl glossy-input"></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+            <div><label class="block text-xs font-bold text-slate-700 mb-1.5 ml-1">Nama Lengkap & Gelar</label><input type="text" id="setNama" class="w-full p-3 text-sm rounded-xl glossy-input shadow-sm"></div>
+            <div><label class="block text-xs font-bold text-slate-700 mb-1.5 ml-1">NIP / NI PPPK (Opsional)</label><input type="text" id="setNIP" class="w-full p-3 text-sm rounded-xl glossy-input shadow-sm"></div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
             <div>
-                <label class="block text-xs font-bold text-orange-400 mb-1">Jabatan (Mengatur Filter RHK)</label>
-                <select id="setJabatan" class="w-full p-3 text-sm rounded-xl glossy-input font-bold text-lime-400">
+                <label class="block text-xs font-bold text-purple-700 mb-1.5 ml-1">Jabatan Fungsional (Smart Filter)</label>
+                <select id="setJabatan" class="w-full p-3 text-sm rounded-xl glossy-input shadow-sm font-bold text-slate-800 border-purple-300">
                     <option value="KATIM PROV">KATIM PROV</option>
                     <option value="KORKAB">KORKAB</option>
                     <option value="PENDAMPING SOSIAL">PENDAMPING SOSIAL</option>
@@ -157,281 +202,294 @@
                     <option value="Pengelola layanan operasional">Pengelola layanan operasional</option>
                 </select>
             </div>
-            <div><label class="block text-xs font-bold text-lime-300 mb-1">Kabupaten/Kota</label><input type="text" id="setKab" class="w-full p-3 text-sm rounded-xl glossy-input"></div>
+            <div><label class="block text-xs font-bold text-slate-700 mb-1.5 ml-1">Kabupaten/Kota Tempat Tugas</label><input type="text" id="setKab" class="w-full p-3 text-sm rounded-xl glossy-input shadow-sm"></div>
         </div>
 
-        <div class="mb-5">
-            <label class="block text-xs font-bold text-lime-300 mb-2">Upload Tanda Tangan (Wajib PNG Transparan)</label>
-            <input type="file" accept="image/png, image/jpeg" class="w-full text-sm rounded-xl glossy-input text-zinc-400 file:mr-3 file:py-2 file:px-4 file:rounded-l-xl file:border-0 file:text-xs file:font-bold file:bg-lime-500 file:text-black cursor-pointer" onchange="prosesTtdSettings(event)">
-            <div id="previewTtdSettings" class="hidden mt-3 relative w-[120px] h-[60px] bg-white rounded-lg p-1 border border-lime-500/50 shadow-md">
+        <div class="mb-6 p-4 border border-dashed border-purple-300 rounded-2xl bg-purple-50/50">
+            <label class="block text-xs font-bold text-slate-700 mb-2"><i class="fas fa-signature text-purple-500 mr-1"></i> Upload Tanda Tangan (Wajib PNG Transparan)</label>
+            <input type="file" accept="image/png" class="w-full text-sm glossy-input text-slate-500 file:mr-4 file:py-2.5 file:px-5 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-purple-100 file:text-purple-700 hover:file:bg-purple-200 cursor-pointer p-1 bg-white" onchange="prosesTtdSettings(event)">
+            <div id="previewTtdSettings" class="hidden mt-4 relative w-[140px] h-[70px] bg-white rounded-xl p-2 border border-slate-200 shadow-sm">
                <img id="imgTtdSettingsPreview" src="" class="w-full h-full object-contain">
-               <div onclick="hapusTtdSettings()" class="absolute -top-2 -right-2 bg-red-600 text-white w-5 h-5 flex items-center justify-center rounded-full cursor-pointer shadow-lg text-[10px] z-10"><i class="fas fa-times"></i></div>
+               <div onclick="hapusTtdSettings()" class="absolute -top-2 -right-2 bg-red-500 text-white w-6 h-6 flex items-center justify-center rounded-full cursor-pointer shadow-md hover:bg-red-600 transition-all"><i class="fas fa-times text-xs"></i></div>
             </div>
         </div>
         
-        <button onclick="simpanPengaturan()" class="w-full bg-lime-500 text-black font-extrabold py-3 rounded-xl hover:bg-lime-400 transition-all text-sm shadow-[0_0_15px_rgba(132,204,22,0.3)]"><i class="fas fa-save mr-2"></i> Simpan Pengaturan Profil</button>
+        <button onclick="simpanPengaturan()" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-extrabold py-3.5 rounded-xl hover:shadow-lg transition-all text-sm"><i class="fas fa-save mr-2"></i> Simpan Profil Anda</button>
       </section>
 
-      <!-- ============================================== -->
-      <!-- MODUL 4: GENERATE LAPORAN (SMART FILTER RHK) -->
-      <!-- ============================================== -->
-      <section id="sec-generate" class="glossy-monster p-5 md:p-8 rounded-2xl mb-6 section-hidden border-t-4 border-t-lime-500">
-        <div class="flex justify-between items-center border-b border-zinc-700 pb-2 mb-4">
-             <h2 class="text-lg font-bold text-lime-400"><i class="fas fa-magic mr-2 text-white"></i> Form Laporan</h2>
-             <span class="text-xs bg-lime-900/50 text-lime-300 px-3 py-1.5 rounded-lg border border-lime-500/30 font-bold">Token: <b id="formTokenCount">0</b></span>
+      <!-- 4. GENERATE LAPORAN AI -->
+      <section id="sec-generate" class="glossy-monster p-5 md:p-8 rounded-3xl mb-6 section-hidden border-t-4 border-t-blue-500">
+        <div class="flex justify-between items-center border-b border-slate-200 pb-3 mb-5">
+             <h2 class="text-xl font-black text-slate-800"><i class="fas fa-magic mr-2 text-blue-500"></i> Form Laporan AI</h2>
+             <span class="text-[10px] bg-blue-100 text-blue-700 px-3 py-1.5 rounded-lg font-bold shadow-sm">Token Aktif: <b id="formTokenCount">0</b></span>
         </div>
 
-        <div class="bg-black/30 p-4 rounded-xl border border-zinc-700/50 flex justify-between items-center mb-5 shadow-inner">
+        <div class="bg-gradient-to-r from-slate-50 to-blue-50 p-4 rounded-2xl border border-slate-200 flex justify-between items-center mb-6 shadow-sm">
             <div>
-                <p class="text-[9px] text-lime-400 uppercase tracking-widest font-bold mb-1"><i class="fas fa-user-check mr-1"></i> IDENTITAS OTOMATIS (TERKUNCI)</p>
-                <p class="text-sm font-bold text-white" id="infoPelaporNama">-</p>
-                <p class="text-[9px] text-zinc-400" id="infoPelaporJabatan">-</p>
+                <p class="text-[9px] text-blue-600 uppercase tracking-widest font-extrabold mb-1"><i class="fas fa-lock mr-1"></i> Data Profil Terkunci</p>
+                <p class="text-sm font-black text-slate-800" id="infoPelaporNama">-</p>
+                <p class="text-[10px] text-slate-500 font-medium" id="infoPelaporJabatan">-</p>
             </div>
-            <button type="button" onclick="nav('pengaturan')" class="text-[10px] bg-zinc-800 text-lime-400 px-3 py-1.5 rounded-lg hover:bg-zinc-700 border border-lime-500/30"><i class="fas fa-edit"></i> Edit</button>
+            <button type="button" onclick="nav('pengaturan')" class="text-[10px] bg-white text-blue-600 px-4 py-2 rounded-xl shadow-sm border border-slate-200 font-bold hover:bg-blue-50"><i class="fas fa-edit mr-1"></i> Ubah</button>
         </div>
       
         <form id="reportForm" onsubmit="tampilkanReview(event)">
            
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-               <div class="bg-black/30 p-4 rounded-xl border border-zinc-700/50">
-                <p class="text-[10px] text-lime-400 font-bold mb-3 uppercase tracking-wider"><i class="fas fa-envelope-open-text mr-1"></i> Data Surat Tugas</p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+               <div class="bg-white/60 p-4 rounded-2xl border border-slate-200 shadow-sm">
+                <p class="text-xs text-slate-700 font-bold mb-3 flex items-center gap-2"><i class="fas fa-envelope-open-text text-purple-500"></i> Referensi Surat Tugas</p>
                  <div id="containerDataSurat">
                      <div class="surat-item grid grid-cols-2 gap-2 mb-2 relative">
-                       <div><input type="text" class="input-dasar-surat w-full p-2.5 text-xs rounded-lg glossy-input" placeholder="Dasar/No Surat"></div>
-                       <div><input type="text" class="input-perihal-surat w-full p-2.5 text-xs rounded-lg glossy-input" placeholder="Perihal"></div>
+                       <div><input type="text" class="input-dasar-surat w-full p-2.5 text-xs rounded-lg glossy-input border-slate-300 bg-white" placeholder="Dasar / No Surat"></div>
+                       <div><input type="text" class="input-perihal-surat w-full p-2.5 text-xs rounded-lg glossy-input border-slate-300 bg-white" placeholder="Perihal Kegiatan"></div>
                      </div>
                 </div>
-                <button type="button" onclick="tambahSurat()" class="text-[10px] text-lime-400 hover:text-lime-300 mt-1 font-bold"><i class="fas fa-plus-circle"></i> Tambah Surat</button>
+                <button type="button" onclick="tambahSurat()" class="text-[10px] text-purple-600 font-bold mt-2 bg-purple-50 px-3 py-1.5 rounded-lg"><i class="fas fa-plus mr-1"></i> Tambah Surat</button>
               </div>
 
-              <div class="bg-black/30 p-4 rounded-xl border border-zinc-700/50">
-                  <div class="grid grid-cols-2 gap-2 mb-2">
-                     <div><label class="block text-[10px] font-bold text-zinc-300 mb-1">Tgl Laporan</label><input type="date" id="tanggalLaporan" class="w-full p-2.5 text-xs rounded-lg glossy-input" required></div>
-                     <div><label class="block text-[10px] font-bold text-zinc-300 mb-1">Tgl Pelaksanaan</label><input type="date" id="waktu" class="w-full p-2.5 text-xs rounded-lg glossy-input"></div>
+              <div class="bg-white/60 p-4 rounded-2xl border border-slate-200 shadow-sm">
+                  <p class="text-xs text-slate-700 font-bold mb-3 flex items-center gap-2"><i class="fas fa-calendar-alt text-blue-500"></i> Waktu & Lokasi</p>
+                  <div class="grid grid-cols-2 gap-3 mb-3">
+                     <div><label class="block text-[10px] font-bold text-slate-500 mb-1 ml-1">Tgl Laporan</label><input type="date" id="tanggalLaporan" class="w-full p-2.5 text-xs rounded-lg glossy-input border-slate-300 bg-white" required></div>
+                     <div><label class="block text-[10px] font-bold text-slate-500 mb-1 ml-1">Tgl Pelaksanaan</label><input type="date" id="waktu" class="w-full p-2.5 text-xs rounded-lg glossy-input border-slate-300 bg-white"></div>
                   </div>
-                  <div class="grid grid-cols-2 gap-2">
-                      <div><label class="block text-[10px] font-bold text-zinc-300 mb-1">Jam Mulai</label><input type="time" id="jamMulai" class="w-full p-2.5 text-xs rounded-lg glossy-input" required></div>
-                      <div><label class="block text-[10px] font-bold text-zinc-300 mb-1">Lokasi</label><input type="text" id="lokasi" class="w-full p-2.5 text-xs rounded-lg glossy-input" required placeholder="Desa/Kec..."></div>
+                  <div class="grid grid-cols-2 gap-3">
+                      <div><label class="block text-[10px] font-bold text-slate-500 mb-1 ml-1">Jam Mulai</label><input type="time" id="jamMulai" class="w-full p-2.5 text-xs rounded-lg glossy-input border-slate-300 bg-white" required></div>
+                      <div><label class="block text-[10px] font-bold text-slate-500 mb-1 ml-1">Lokasi</label><input type="text" id="lokasi" class="w-full p-2.5 text-xs rounded-lg glossy-input border-slate-300 bg-white" required placeholder="Desa / Kec..."></div>
                   </div>
               </div>
           </div>
 
-          <!-- SMART FILTER CLOUD CONNECTION -->
-          <div class="mb-5 bg-lime-900/10 p-4 rounded-xl border border-lime-500/30">
-             <label class="block text-sm font-bold text-white mb-1">Laporan Harian (Smart Filter Cloud)</label>
-             <p class="text-[9px] text-zinc-400 mb-3">Tersinkronisasi 1 Induk RHK dengan Excel Admin untuk Jabatan: <span id="lblJabatanFilter" class="text-lime-400 font-bold"></span></p>
-             <select id="kegiatanSelect" class="w-full p-3 text-sm rounded-xl glossy-input font-bold text-lime-300" onchange="renderDynamicForm()" required>
-                <option value="">Memuat data dari cloud database...</option>
+          <div class="mb-6 bg-blue-50 p-5 rounded-2xl border border-blue-200 shadow-sm">
+             <label class="block text-sm font-black text-blue-800 mb-1">Kegiatan Harian (Smart Filter)</label>
+             <p class="text-[10px] text-slate-500 mb-3 font-medium">Tersinkronisasi database pusat untuk Jabatan: <span id="lblJabatanFilter" class="text-purple-600 font-bold bg-white px-2 py-0.5 rounded border border-purple-100"></span></p>
+             <select id="kegiatanSelect" class="w-full p-3.5 text-sm rounded-xl glossy-input font-bold text-slate-700 border-blue-300 bg-white shadow-sm" onchange="renderDynamicForm()" required>
+                <option value="">Memuat data dari cloud...</option>
              </select>
           </div>
 
-          <!-- FORM DINAMIS (Original Blueprint Dipertahankan) -->
-          <div id="dynamicFormArea" class="space-y-3 mb-5 transition-all duration-300"></div>
+          <div id="dynamicFormArea" class="space-y-4 mb-5 transition-all duration-300"></div>
 
-          <!-- FOTO & LAMPIRAN -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
-              <div class="bg-black/40 border border-zinc-700/50 p-4 rounded-xl min-h-[90px]">
-                  <label class="block text-xs font-bold text-lime-300 mb-2">Foto Dokumentasi (Maks 10 Foto)</label>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
+              <div class="bg-white/60 border border-slate-200 p-4 rounded-2xl min-h-[90px] shadow-sm">
+                  <div class="flex justify-between items-center mb-3">
+                      <label class="block text-xs font-bold text-slate-700"><i class="fas fa-camera text-blue-500 mr-1"></i> Dokumentasi Foto</label>
+                      <span id="photoStatus" class="text-[9px] bg-slate-100 text-slate-600 px-2 py-1 rounded-md font-bold">0 / 10 Max</span>
+                  </div>
                   <div class="flex flex-wrap gap-2 items-center">
-                       <div onclick="document.getElementById('inputGaleri').click()" class="w-12 h-12 bg-lime-500/10 border border-dashed border-lime-500/50 flex flex-col items-center justify-center rounded-lg cursor-pointer text-lime-400 hover:bg-lime-500/20 shrink-0"><i class="fas fa-camera"></i></div>
+                       <div onclick="document.getElementById('inputGaleri').click()" class="w-12 h-12 bg-blue-50 border border-dashed border-blue-300 flex flex-col items-center justify-center rounded-xl cursor-pointer text-blue-500 hover:bg-blue-100 transition-colors shrink-0"><i class="fas fa-plus"></i></div>
                        <div id="previewContainer" class="flex flex-wrap gap-2"></div>
                   </div>
                   <input type="file" id="inputGaleri" accept="image/*" multiple class="hidden" onchange="prosesFoto(event)">
-                  <p id="photoStatus" class="text-[9px] text-zinc-400 mt-2">0 / 10 Foto</p>
               </div>
 
-              <div class="bg-black/40 border border-zinc-700/50 p-4 rounded-xl min-h-[90px]">
-                 <label class="block text-xs font-bold text-lime-300 mb-2">Lampiran Dokumen (Maks 3 PDF/Scan)</label>
+              <div class="bg-white/60 border border-slate-200 p-4 rounded-2xl min-h-[90px] shadow-sm">
+                 <div class="flex justify-between items-center mb-3">
+                     <label class="block text-xs font-bold text-slate-700"><i class="fas fa-paperclip text-purple-500 mr-1"></i> Lampiran Dokumen</label>
+                     <span id="lampiranStatus" class="text-[9px] bg-slate-100 text-slate-600 px-2 py-1 rounded-md font-bold">0 / 3 Max</span>
+                 </div>
                  <div class="flex flex-wrap gap-2 items-center">
-                       <div onclick="document.getElementById('lampiranFile').click()" class="w-12 h-12 bg-orange-500/10 border border-dashed border-orange-500/50 flex flex-col items-center justify-center rounded-lg cursor-pointer hover:bg-orange-500/20 text-orange-400 shrink-0"><i class="fas fa-paperclip"></i></div>
+                       <div onclick="document.getElementById('lampiranFile').click()" class="w-12 h-12 bg-purple-50 border border-dashed border-purple-300 flex flex-col items-center justify-center rounded-xl cursor-pointer text-purple-500 hover:bg-purple-100 transition-colors shrink-0"><i class="fas fa-plus"></i></div>
                        <div id="previewLampiranContainer" class="flex flex-wrap gap-2"></div>
                 </div>
                 <input type="file" id="lampiranFile" accept="image/*" multiple class="hidden" onchange="prosesLampiran(event)">
-                <p id="lampiranStatus" class="text-[9px] text-zinc-400 mt-2">0 / 3 File</p>
               </div>
           </div>
 
-          <!-- CHECKBOX EKSPOR -->
-          <div class="mb-5 flex gap-4 items-center bg-lime-900/10 p-4 rounded-xl border border-lime-500/30">
-              <label class="block text-xs font-bold text-white mr-2"><i class="fas fa-file-export text-lime-400 mr-1"></i> Ekspor Final:</label>
-              <label class="flex items-center gap-2 text-sm text-zinc-300 cursor-pointer"><input type="checkbox" id="formatPDF" value="PDF" checked class="accent-lime-500 w-4 h-4"> PDF</label>
-              <label class="flex items-center gap-2 text-sm text-zinc-300 cursor-pointer"><input type="checkbox" id="formatDOCX" value="DOCX" class="accent-lime-500 w-4 h-4"> DOCX</label>
+          <div class="mb-6 flex gap-4 items-center bg-slate-50 p-4 rounded-2xl border border-slate-200 shadow-sm">
+              <label class="block text-xs font-bold text-slate-700 mr-2">Ekspor Ke:</label>
+              <label class="flex items-center gap-2 text-sm text-slate-600 cursor-pointer font-bold"><input type="checkbox" id="formatPDF" value="PDF" checked class="accent-blue-500 w-4 h-4"> PDF</label>
+              <label class="flex items-center gap-2 text-sm text-slate-600 cursor-pointer font-bold"><input type="checkbox" id="formatDOCX" value="DOCX" class="accent-blue-500 w-4 h-4"> DOCX</label>
           </div>
 
-        <button type="submit" id="btnSubmit" class="w-full bg-gradient-to-r from-lime-500 to-lime-400 text-black font-extrabold py-4 px-4 rounded-xl shadow-[0_5px_20px_rgba(132,204,22,0.4)] hover:shadow-[0_5px_25px_rgba(132,204,22,0.6)] text-sm tracking-wide">
-              <i class="fas fa-paper-plane mr-2"></i> Eksekusi AI (1 Token)
+        <button type="submit" id="btnSubmit" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-black py-4 px-4 rounded-xl shadow-[0_10px_20px_rgba(139,92,246,0.3)] hover:shadow-[0_10px_30px_rgba(139,92,246,0.5)] transform hover:-translate-y-1 transition-all text-sm tracking-wide">
+              <i class="fas fa-magic mr-2"></i> Mulai Proses AI (Potong 1 Token)
         </button>
         </form>
       </section>
 
-      <!-- ============================================== -->
-      <!-- MODUL 5: MENU LAINNYA (RIWAYAT, TOKEN, PANDUAN) -->
-      <!-- ============================================== -->
-      <section id="sec-report" class="glossy-monster p-5 md:p-8 rounded-2xl mb-6 section-hidden">
-        <div class="flex justify-between items-center mb-4 border-b border-zinc-700 pb-2">
-            <h2 class="text-lg font-bold text-white"><i class="fas fa-history mr-2 text-lime-400"></i> Riwayat</h2>
-            <button onclick="loadRiwayatData()" class="text-xs bg-lime-500/20 text-lime-400 hover:bg-lime-500/40 p-2 rounded-lg transition-colors"><i class="fas fa-sync-alt"></i></button>
+      <!-- 5. RIWAYAT -->
+      <section id="sec-report" class="glossy-monster p-5 md:p-8 rounded-3xl mb-6 section-hidden">
+        <div class="flex justify-between items-center mb-6 border-b border-slate-200 pb-3">
+            <h2 class="text-xl font-black text-slate-800"><i class="fas fa-history mr-2 text-blue-500"></i> Riwayat Dokumen</h2>
+            <button onclick="loadRiwayatData()" class="text-xs bg-slate-100 text-slate-600 hover:bg-blue-100 hover:text-blue-600 font-bold px-4 py-2 rounded-lg transition-colors"><i class="fas fa-sync-alt mr-1"></i> Segarkan</button>
         </div>
-        <div class="overflow-x-auto custom-scrollbar rounded-lg border border-zinc-700 pb-2 w-full">
-           <table class="min-w-full text-left text-[10px] text-zinc-300">
-            <thead class="bg-zinc-900/80 text-lime-400 border-b border-lime-500/20">
-              <tr><th class="p-3">Nama</th><th class="p-3">Waktu</th><th class="p-3">Kegiatan</th><th class="p-3">Status</th></tr>
+        <div class="overflow-x-auto custom-scrollbar rounded-xl border border-slate-200 w-full shadow-sm bg-white">
+           <table class="min-w-full text-left text-[11px] text-slate-600">
+            <thead class="bg-slate-50 text-slate-800 font-bold border-b border-slate-200">
+              <tr><th class="p-4">Identitas</th><th class="p-4">Waktu</th><th class="p-4">Kegiatan</th><th class="p-4 text-center">Status</th></tr>
             </thead>
-            <tbody id="tableRiwayatBody" class="divide-y divide-zinc-800/50">
-                 <tr><td colspan="4" class="text-center p-6 italic text-zinc-500">Memuat...</td></tr>
+            <tbody id="tableRiwayatBody" class="divide-y divide-slate-100">
+                 <tr><td colspan="4" class="text-center p-8 italic text-slate-400">Memuat data riwayat...</td></tr>
              </tbody>
            </table>
         </div>
       </section>
 
-      <section id="sec-token" class="glossy-monster p-5 md:p-8 rounded-2xl mb-6 section-hidden border-l-4 border-l-yellow-500">
-        <h2 class="text-lg font-bold text-white border-b border-zinc-700 pb-2"><i class="fas fa-coins mr-2 text-yellow-400"></i> Beli Token AI</h2>
-        <div class="mb-3 bg-lime-900/20 border border-lime-500/30 p-4 rounded-xl flex justify-between items-center mt-5">
-            <div><h3 class="font-bold text-white text-md">Paket Basic</h3><p class="text-xs text-zinc-300">6 Token Laporan</p></div>
-            <div class="text-right"><p class="text-lg font-black text-lime-400 mb-1">Rp 10.000</p><button onclick="konfirmasiWA('Basic', 6, 10000)" class="bg-green-600 text-white font-bold py-1.5 px-3 rounded-lg"><i class="fab fa-whatsapp"></i> Beli</button></div>
+      <!-- 6. TOKEN -->
+      <section id="sec-token" class="glossy-monster p-5 md:p-8 rounded-3xl mb-6 section-hidden border-t-4 border-t-yellow-400">
+        <h2 class="text-xl font-black text-slate-800 border-b border-slate-200 pb-3"><i class="fas fa-gem mr-2 text-yellow-500"></i> Top-Up Token AI</h2>
+        
+        <div class="mb-4 bg-white border border-slate-200 p-5 rounded-2xl flex justify-between items-center mt-6 shadow-sm hover:border-blue-300 transition-colors">
+            <div><h3 class="font-black text-slate-800 text-base">Paket Basic</h3><p class="text-[11px] text-slate-500 font-medium">6 Token Laporan / Dokumen</p></div>
+            <div class="text-right"><p class="text-lg font-black text-blue-600 mb-1">Rp 10.000</p><button onclick="konfirmasiWA('Basic', 6, 10000)" class="bg-green-100 text-green-700 font-bold py-1.5 px-4 rounded-lg text-xs hover:bg-green-200"><i class="fab fa-whatsapp mr-1"></i> Beli</button></div>
         </div>
-        <div class="mb-3 bg-lime-900/20 border border-lime-500/30 p-4 rounded-xl flex justify-between items-center">
-             <div><h3 class="font-bold text-white text-md flex items-center gap-1">Paket Pro <i class="fas fa-star text-yellow-400 text-[10px]"></i></h3><p class="text-xs text-zinc-300">20 Token Laporan</p></div>
-            <div class="text-right"><p class="text-lg font-black text-lime-400 mb-1">Rp 30.000</p><button onclick="konfirmasiWA('Pro', 20, 30000)" class="bg-green-600 text-white font-bold py-1.5 px-3 rounded-lg"><i class="fab fa-whatsapp"></i> Beli</button></div>
+        <div class="mb-4 bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200 p-5 rounded-2xl flex justify-between items-center shadow-sm">
+             <div><h3 class="font-black text-purple-700 text-base flex items-center gap-1">Paket Pro <i class="fas fa-star text-yellow-500 text-xs"></i></h3><p class="text-[11px] text-slate-500 font-medium">20 Token Laporan / Dokumen</p></div>
+            <div class="text-right"><p class="text-lg font-black text-purple-700 mb-1">Rp 30.000</p><button onclick="konfirmasiWA('Pro', 20, 30000)" class="bg-green-500 text-white font-bold py-1.5 px-4 rounded-lg text-xs shadow-md hover:bg-green-600"><i class="fab fa-whatsapp mr-1"></i> Beli</button></div>
         </div>
-        <div class="p-3 bg-red-900/20 border border-red-500/30 rounded-xl mb-2 mt-4">
-            <label class="flex items-start gap-2 cursor-pointer">
-                <input type="checkbox" id="cekSyaratToken" class="mt-1 w-4 h-4 accent-lime-500 shrink-0">
-                <span class="text-[10px] text-zinc-300 leading-tight"><b>PERSETUJUAN (MUTLAK):</b> Uang/token tidak dapat di-refund dengan alasan apapun. Token hangus jika unduh gagal karena koneksi internet Anda terputus.</span>
+        
+        <div class="p-4 bg-red-50 border border-red-200 rounded-xl mt-6">
+            <label class="flex items-start gap-3 cursor-pointer">
+                <input type="checkbox" id="cekSyaratToken" class="mt-0.5 w-4 h-4 accent-red-500 shrink-0">
+                <span class="text-[10px] text-red-800 leading-relaxed font-medium"><b>PERSETUJUAN MUTLAK:</b> Dana tidak dapat dikembalikan dengan alasan apapun. Token akan hangus jika proses pengunduhan gagal karena koneksi internet Anda terputus.</span>
             </label>
         </div>
       </section>
 
-      <section id="sec-panduan" class="glossy-monster p-5 md:p-8 rounded-2xl mb-6 section-hidden border-l-4 border-l-green-500">
-         <h2 class="text-lg font-bold text-white border-b border-zinc-700 pb-2 mb-4"><i class="fas fa-book mr-2 text-green-400"></i> Panduan & Aturan</h2>
-         <div class="text-xs text-zinc-300 space-y-4 text-justify">
-            <div class="bg-red-900/20 border border-red-500/40 p-3 rounded-lg">
-                <p class="text-red-400 font-bold mb-1"><i class="fas fa-exclamation-triangle mr-1"></i> PERATURAN MUTLAK</p>
-                <p><b>1. TIDAK ADA REFUND.</b> Token yang sudah dibeli tidak dapat diuangkan kembali.</p>
-                <p class="mt-1"><b>2. TANGGUNG JAWAB INPUT.</b> Biodata di Profil akan terkunci di dokumen. Kesalahan ketik adalah tanggung jawab Anda.</p>
+      <!-- 7. PANDUAN -->
+      <section id="sec-panduan" class="glossy-monster p-5 md:p-8 rounded-3xl mb-6 section-hidden border-t-4 border-t-green-500">
+         <h2 class="text-xl font-black text-slate-800 border-b border-slate-200 pb-3 mb-5"><i class="fas fa-book-open mr-2 text-green-500"></i> Panduan Penggunaan</h2>
+         <div class="text-[11px] text-slate-600 space-y-4 leading-relaxed font-medium">
+            <div class="bg-blue-50 border border-blue-200 p-4 rounded-xl mb-4">
+                <p class="text-blue-800 font-black mb-1"><i class="fas fa-info-circle mr-1"></i> Alur Kerja Sistem E-GenLap</p>
+                <p>Sistem ini dirancang menggunakan kecerdasan buatan (Gemini AI) untuk menganalisis data lapangan sederhana yang Anda masukkan, dan mengubahnya menjadi narasi Laporan Pemerintahan formal yang merujuk pada Permensos dan UU terkait.</p>
             </div>
-            <p><span class="bg-lime-500 text-black font-bold w-6 h-6 inline-flex items-center justify-center rounded-full text-[10px] mr-2">1</span><b>Lengkapi Profil.</b> Data Profil (Nama, Jabatan) di Menu Profil menentukan *Smart Filter* RHK di halaman Laporan.</p>
-            <p><span class="bg-lime-500 text-black font-bold w-6 h-6 inline-flex items-center justify-center rounded-full text-[10px] mr-2">2</span><b>Beli Token.</b> Lakukan pembayaran via Admin, klik "Beli" pada paket untuk konfirmasi ke WhatsApp.</p>
-            <p><span class="bg-lime-500 text-black font-bold w-6 h-6 inline-flex items-center justify-center rounded-full text-[10px] mr-2">3</span><b>Penyusunan Cerdas AI.</b> Masukkan data dinamis lapangan. AI otomatis menyusun Aturan Kemensos.</p>
+            <p class="flex items-start gap-3"><span class="bg-blue-600 text-white font-bold w-6 h-6 shrink-0 flex items-center justify-center rounded-full text-[10px]">1</span> <b>Lengkapi Profil Anda:</b> Buka menu Profil, isikan Nama, Jabatan, NIP, Kabupaten, dan Tanda Tangan. Jabatan Anda akan menentukan RHK apa saja yang tersedia.</p>
+            <p class="flex items-start gap-3"><span class="bg-blue-600 text-white font-bold w-6 h-6 shrink-0 flex items-center justify-center rounded-full text-[10px]">2</span> <b>Menu Lapor:</b> Isi tanggal, pilih Kegiatan (RHK), isi data lapangan, dan lampirkan foto dokumentasi. Pastikan koneksi stabil.</p>
+            <p class="flex items-start gap-3"><span class="bg-blue-600 text-white font-bold w-6 h-6 shrink-0 flex items-center justify-center rounded-full text-[10px]">3</span> <b>Eksekusi & Unduh:</b> Klik tombol Proses AI. Sistem akan memotong 1 Token Anda dan memproses file PDF/Word langsung ke HP/Laptop Anda.</p>
          </div>
       </section>
 
-      <!-- ============================================== -->
-      <!-- MODUL 6: KEUANGAN ADMIN & SUPER ADMIN -->
-      <!-- ============================================== -->
-      <section id="sec-keuangan" class="glossy-monster p-5 md:p-8 rounded-2xl mb-6 section-hidden border-l-4 border-l-yellow-500">
-         <h2 class="text-lg font-bold text-white border-b border-zinc-700 pb-2 mb-4"><i class="fas fa-wallet mr-2 text-yellow-400"></i> Rekap Keuangan (Admin)</h2>
-         <button onclick="loadAdminKeuangan()" class="mb-4 w-full bg-blue-500/20 text-blue-400 border border-blue-500/50 px-3 py-2 rounded-lg text-xs font-bold hover:bg-blue-500/30"><i class="fas fa-sync-alt"></i> Refresh Transaksi</button>
+      <!-- 8. KEUANGAN ADMIN -->
+      <section id="sec-keuangan" class="glossy-monster p-5 md:p-8 rounded-3xl mb-6 section-hidden border-t-4 border-t-yellow-400">
+         <h2 class="text-xl font-black text-slate-800 border-b border-slate-200 pb-3 mb-5"><i class="fas fa-chart-line mr-2 text-yellow-500"></i> Rekap Pendapatan</h2>
          
-         <div class="grid grid-cols-2 gap-3 mb-4">
-             <div class="bg-black/30 p-3 rounded-lg border border-zinc-700/50"><p class="text-[10px] text-zinc-400">Total Pendapatan</p><h3 class="text-lg font-bold text-lime-400" id="totalPendapatan">Rp 0</h3></div>
-             <div class="bg-black/30 p-3 rounded-lg border border-zinc-700/50"><p class="text-[10px] text-zinc-400">Token Terjual</p><h3 class="text-lg font-bold text-blue-400" id="totalTokenTerjual">0</h3></div>
+         <div class="grid grid-cols-2 gap-4 mb-6">
+             <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                 <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Total Pendapatan</p>
+                 <h3 class="text-xl font-black text-green-600 mt-1" id="totalPendapatan">Rp 0</h3>
+             </div>
+             <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                 <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Token Terjual</p>
+                 <h3 class="text-xl font-black text-blue-600 mt-1" id="totalTokenTerjual">0</h3>
+             </div>
          </div>
 
-         <div class="flex justify-between items-center mb-2">
-            <h4 class="text-[10px] font-bold text-blue-400"><i class="fas fa-list mr-1"></i> Rincian Pembelian</h4>
-            <button onclick="exportKeuanganKePDF()" class="bg-red-600 text-white px-3 py-1.5 rounded-lg text-[10px] font-bold shadow-md hover:bg-red-500"><i class="fas fa-file-pdf mr-1"></i> Export PDF</button>
+         <div class="flex justify-between items-center mb-3">
+            <h4 class="text-sm font-bold text-slate-700"><i class="fas fa-list mr-1 text-slate-400"></i> Log Transaksi</h4>
+            <div class="flex gap-2">
+                <button onclick="loadAdminKeuangan()" class="bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg text-[10px] font-bold border border-blue-200 hover:bg-blue-100"><i class="fas fa-sync-alt"></i> Refresh</button>
+                <button onclick="exportKeuanganKePDF()" class="bg-red-500 text-white px-3 py-1.5 rounded-lg text-[10px] font-bold shadow-md hover:bg-red-600"><i class="fas fa-file-pdf mr-1"></i> Export PDF</button>
+            </div>
          </div>
-         <div class="overflow-x-auto custom-scrollbar rounded-lg border border-zinc-700 mb-4 w-full">
-             <table class="min-w-full text-left text-[10px] text-zinc-300">
-                <thead class="bg-zinc-900/80 text-lime-400"><tr><th class="p-2">Waktu</th><th class="p-2">Pembeli</th><th class="p-2 text-right">Aksi/Status</th></tr></thead>
-                <tbody id="tableKeuanganBody" class="divide-y divide-zinc-800/50"></tbody>
+         
+         <div class="overflow-x-auto custom-scrollbar rounded-xl border border-slate-200 bg-white w-full">
+             <table class="min-w-full text-left text-[11px] text-slate-600">
+                <thead class="bg-slate-50 font-bold text-slate-800 border-b border-slate-200"><tr><th class="p-3">Waktu</th><th class="p-3">Pembeli & Token</th><th class="p-3 text-right">Status</th></tr></thead>
+                <tbody id="tableKeuanganBody" class="divide-y divide-slate-100"></tbody>
              </table>
          </div>
       </section>
 
-      <section id="sec-admin" class="glossy-monster p-5 md:p-8 rounded-2xl mb-6 section-hidden border-l-4 border-l-orange-500">
-         <h2 class="text-lg font-bold text-white border-b border-zinc-700 pb-2 mb-4"><i class="fas fa-user-shield mr-2 text-orange-400"></i> Panel Super Admin</h2>
+      <!-- 9. SUPER ADMIN PANEL -->
+      <section id="sec-admin" class="glossy-monster p-5 md:p-8 rounded-3xl mb-6 section-hidden border-t-4 border-t-red-500">
+         <h2 class="text-xl font-black text-slate-800 border-b border-slate-200 pb-3 mb-6"><i class="fas fa-cogs mr-2 text-red-500"></i> Panel Super Admin</h2>
          
          <!-- UPLOAD RHK EXCEL (ALGORITMA FORWARD-FILL) -->
-         <div class="bg-black/40 p-4 rounded-xl border border-zinc-700/50 mb-5">
-             <h3 class="font-bold text-lime-400 mb-2 text-xs"><i class="fas fa-file-excel mr-1 text-green-500"></i> Import RHK dari Excel</h3>
-             <p class="text-[9px] text-zinc-400 mb-3 text-justify">Sistem menerapkan <i>Forward-Fill</i> cerdas untuk memetakan kolom Kosong/Merge (1 RHK ke Banyak Laporan Harian). Kolom Excel Wajib: JABATAN, RENCANA HASIL KERJA, PILIHAN LAPORAN HARIAN, TARGET TAHUNAN, TARGET BULANAN.</p>
-             <input type="file" id="excelRHKUpload" accept=".xlsx, .xls" class="w-full text-xs rounded-xl glossy-input text-zinc-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-l-xl file:border-0 file:font-bold file:bg-lime-500 file:text-black cursor-pointer" onchange="uploadMasterRHK(event)">
+         <div class="bg-red-50/50 p-5 rounded-2xl border border-red-100 mb-6">
+             <h3 class="font-black text-red-700 mb-2 text-sm"><i class="fas fa-file-excel mr-1 text-green-600"></i> Import RHK dari Excel</h3>
+             <p class="text-[10px] text-slate-600 mb-4 font-medium leading-relaxed">Sistem mendeteksi kolom: JABATAN, RENCANA HASIL KERJA, PILIHAN LAPORAN HARIAN, TARGET TAHUNAN, TARGET BULANAN secara cerdas (mendukung cell kosong/merge di Excel).</p>
+             <input type="file" id="excelRHKUpload" accept=".xlsx, .xls" class="w-full text-xs rounded-xl glossy-input text-slate-600 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:font-bold file:bg-red-600 file:text-white cursor-pointer bg-white" onchange="uploadMasterRHK(event)">
          </div>
 
-         <!-- MANAJEMEN DATABASE RHK (CRUD) -->
-         <div class="bg-lime-900/10 p-4 rounded-xl border border-lime-500/30 mb-5">
-             <div class="flex justify-between items-center mb-3">
-                 <h3 class="font-bold text-orange-400 text-xs"><i class="fas fa-database mr-1"></i> Database RHK Aktif</h3>
-                 <button onclick="loadAdminRHK()" class="text-[9px] bg-blue-500/20 text-blue-400 px-2 py-1 rounded border border-blue-500/50"><i class="fas fa-sync"></i> Refresh</button>
+         <!-- MANAJEMEN DATABASE RHK -->
+         <div class="bg-white p-5 rounded-2xl border border-slate-200 mb-6 shadow-sm">
+             <div class="flex justify-between items-center mb-4">
+                 <h3 class="font-black text-slate-800 text-sm"><i class="fas fa-database mr-1 text-blue-500"></i> Database RHK Aktif</h3>
+                 <button onclick="loadAdminRHK()" class="text-[10px] bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg border border-blue-200 font-bold hover:bg-blue-100"><i class="fas fa-sync mr-1"></i> Segarkan</button>
              </div>
-             <select id="filterAdminRHK" class="w-full p-2 mb-3 text-[10px] rounded-lg glossy-input text-zinc-300" onchange="loadAdminRHK()">
+             <select id="filterAdminRHK" class="w-full p-3 mb-4 text-xs rounded-xl glossy-input text-slate-700 font-bold bg-slate-50 border-slate-300" onchange="loadAdminRHK()">
                 <option value="KATIM PROV">Filter: KATIM PROV</option>
                 <option value="KORKAB">Filter: KORKAB</option>
                 <option value="PENDAMPING SOSIAL">Filter: PENDAMPING SOSIAL</option>
                 <option value="Penata layanan operasional">Filter: Penata layanan operasional</option>
                 <option value="Pengelola layanan operasional">Filter: Pengelola layanan operasional</option>
              </select>
-             <div class="overflow-x-auto max-h-48 custom-scrollbar rounded-lg border border-zinc-700">
-                <table class="min-w-full text-left text-[9px] text-zinc-300">
-                 <thead class="bg-zinc-900/80 text-lime-400 sticky top-0"><tr><th class="p-2">Laporan Harian (RHK)</th><th class="p-2">Target</th><th class="p-2 text-center">Aksi</th></tr></thead>
-                 <tbody id="adminRHKTable" class="divide-y divide-zinc-800/50"><tr><td colspan="3" class="text-center p-3 text-zinc-500">Memuat...</td></tr></tbody>
+             
+             <div class="overflow-x-auto max-h-60 custom-scrollbar rounded-xl border border-slate-200 mb-3">
+                <table class="min-w-full text-left text-[10px] text-slate-600">
+                 <thead class="bg-slate-50 text-slate-800 font-bold sticky top-0 border-b border-slate-200"><tr><th class="p-3">Laporan Harian (RHK)</th><th class="p-3">Target</th><th class="p-3 text-center">Aksi</th></tr></thead>
+                 <tbody id="adminRHKTable" class="divide-y divide-slate-100"><tr><td colspan="3" class="text-center p-4 italic">Memuat data...</td></tr></tbody>
                </table>
             </div>
-            <button onclick="tambahRHKManual()" class="mt-3 w-full bg-zinc-800 text-lime-400 border border-lime-500/50 py-2 rounded-lg text-[10px] font-bold hover:bg-zinc-700"><i class="fas fa-plus mr-1"></i> Tambah RHK Manual</button>
+            <button onclick="tambahRHKManual()" class="w-full bg-slate-100 text-slate-700 border border-slate-300 py-2.5 rounded-xl text-xs font-bold hover:bg-slate-200 transition-colors"><i class="fas fa-plus mr-1"></i> Tambah RHK Manual</button>
          </div>
 
          <!-- MANAJEMEN USER -->
-         <h3 class="text-sm font-bold text-white mt-6 mb-2"><i class="fas fa-users text-lime-400 mr-1"></i> Manajemen User & Token</h3>
-         <button onclick="loadAdminUsers()" class="w-full p-2 bg-blue-500/20 text-blue-400 border border-blue-500/50 rounded-xl text-xs font-bold mb-3"><i class="fas fa-sync"></i> Refresh User</button>
-         <div class="overflow-x-auto rounded-lg border border-zinc-700">
-            <table class="min-w-full text-left text-[10px] text-zinc-300">
-             <thead class="bg-zinc-900/80 text-lime-400"><tr><th class="p-2">Email/Nama</th><th class="p-2">Token</th><th class="p-2 text-right">Aksi</th></tr></thead>
-             <tbody id="adminUserTable" class="divide-y divide-zinc-800/50"><tr><td colspan="3" class="text-center p-4">Klik Refresh Data</td></tr></tbody>
+         <div class="flex justify-between items-center mb-3">
+             <h3 class="text-sm font-black text-slate-800"><i class="fas fa-users text-purple-500 mr-1"></i> Kelola User & Token</h3>
+             <button onclick="loadAdminUsers()" class="text-[10px] bg-purple-50 text-purple-600 border border-purple-200 px-3 py-1.5 rounded-lg font-bold hover:bg-purple-100"><i class="fas fa-sync"></i> Refresh User</button>
+         </div>
+         <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
+            <table class="min-w-full text-left text-[11px] text-slate-600">
+             <thead class="bg-slate-50 text-slate-800 font-bold border-b border-slate-200"><tr><th class="p-3">Email/Nama</th><th class="p-3">Token</th><th class="p-3 text-right">Aksi</th></tr></thead>
+             <tbody id="adminUserTable" class="divide-y divide-slate-100"><tr><td colspan="3" class="text-center p-6 italic">Klik Refresh Data</td></tr></tbody>
            </table>
          </div>
        </section>
        
-       <div class="text-center py-4 text-[10px] text-zinc-600 font-medium pb-24">copyright 2026<br>E-GenLap Cloud Systems</div>
+       <div class="text-center py-6 text-[10px] text-slate-400 font-bold pb-24">Hak Cipta 2026 &copy; E-GenLap SDM PKH<br>Sistem Pintar Berbasis Cloud AI</div>
     </main>
 
-    <!-- NAVIGATION BOTTOM (HARDCODED HTML ORIGINAL 100% UTUH) -->
-    <nav id="bottomNav" class="fixed bottom-0 w-full max-w-md md:max-w-4xl lg:max-w-5xl bg-[#09090b] border-t border-lime-900/40 shadow-[0_-10px_20px_rgba(0,0,0,0.8)] flex justify-between px-2 py-2 z-40 h-16 items-center rounded-t-3xl backdrop-blur-xl bg-opacity-95 hidden">
-        <button onclick="nav('dashboard')" class="nav-btn flex-1 flex flex-col items-center text-lime-400"><i class="fas fa-home text-lg"></i><span class="text-[9px] font-bold mt-1">Beranda</span></button>
-        <button onclick="nav('report')" class="nav-btn flex-1 flex flex-col items-center text-zinc-500 hover:text-lime-300"><i class="fas fa-history text-lg"></i><span class="text-[9px] font-bold mt-1">Riwayat</span></button>
+    <!-- NAVIGATION BOTTOM (HARDCODED HTML - RAPI & SESUAI ORIGINAL) -->
+    <!-- Max-w disamakan dengan container body agar sejajar dan cantik -->
+    <nav id="bottomNav" class="fixed bottom-0 w-full max-w-md md:max-w-4xl lg:max-w-5xl bg-white border-t border-slate-200 shadow-[0_-10px_20px_rgba(0,0,0,0.05)] flex justify-between px-3 py-2 z-40 h-16 items-center rounded-t-3xl hidden">
+        <button onclick="nav('dashboard')" class="nav-btn flex-1 flex flex-col items-center text-blue-600 transition-colors"><i class="fas fa-home text-lg mb-1"></i><span class="text-[9px] font-black">Beranda</span></button>
+        <button onclick="nav('report')" class="nav-btn flex-1 flex flex-col items-center text-slate-400 hover:text-blue-500 transition-colors"><i class="fas fa-history text-lg mb-1"></i><span class="text-[9px] font-bold">Riwayat</span></button>
 
         <div class="relative flex-[1.2] flex justify-center">
-           <button onclick="nav('generate')" class="absolute top-0 transform -translate-y-[60%] bg-gradient-to-tr from-lime-500 to-lime-300 text-black w-14 h-14 rounded-full border-4 border-[#09090b] flex items-center justify-center fab-button z-50 transition-transform active:scale-90 shadow-[0_0_15px_rgba(132,204,22,0.6)]">
+           <button onclick="nav('generate')" class="absolute top-0 transform -translate-y-[55%] bg-gradient-to-tr from-blue-600 to-purple-600 text-white w-14 h-14 rounded-full border-4 border-white flex items-center justify-center fab-button z-50">
               <i class="fas fa-plus text-xl drop-shadow-md"></i>
           </button>
         </div>
       
-        <button onclick="nav('token')" class="nav-btn flex-1 flex flex-col items-center text-zinc-500 hover:text-lime-300"><i class="fas fa-coins text-lg"></i><span class="text-[9px] font-bold mt-1">Token</span></button>
-        <button onclick="nav('pengaturan')" class="nav-btn flex-1 flex flex-col items-center text-zinc-500 hover:text-lime-300"><i class="fas fa-user-cog text-lg"></i><span class="text-[9px] font-bold mt-1">Profil</span></button>
+        <button onclick="nav('token')" class="nav-btn flex-1 flex flex-col items-center text-slate-400 hover:text-blue-500 transition-colors"><i class="fas fa-coins text-lg mb-1"></i><span class="text-[9px] font-bold">Token</span></button>
+        <button onclick="nav('pengaturan')" class="nav-btn flex-1 flex flex-col items-center text-slate-400 hover:text-blue-500 transition-colors"><i class="fas fa-user-cog text-lg mb-1"></i><span class="text-[9px] font-bold">Profil</span></button>
     </nav>
   </div>
 
   <!-- MODAL REVIEW AI -->
-  <div id="modalReview" class="fixed inset-0 bg-[#09090b]/90 backdrop-blur-sm z-[950] hidden flex-col items-center justify-center p-4 transition-opacity">
-      <div class="glossy-monster w-full max-w-sm rounded-2xl p-5 border border-lime-500/30 shadow-2xl relative">
-          <div class="border-b border-zinc-700 pb-2 mb-3">
-              <h3 class="text-lg font-bold text-white"><i class="fas fa-clipboard-check text-orange-400 mr-2"></i> Review AI</h3>
+  <div id="modalReview" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[950] hidden flex-col items-center justify-center p-4 transition-opacity">
+      <div class="glossy-monster bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl relative border-0">
+          <div class="border-b border-slate-100 pb-3 mb-4 text-center">
+              <div class="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-2 text-blue-600 text-xl"><i class="fas fa-robot"></i></div>
+              <h3 class="text-lg font-black text-slate-800">Review AI Dokumen</h3>
           </div>
-          <div id="reviewContent" class="max-h-[60vh] overflow-y-auto custom-scrollbar pr-2 mb-4 text-xs text-zinc-300"></div>
-          <div class="flex gap-2">
-              <button type="button" onclick="document.getElementById('modalReview').classList.add('hidden')" class="w-1/2 p-2.5 rounded-xl bg-zinc-800 text-lime-400 border border-lime-500/50 font-bold hover:bg-zinc-700 transition-all">Edit Lagi</button>
-              <button type="button" onclick="executeGenerate()" class="w-1/2 p-2.5 rounded-xl bg-gradient-to-r from-lime-500 to-lime-400 text-black font-extrabold shadow-[0_0_15px_rgba(132,204,22,0.4)]">Eksekusi (-1 Tk)</button>
+          <div id="reviewContent" class="max-h-[50vh] overflow-y-auto custom-scrollbar pr-2 mb-5 text-[11px] text-slate-600 font-medium"></div>
+          <div class="flex gap-3">
+              <button type="button" onclick="document.getElementById('modalReview').classList.add('hidden')" class="w-1/2 p-3 rounded-xl bg-slate-100 text-slate-600 font-bold hover:bg-slate-200 transition-all text-xs">Cek Ulang</button>
+              <button type="button" onclick="executeGenerate()" class="w-1/2 p-3 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-extrabold shadow-lg hover:shadow-xl text-xs">Buat Dokumen</button>
           </div>
       </div>
   </div>
 
   <!-- MODAL EDIT/TAMBAH RHK (ADMIN ONLY) -->
-  <div id="modalRHK" class="fixed inset-0 bg-[#09090b]/90 backdrop-blur-sm z-[960] hidden flex-col items-center justify-center p-4 transition-opacity">
-    <div class="glossy-monster w-full max-w-sm rounded-2xl p-5 border border-orange-500/50 shadow-2xl relative">
-        <h3 class="text-md font-bold text-orange-400 border-b border-zinc-700 pb-2 mb-3"><i class="fas fa-edit mr-2"></i> Editor Database RHK</h3>
+  <div id="modalRHK" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[960] hidden flex-col items-center justify-center p-4 transition-opacity">
+    <div class="glossy-monster bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl relative border-0">
+        <h3 class="text-base font-black text-slate-800 border-b border-slate-100 pb-3 mb-4"><i class="fas fa-edit mr-2 text-blue-500"></i> Editor Database RHK</h3>
         <input type="hidden" id="editRhkKey">
-        <label class="block text-[10px] text-lime-300 mb-1">Laporan Harian (Pilihan User)</label>
-        <input type="text" id="editRhkNama" class="w-full p-2.5 text-xs rounded-xl glossy-input mb-3">
-        <label class="block text-[10px] text-lime-300 mb-1">Rencana Hasil Kerja (Induk)</label>
-        <input type="text" id="editRhkInduk" class="w-full p-2.5 text-xs rounded-xl glossy-input mb-3">
-        <div class="grid grid-cols-2 gap-2 mb-4">
-            <div><label class="block text-[10px] text-lime-300 mb-1">Target Bln</label><input type="number" id="editRhkBln" class="w-full p-2.5 text-xs rounded-xl glossy-input"></div>
-            <div><label class="block text-[10px] text-lime-300 mb-1">Target Thn</label><input type="number" id="editRhkThn" class="w-full p-2.5 text-xs rounded-xl glossy-input"></div>
+        <label class="block text-[10px] font-bold text-slate-500 mb-1 ml-1">Laporan Harian (Pilihan User)</label>
+        <input type="text" id="editRhkNama" class="w-full p-3 text-xs rounded-xl glossy-input bg-slate-50 border-slate-200 mb-3 shadow-sm">
+        <label class="block text-[10px] font-bold text-slate-500 mb-1 ml-1">Rencana Hasil Kerja (Induk)</label>
+        <input type="text" id="editRhkInduk" class="w-full p-3 text-xs rounded-xl glossy-input bg-slate-50 border-slate-200 mb-3 shadow-sm">
+        <div class="grid grid-cols-2 gap-3 mb-5">
+            <div><label class="block text-[10px] font-bold text-slate-500 mb-1 ml-1">Target Bln</label><input type="number" id="editRhkBln" class="w-full p-3 text-xs rounded-xl glossy-input bg-slate-50 border-slate-200 shadow-sm"></div>
+            <div><label class="block text-[10px] font-bold text-slate-500 mb-1 ml-1">Target Thn</label><input type="number" id="editRhkThn" class="w-full p-3 text-xs rounded-xl glossy-input bg-slate-50 border-slate-200 shadow-sm"></div>
         </div>
-        <div class="flex gap-2">
-            <button type="button" onclick="document.getElementById('modalRHK').classList.add('hidden')" class="w-1/2 p-2.5 rounded-xl bg-zinc-800 text-white font-bold hover:bg-zinc-700">Batal</button>
-            <button type="button" onclick="simpanRHKManual()" class="w-1/2 p-2.5 rounded-xl bg-lime-500 text-black font-bold hover:bg-lime-400">Simpan DB</button>
+        <div class="flex gap-3">
+            <button type="button" onclick="document.getElementById('modalRHK').classList.add('hidden')" class="w-1/2 p-3 rounded-xl bg-slate-100 text-slate-600 font-bold text-xs hover:bg-slate-200">Batal</button>
+            <button type="button" onclick="simpanRHKManual()" class="w-1/2 p-3 rounded-xl bg-blue-600 text-white font-extrabold text-xs shadow-md hover:bg-blue-700">Simpan DB</button>
         </div>
     </div>
   </div>
@@ -450,26 +508,26 @@
     };
     const app = initializeApp(firebaseConfig);
     
+    // Bind global untuk diakses skrip reguler
     window.db = getDatabase(app);
     window.dbSet = set; window.dbGet = get; window.dbRef = ref; window.dbChild = child; window.dbUpdate = update; window.dbPush = push; window.dbRemove = remove;
   </script>
 
-  <!-- LOGIKA APP UTAMA -->
+  <!-- LOGIKA APP (ORIGINAL DIADAPTASI) -->
   <script>
-    // KUNCI API GOOGLE APPS SCRIPT ANDA (WAJIB DIGANTI SAAT DEPLOY GAS)
+    // KUNCI URL API GOOGLE APPS SCRIPT ANDA (GANTI SETELAH DEPLOY CODE.GS BARU)
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbws-HjTuy1LMTyqfcFzl1rXE8ivom7L4OfgVUdzeXuiYSpcsw8HgFjkIkd5DneqtPcY/exec";
 
     let currentUser = null, tempTtdSettings = null; 
     let arrayFotoBase64 = [], arrayLampiranBase64 = [];
-    let rincianTrx = []; // Array Keuangan Admin
+    let rincianTrx = []; 
 
     function encodeEmail(email) { return email.replace(/\./g, ','); }
     
-    // Toast Original
     window.showToast = function(msg, type = 'success') {
         const t = document.createElement('div');
-        const icon = type === 'success' ? '<i class="fas fa-check-circle text-lime-400 text-lg"></i>' : '<i class="fas fa-times-circle text-red-500 text-lg"></i>';
-        t.className = `flex items-center justify-center gap-3 p-3 rounded-xl backdrop-blur-md shadow-2xl border transform transition-all duration-500 translate-y-[-20px] opacity-0 ${type === 'success' ? 'bg-zinc-900 border-lime-500/40' : 'bg-red-950 border-red-500/50'} text-white z-[9999]`;
+        const icon = type === 'success' ? '<i class="fas fa-check-circle text-green-500 text-xl"></i>' : '<i class="fas fa-exclamation-circle text-red-500 text-xl"></i>';
+        t.className = `flex items-center gap-3 p-4 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] border transform transition-all duration-300 translate-y-[-20px] opacity-0 bg-white border-slate-200 text-slate-800 z-[9999] w-[90%] max-w-sm`;
         t.innerHTML = `${icon} <span class="text-sm font-bold">${msg}</span>`;
         document.getElementById('toastContainer').appendChild(t);
         setTimeout(() => t.classList.remove('translate-y-[-20px]', 'opacity-0'), 10);
@@ -489,38 +547,41 @@
         document.getElementById('formLogin').classList.toggle('hidden'); document.getElementById('formRegister').classList.toggle('hidden');
     }
 
-    // 1. AUTHENTICATION & KUNCI SUPER ADMIN KHUSUS
+    // 1. AUTHENTICATION (KUNCI SUPER ADMIN FIX)
     window.eksekusiRegister = async () => {
         const email = document.getElementById('regEmail').value, pass = document.getElementById('regPassword').value, nama = document.getElementById('regNama').value;
-        if(!email || !pass || !nama) return showToast("Lengkapi Form", "error");
+        if(!email || !pass || !nama) return showToast("Lengkapi semua isian form!", "error");
+        
         showLoadingUI(true); const emailKey = encodeEmail(email);
         
-        // KUNCI MUTLAK SUPER ADMIN UNTUK EMAIL INI (Sisanya User biasa)
+        // KUNCI MUTLAK SUPER ADMIN (Sesuai Permintaan Anda)
         const role = (email.toLowerCase() === 'zaensyachrullah90@gmail.com') ? 'super_admin' : 'user';
         
         try {
             const snap = await window.dbGet(window.dbChild(window.dbRef(window.db), `users/${emailKey}`));
-            if (snap.exists()) { showLoadingUI(false); return showToast("Email terdaftar", "error"); }
+            if (snap.exists()) { showLoadingUI(false); return showToast("Email sudah terdaftar", "error"); }
+            
             await window.dbSet(window.dbRef(window.db, 'users/' + emailKey), {
                 email, password: pass, nama: nama, jabatan: "Penata layanan operasional", kabupaten: "Tapin", nip: "", token: 1, role: role, ttd: ""
             });
-            showLoadingUI(false); showToast(`Daftar sukses!`, "success"); toggleAuthForm();
-        } catch(e) { showLoadingUI(false); showToast("Gagal Daftar", "error"); }
+            showLoadingUI(false); showToast(`Pendaftaran sukses!`, "success"); toggleAuthForm();
+        } catch(e) { showLoadingUI(false); showToast("Gagal mendaftar ke server", "error"); }
     }
 
     window.prosesLogin = async () => {
         const email = document.getElementById('logEmail').value, pass = document.getElementById('logPassword').value;
-        if (!email || !pass) return showToast("Isi Form", "error");
+        if (!email || !pass) return showToast("Isi Email & Password", "error");
+        
         showLoadingUI(true);
         try {
             const snap = await window.dbGet(window.dbChild(window.dbRef(window.db), `users/${encodeEmail(email)}`));
             if (snap.exists() && snap.val().password === pass) {
                 let userData = snap.val();
-                if(email.toLowerCase() === 'zaensyachrullah90@gmail.com') userData.role = 'super_admin'; // Force role jika di DB terubah
+                if(email.toLowerCase() === 'zaensyachrullah90@gmail.com') userData.role = 'super_admin'; // Bypass Hardcode
                 currentUser = userData; localStorage.setItem('egenlap_user', JSON.stringify(currentUser));
-                terapkanSesi(); showLoadingUI(false); showToast("Berhasil Masuk", "success");
-            } else { showLoadingUI(false); showToast("Akun / Password Salah", "error"); }
-        } catch(e) { showLoadingUI(false); showToast("Koneksi Error", "error"); }
+                terapkanSesi(); showLoadingUI(false); showToast("Login Berhasil", "success");
+            } else { showLoadingUI(false); showToast("Kredensial tidak valid", "error"); }
+        } catch(e) { showLoadingUI(false); showToast("Gangguan koneksi database", "error"); }
     }
     window.logout = () => { localStorage.removeItem('egenlap_user'); location.reload(); }
 
@@ -552,7 +613,7 @@
     }
 
     window.onload = () => {
-        if(typeof XLSX === 'undefined') console.warn("Pustaka SheetJS (Excel) belum dimuat.");
+        if(typeof XLSX === 'undefined') console.warn("Pustaka SheetJS (Excel) belum dimuat. Pastikan koneksi internet aktif.");
         const stored = localStorage.getItem('egenlap_user');
         if (stored) { setTimeout(() => { currentUser = JSON.parse(stored); terapkanSesi(); }, 500); }
         setInterval(() => {
@@ -567,9 +628,9 @@
         document.querySelectorAll('section').forEach(s => s.classList.add('section-hidden'));
         document.getElementById('sec-' + t)?.classList.remove('section-hidden');
         
-        document.querySelectorAll('.nav-btn').forEach(b => { b.classList.remove('text-lime-400'); b.classList.add('text-zinc-500'); });
+        document.querySelectorAll('.nav-btn').forEach(b => { b.classList.remove('text-blue-600'); b.classList.add('text-slate-400'); });
         if(event && event.currentTarget && event.currentTarget.classList.contains('nav-btn')){
-            event.currentTarget.classList.remove('text-zinc-500'); event.currentTarget.classList.add('text-lime-400');
+            event.currentTarget.classList.remove('text-slate-400'); event.currentTarget.classList.add('text-blue-600');
         }
         
         if(t === 'generate') {
@@ -602,8 +663,8 @@
         try {
             await window.dbUpdate(window.dbRef(window.db, `users/${encodeEmail(currentUser.email)}`), uD);
             currentUser = { ...currentUser, ...uD }; localStorage.setItem('egenlap_user', JSON.stringify(currentUser)); terapkanSesi(); 
-            showLoadingUI(false); showToast("Profil Disimpan. RHK Tersinkron.", "success");
-        } catch(e) { showLoadingUI(false); showToast("Gagal", "error"); }
+            showLoadingUI(false); showToast("Profil Disimpan. Filter RHK Tersinkronisasi.", "success");
+        } catch(e) { showLoadingUI(false); showToast("Gagal menyimpan profil", "error"); }
     }
 
     // 4. DATA RIWAYAT & DASHBOARD
@@ -627,7 +688,7 @@
     }
 
     window.loadRiwayatData = async () => {
-        const tb = document.getElementById('tableRiwayatBody'); tb.innerHTML = '<tr><td colspan="4" class="text-center p-6 italic text-zinc-500">Memuat...</td></tr>';
+        const tb = document.getElementById('tableRiwayatBody'); tb.innerHTML = '<tr><td colspan="4" class="text-center p-8 italic text-slate-400">Memuat data...</td></tr>';
         try {
             const rh = await window.dbGet(window.dbChild(window.dbRef(window.db), 'riwayat'));
             let data = [];
@@ -636,22 +697,22 @@
                 data.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
                 let h = '';
                 data.forEach(d => {
-                    h += `<tr class="border-b border-zinc-800/50 hover:bg-zinc-800/30">
-                        <td class="p-2 text-[9px] font-bold text-white leading-tight">${d.nama}<br><span class="text-zinc-500 font-normal">${d.jabatan || ''}</span></td>
-                        <td class="p-2 text-[8px] text-zinc-300 leading-tight">${d.tanggal}<br><span class="text-lime-300 bg-lime-900/30 px-1 py-0.5 rounded border border-lime-500/30">${d.jam}</span></td>
-                        <td class="p-2 text-[8px] text-zinc-200">${d.kegiatan}</td>
-                        <td class="p-2 text-[9px] font-bold ${d.status==='Sukses' ? 'text-lime-400':'text-red-400'}">${d.status}</td>
+                    h += `<tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                        <td class="p-3"><p class="text-[10px] font-bold text-slate-700 leading-tight">${d.nama}</p><p class="text-[9px] text-slate-500 mt-0.5">${d.jabatan || ''}</p></td>
+                        <td class="p-3"><p class="text-[10px] text-slate-600 leading-tight">${d.tanggal}</p><span class="inline-block mt-1 text-[9px] text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-100 font-bold">${d.jam}</span></td>
+                        <td class="p-3 text-[10px] text-slate-600 font-medium">${d.kegiatan}</td>
+                        <td class="p-3 text-center text-[10px] font-bold ${d.status==='Sukses' ? 'text-green-600':'text-red-500'}"><span class="${d.status==='Sukses' ? 'bg-green-50' : 'bg-red-50'} px-2 py-1 rounded-md">${d.status}</span></td>
                     </tr>`;
                 });
-                tb.innerHTML = h || '<tr><td colspan="4" class="text-center p-6 italic text-zinc-500">Tidak ada riwayat</td></tr>';
-            } else { tb.innerHTML = '<tr><td colspan="4" class="text-center p-6 italic text-zinc-500">Tidak ada riwayat</td></tr>'; }
-        } catch(e){ tb.innerHTML = '<tr><td colspan="4" class="text-center p-6 text-red-500">Gagal mengambil data</td></tr>'; }
+                tb.innerHTML = h || '<tr><td colspan="4" class="text-center p-8 italic text-slate-400">Belum ada riwayat dokumen</td></tr>';
+            } else { tb.innerHTML = '<tr><td colspan="4" class="text-center p-8 italic text-slate-400">Belum ada riwayat dokumen</td></tr>'; }
+        } catch(e){ tb.innerHTML = '<tr><td colspan="4" class="text-center p-8 text-red-500">Gagal mengambil data server</td></tr>'; }
     }
 
-    // 5. SUPER ADMIN: CRUD RHK & EXCEL FORWARD FILL
+    // 5. SUPER ADMIN: CRUD RHK & EXCEL FORWARD FILL (SANGAT CERDAS)
     window.uploadMasterRHK = async (event) => {
         const file = event.target.files[0]; if(!file) return;
-        if(typeof XLSX === 'undefined') return showToast("Library Excel gagal dimuat", "error");
+        if(typeof XLSX === 'undefined') return showToast("Library Excel gagal dimuat. Refresh web.", "error");
         
         showLoadingUI(true); const reader = new FileReader();
         reader.onload = async (e) => {
@@ -660,7 +721,7 @@
                 const sheetName = workbook.SheetNames[0]; const jsonData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {defval: ""});
 
                 let cJ="", cR="", cTT="", cTB=""; let finalData = [];
-                // Algoritma Forward-Fill untuk cell hasil Merge di Excel
+                // Algoritma Forward-Fill untuk membaca cell merge Excel
                 jsonData.forEach(row => {
                     if(row['JABATAN'] && String(row['JABATAN']).trim() !== "") cJ = String(row['JABATAN']).trim();
                     if(row['RENCANA HASIL KERJA'] && String(row['RENCANA HASIL KERJA']).trim() !== "") cR = String(row['RENCANA HASIL KERJA']).trim();
@@ -671,18 +732,18 @@
                     if(har !== "") finalData.push({ jabatan: cJ, rhk: cR, laporan_harian: har, target_tahunan: cTT, target_bulanan: cTB });
                 });
 
-                // Bersihkan Master RHK lama lalu insert per child
+                // Hapus yang lama, simpan yang baru dari Excel
                 await window.dbRemove(window.dbRef(window.db, 'master_rhk'));
                 for(let item of finalData) { await window.dbPush(window.dbRef(window.db, `master_rhk/${item.jabatan}`), item); }
 
-                showLoadingUI(false); showToast("RHK Berhasil Diperbarui dari Excel!", "success"); event.target.value = ""; loadAdminRHK();
-            } catch(err) { showLoadingUI(false); showToast("Gagal memproses File", "error"); }
+                showLoadingUI(false); showToast("Database RHK Berhasil Diperbarui dari Excel!", "success"); event.target.value = ""; loadAdminRHK();
+            } catch(err) { showLoadingUI(false); showToast("Gagal memproses File Excel", "error"); }
         }; reader.readAsArrayBuffer(file);
     };
 
     window.loadAdminRHK = async () => {
         const filterJab = document.getElementById('filterAdminRHK').value;
-        const tb = document.getElementById('adminRHKTable'); tb.innerHTML = '<tr><td colspan="3" class="text-center p-3 text-zinc-500">Memuat...</td></tr>';
+        const tb = document.getElementById('adminRHKTable'); tb.innerHTML = '<tr><td colspan="3" class="text-center p-4 text-slate-400 italic">Memuat data...</td></tr>';
         try {
             const sn = await window.dbGet(window.dbChild(window.dbRef(window.db), `master_rhk/${filterJab}`));
             let h = '';
@@ -692,22 +753,22 @@
                     let rhkClean = d.rhk ? d.rhk.replace(/'/g, "\\'") : "";
                     let harClean = d.laporan_harian ? d.laporan_harian.replace(/'/g, "\\'") : "";
                     
-                    h += `<tr class="border-b border-zinc-800/50">
-                        <td class="p-2"><span class="font-bold text-lime-300 leading-tight">${d.laporan_harian}</span><br><span class="text-[8px] text-zinc-500 leading-tight">${d.rhk}</span></td>
-                        <td class="p-2 text-[8px] text-orange-400 font-bold whitespace-nowrap">Thn: ${d.target_tahunan}<br>Bln: ${d.target_bulanan}</td>
-                        <td class="p-2 text-center whitespace-nowrap">
-                            <button onclick="editRHK('${filterJab}', '${k}', '${harClean}', '${rhkClean}', '${d.target_bulanan}', '${d.target_tahunan}')" class="bg-blue-600 text-white px-2 py-1 rounded text-[8px] mr-1"><i class="fas fa-edit"></i></button>
-                            <button onclick="hapusRHK('${filterJab}', '${k}')" class="bg-red-600 text-white px-2 py-1 rounded text-[8px]"><i class="fas fa-trash"></i></button>
+                    h += `<tr class="border-b border-slate-100 hover:bg-slate-50">
+                        <td class="p-3"><p class="font-bold text-slate-700 leading-tight text-[11px] mb-0.5">${d.laporan_harian}</p><p class="text-[9px] text-slate-500 leading-tight">${d.rhk}</p></td>
+                        <td class="p-3 text-[10px] text-blue-600 font-bold whitespace-nowrap"><span class="bg-blue-50 px-1.5 py-0.5 rounded border border-blue-100">Bln: ${d.target_bulanan}</span><br><span class="bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200 mt-1 inline-block text-slate-600">Thn: ${d.target_tahunan}</span></td>
+                        <td class="p-3 text-center whitespace-nowrap">
+                            <button onclick="editRHK('${filterJab}', '${k}', '${harClean}', '${rhkClean}', '${d.target_bulanan}', '${d.target_tahunan}')" class="bg-blue-100 text-blue-600 px-2.5 py-1.5 rounded-lg text-[10px] mr-1 hover:bg-blue-200 shadow-sm"><i class="fas fa-edit"></i></button>
+                            <button onclick="hapusRHK('${filterJab}', '${k}')" class="bg-red-100 text-red-600 px-2.5 py-1.5 rounded-lg text-[10px] hover:bg-red-200 shadow-sm"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>`;
                 });
-            } else { h = '<tr><td colspan="3" class="text-center p-3 text-zinc-500">Kosong</td></tr>'; }
+            } else { h = '<tr><td colspan="3" class="text-center p-4 text-slate-400 italic">Data RHK Kosong</td></tr>'; }
             tb.innerHTML = h;
-        } catch(e) { tb.innerHTML = '<tr><td colspan="3" class="text-center p-3 text-red-500">Error Load</td></tr>'; }
+        } catch(e) { tb.innerHTML = '<tr><td colspan="3" class="text-center p-4 text-red-500">Error memuat data</td></tr>'; }
     }
 
     window.hapusRHK = async (jab, key) => {
-        if(!confirm("Yakin hapus RHK ini?")) return; showLoadingUI(true);
+        if(!confirm("Yakin ingin menghapus Kegiatan RHK ini?")) return; showLoadingUI(true);
         try { await window.dbRemove(window.dbRef(window.db, `master_rhk/${jab}/${key}`)); showLoadingUI(false); showToast("RHK Dihapus", "success"); loadAdminRHK(); }
         catch(e) { showLoadingUI(false); showToast("Gagal Hapus", "error"); }
     }
@@ -735,40 +796,40 @@
         try {
             if(key === 'NEW') { await window.dbPush(window.dbRef(window.db, `master_rhk/${jab}`), d); } 
             else { await window.dbUpdate(window.dbRef(window.db, `master_rhk/${jab}/${key}`), d); }
-            document.getElementById('modalRHK').classList.add('hidden'); showLoadingUI(false); showToast("RHK Disimpan", "success"); loadAdminRHK();
+            document.getElementById('modalRHK').classList.add('hidden'); showLoadingUI(false); showToast("RHK Berhasil Disimpan", "success"); loadAdminRHK();
         } catch(e) { showLoadingUI(false); showToast("Gagal Simpan", "error"); }
     }
 
-    // 6. SMART FILTER FORM CLOUD (Menampilkan Laporan Harian kepada User)
+    // 6. SMART FILTER RHK CLOUD (Sinkron dengan Excel Admin)
     window.applySmartFilterRHK = async () => {
         const jabatan = currentUser?.jabatan || "Penata layanan operasional";
         document.getElementById('lblJabatanFilter').innerText = jabatan;
-        const sel = document.getElementById('kegiatanSelect'); sel.innerHTML = '<option value="">Memuat dari Database...</option>';
+        const sel = document.getElementById('kegiatanSelect'); sel.innerHTML = '<option value="">Memuat dari Cloud Database...</option>';
         try {
             const snap = await window.dbGet(window.dbChild(window.dbRef(window.db), `master_rhk/${jabatan}`));
             let html = '<option value="">-- Pilih Kegiatan Prioritas --</option>';
             if (snap.exists()) {
-                snap.forEach(c => { let r = c.val(); html += `<option value="${r.laporan_harian}">${r.laporan_harian}</option>`; });
+                snap.forEach(c => { let r = c.val(); html += `<option value="${r.laporan_harian}">${r.laporan_harian} (Target: ${r.target_bulanan}/Bln)</option>`; });
             } else { html += `<option value="P2K2">P2K2</option><option value="VERIFIKASI KOMITMEN">VERIFIKASI KOMITMEN</option><option value="LAINNYA (UMUM)">LAINNYA (UMUM)</option>`; }
             sel.innerHTML = html;
-        } catch(err) { sel.innerHTML = '<option value="">Gagal Memuat Data</option>'; }
+        } catch(err) { sel.innerHTML = '<option value="">Gagal Memuat Data Cloud</option>'; }
     };
 
-    // FORM DINAMIS (RESTORED BLUEPRINT ORIGINAL 100%)
+    // FORM DINAMIS (ORIGINAL BLUEPRINT DIKEMBALIKAN UTUH 100%)
     window.renderDynamicForm = () => {
        const sel = document.getElementById('kegiatanSelect').value.toUpperCase(); const area = document.getElementById('dynamicFormArea'); area.innerHTML = ''; if(!sel) return;
        let html = '';
-       if (sel.includes("GRADUASI")) { html += `<div class="bg-lime-900/10 border border-lime-500/30 p-3 rounded-xl mb-3"><h3 class="text-[10px] font-bold text-lime-400 mb-2 uppercase tracking-wider"><i class="fas fa-user-graduate mr-1"></i>Data Graduasi</h3><div id="containerGraduasi"></div><button type="button" onclick="tambahGraduasi()" class="text-[10px] font-bold text-lime-400 mt-2"><i class="fas fa-plus"></i> Tambah KPM</button></div>`; }
-       else if (sel.includes("P2K2")) { html += `<div class="bg-lime-900/10 border border-lime-500/30 p-3 rounded-xl mb-3"><h3 class="text-[10px] font-bold text-lime-400 mb-2 uppercase tracking-wider"><i class="fas fa-users mr-1"></i>Data P2K2</h3><div id="containerP2K2"></div><button type="button" onclick="tambahP2K2()" class="text-[10px] font-bold text-lime-400 mt-2"><i class="fas fa-plus"></i> Tambah Kelp</button></div>`; }
-       else if (sel.includes("VERIFIKASI") || sel.includes("VERKOM")) { html += `<div class="mb-2"><label class="block text-[10px] font-bold text-lime-300 mb-1">Nama Faskes/Sekolah</label><input type="text" id="verkomLokasi" class="w-full p-2.5 text-xs rounded-xl glossy-input"></div>`; }
-       else if (sel.includes("SUPERVISI")) { html += `<div class="mb-2"><label class="block text-[10px] font-bold text-lime-300 mb-1">Nama Yang Disupervisi</label><input type="text" id="supervisiNama" class="w-full p-2.5 text-xs rounded-xl glossy-input"></div>`; }
-       html += `<div><label class="block text-[10px] font-bold text-lime-300 mb-1">Rincian Hasil (Dianalisa AI)</label><textarea id="hasilKegiatan" class="w-full p-2.5 text-xs rounded-xl glossy-input" rows="3"></textarea></div>`;
+       if (sel.includes("GRADUASI")) { html += `<div class="bg-blue-50 border border-blue-200 p-4 rounded-xl mb-4"><h3 class="text-xs font-bold text-blue-700 mb-3 uppercase tracking-wider"><i class="fas fa-user-graduate mr-1"></i> Data Graduasi KPM</h3><div id="containerGraduasi"></div><button type="button" onclick="tambahGraduasi()" class="text-[10px] font-bold text-blue-600 mt-2 bg-white px-3 py-1.5 rounded border border-blue-200 shadow-sm"><i class="fas fa-plus"></i> Tambah KPM</button></div>`; }
+       else if (sel.includes("P2K2")) { html += `<div class="bg-blue-50 border border-blue-200 p-4 rounded-xl mb-4"><h3 class="text-xs font-bold text-blue-700 mb-3 uppercase tracking-wider"><i class="fas fa-users mr-1"></i> Data P2K2</h3><div id="containerP2K2"></div><button type="button" onclick="tambahP2K2()" class="text-[10px] font-bold text-blue-600 mt-2 bg-white px-3 py-1.5 rounded border border-blue-200 shadow-sm"><i class="fas fa-plus"></i> Tambah Kelompok</button></div>`; }
+       else if (sel.includes("VERIFIKASI") || sel.includes("VERKOM")) { html += `<div class="mb-4 bg-white p-3 rounded-xl border border-slate-200 shadow-sm"><label class="block text-xs font-bold text-slate-700 mb-1 ml-1">Nama Faskes / Sekolah</label><input type="text" id="verkomLokasi" class="w-full p-3 text-sm rounded-xl glossy-input"></div>`; }
+       else if (sel.includes("SUPERVISI")) { html += `<div class="mb-4 bg-white p-3 rounded-xl border border-slate-200 shadow-sm"><label class="block text-xs font-bold text-slate-700 mb-1 ml-1">Nama Yang Disupervisi</label><input type="text" id="supervisiNama" class="w-full p-3 text-sm rounded-xl glossy-input"></div>`; }
+       html += `<div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm"><label class="block text-xs font-bold text-slate-700 mb-2 ml-1">Rincian Hasil Lapangan (Dianalisa AI)</label><textarea id="hasilKegiatan" class="w-full p-3 text-sm rounded-xl glossy-input" rows="4" placeholder="Ketik rincian pelaksanaan dan hasil secara singkat..."></textarea></div>`;
        area.innerHTML = html;
        if(sel.includes("GRADUASI")) tambahGraduasi(); if(sel.includes("P2K2")) tambahP2K2();
     }
-    window.tambahSurat = () => { document.getElementById('containerDataSurat').insertAdjacentHTML('beforeend', `<div class="surat-item grid grid-cols-2 gap-2 mb-2 relative pt-2 border-t border-zinc-700/50 mt-2"><button type="button" onclick="this.parentElement.remove()" class="absolute top-0 right-0 text-red-500 text-[10px] font-bold"><i class="fas fa-times"></i></button><div><input type="text" class="input-dasar-surat w-full p-2 text-xs rounded-lg glossy-input" placeholder="Dasar Surat Tambahan"></div><div><input type="text" class="input-perihal-surat w-full p-2 text-xs rounded-lg glossy-input" placeholder="Perihal Tambahan"></div></div>`); };
-    window.tambahGraduasi = () => { document.getElementById('containerGraduasi').insertAdjacentHTML('beforeend', `<div class="graduasi-item border-b border-zinc-700/50 pb-2 mb-2 relative"><button type="button" onclick="this.parentElement.remove()" class="absolute top-1 right-0 text-red-500 text-[10px]"><i class="fas fa-times"></i> Hapus</button><div class="grid grid-cols-2 gap-2 mb-2"><div><label class="block text-[9px] text-lime-200">No/NIK</label><input type="text" class="gradNIK w-full p-2 text-xs rounded-lg glossy-input"></div><div><label class="block text-[9px] text-lime-200">Nama</label><input type="text" class="gradNama w-full p-2 text-xs rounded-lg glossy-input"></div></div><div class="grid grid-cols-2 gap-2"><div><label class="block text-[9px] text-lime-200">Desa/Kec</label><input type="text" class="gradDesa w-full p-2 text-xs rounded-lg glossy-input"></div><div><label class="block text-[9px] text-lime-200">Ket</label><input type="text" class="gradKet w-full p-2 text-xs rounded-lg glossy-input"></div></div></div>`); };
-    window.tambahP2K2 = () => { document.getElementById('containerP2K2').insertAdjacentHTML('beforeend', `<div class="p2k2-item border-b border-zinc-700/50 pb-2 mb-2 relative"><button type="button" onclick="this.parentElement.remove()" class="absolute top-1 right-0 text-red-500 text-[10px]"><i class="fas fa-times"></i></button><div class="mb-2"><label class="block text-[9px] text-lime-200">Kelompok</label><input type="text" class="p2k2Kelompok w-full p-2 text-xs rounded-lg glossy-input"></div><div class="grid grid-cols-2 gap-2"><div><label class="block text-[9px] text-lime-200">Hadir</label><input type="number" class="p2k2Hadir w-full p-2 text-xs rounded-lg glossy-input"></div><div><label class="block text-[9px] text-lime-200">Absen</label><input type="number" class="p2k2Absen w-full p-2 text-xs rounded-lg glossy-input"></div></div></div>`); };
+    window.tambahSurat = () => { document.getElementById('containerDataSurat').insertAdjacentHTML('beforeend', `<div class="surat-item grid grid-cols-2 gap-2 mb-2 relative pt-3 border-t border-slate-200 mt-2"><button type="button" onclick="this.parentElement.remove()" class="absolute top-1 right-0 text-red-500 text-[10px] font-bold"><i class="fas fa-times bg-red-50 p-1 rounded-full"></i></button><div><input type="text" class="input-dasar-surat w-full p-2.5 text-xs rounded-lg glossy-input border-slate-300 bg-white" placeholder="Dasar Surat Tambahan"></div><div><input type="text" class="input-perihal-surat w-full p-2.5 text-xs rounded-lg glossy-input border-slate-300 bg-white" placeholder="Perihal Tambahan"></div></div>`); };
+    window.tambahGraduasi = () => { document.getElementById('containerGraduasi').insertAdjacentHTML('beforeend', `<div class="graduasi-item border-b border-blue-200 pb-3 mb-3 relative bg-white p-3 rounded-lg"><button type="button" onclick="this.parentElement.remove()" class="absolute top-2 right-2 text-red-500 text-[10px] font-bold bg-red-50 px-2 py-1 rounded"><i class="fas fa-times"></i> Hapus</button><div class="grid grid-cols-2 gap-2 mb-2 pt-2"><div><label class="block text-[9px] text-slate-500 font-bold mb-1 ml-1">No / NIK</label><input type="text" class="gradNIK w-full p-2 text-xs rounded-lg glossy-input border-blue-100"></div><div><label class="block text-[9px] text-slate-500 font-bold mb-1 ml-1">Nama KPM</label><input type="text" class="gradNama w-full p-2 text-xs rounded-lg glossy-input border-blue-100"></div></div><div class="grid grid-cols-2 gap-2"><div><label class="block text-[9px] text-slate-500 font-bold mb-1 ml-1">Desa / Kec</label><input type="text" class="gradDesa w-full p-2 text-xs rounded-lg glossy-input border-blue-100"></div><div><label class="block text-[9px] text-slate-500 font-bold mb-1 ml-1">Keterangan</label><input type="text" class="gradKet w-full p-2 text-xs rounded-lg glossy-input border-blue-100"></div></div></div>`); };
+    window.tambahP2K2 = () => { document.getElementById('containerP2K2').insertAdjacentHTML('beforeend', `<div class="p2k2-item border-b border-blue-200 pb-3 mb-3 relative bg-white p-3 rounded-lg"><button type="button" onclick="this.parentElement.remove()" class="absolute top-2 right-2 text-red-500 text-[10px] font-bold bg-red-50 px-2 py-1 rounded"><i class="fas fa-times"></i></button><div class="mb-2 pt-2"><label class="block text-[9px] text-slate-500 font-bold mb-1 ml-1">Nama Kelompok</label><input type="text" class="p2k2Kelompok w-full p-2 text-xs rounded-lg glossy-input border-blue-100"></div><div class="grid grid-cols-2 gap-2"><div><label class="block text-[9px] text-slate-500 font-bold mb-1 ml-1">Jml Hadir</label><input type="number" class="p2k2Hadir w-full p-2 text-xs rounded-lg glossy-input border-blue-100"></div><div><label class="block text-[9px] text-slate-500 font-bold mb-1 ml-1">Jml Absen</label><input type="number" class="p2k2Absen w-full p-2 text-xs rounded-lg glossy-input border-blue-100"></div></div></div>`); };
 
     window.prosesFoto = (e) => procImgs(e, arrayFotoBase64, 10, 'previewContainer', 'photoStatus');
     window.prosesLampiran = (e) => procImgs(e, arrayLampiranBase64, 3, 'previewLampiranContainer', 'lampiranStatus');
@@ -776,7 +837,7 @@
         let f = e.target.files; if (!f.length) return; let idx = 0;
         function nxt() {
             if (idx >= f.length) { e.target.value = ""; return; }
-            if (arrRef.length >= max) { showToast(`Maksimal ${max} file`, 'error'); e.target.value = ""; return; }
+            if (arrRef.length >= max) { showToast(`Batas maksimal ${max} file`, 'error'); e.target.value = ""; return; }
             let r = new FileReader(); r.onload = (ev) => {
                 let img = new Image(); img.onload = () => {
                     let c = document.createElement('canvas'), ctx = c.getContext('2d'); let m = 800, w = img.width, h = img.height;
@@ -789,48 +850,48 @@
     function rndrImg(arr, cId, sId, max) {
         const c = document.getElementById(cId); c.innerHTML = '';
         arr.forEach((b64, i) => {
-            let d = document.createElement('div'); d.className = "relative w-10 h-10 shrink-0";
-            d.innerHTML = `<img src="${b64}" class="w-full h-full object-cover rounded-lg border border-zinc-500/50"><div class="absolute -top-1 -right-1 bg-red-600 w-3 h-3 rounded-full flex items-center justify-center cursor-pointer" onclick="hapusGambar(${i}, '${cId}', '${sId}', ${max})"><i class="fas fa-times text-[6px] text-white"></i></div>`;
+            let d = document.createElement('div'); d.className = "relative w-12 h-12 shrink-0";
+            d.innerHTML = `<img src="${b64}" class="w-full h-full object-cover rounded-xl border border-slate-200 shadow-sm"><div class="absolute -top-1.5 -right-1.5 bg-red-500 w-5 h-5 rounded-full flex items-center justify-center cursor-pointer shadow-md border border-white hover:bg-red-600 transition-colors" onclick="hapusGambar(${i}, '${cId}', '${sId}', ${max})"><i class="fas fa-times text-[10px] text-white"></i></div>`;
             c.appendChild(d);
-        }); document.getElementById(sId).innerText = `${arr.length}/${max}`;
+        }); document.getElementById(sId).innerText = `${arr.length} / ${max} File`;
     }
     window.hapusGambar = (i, cId, sId, max) => {
         if(cId === 'previewContainer') { arrayFotoBase64.splice(i, 1); rndrImg(arrayFotoBase64, cId, sId, max); }
         else { arrayLampiranBase64.splice(i, 1); rndrImg(arrayLampiranBase64, cId, sId, max); }
     }
 
-    // 7. ADMIN USER & KEUANGAN LOGIC
+    // 7. ADMIN USER & KEUANGAN LOGIC (FIREBASE)
     window.konfirmasiWA = async (paket, jml, harga) => {
-        const c = document.getElementById('cekSyaratToken'); if(!c || !c.checked) return showToast("Setujui Syarat Dahulu!", "error");
+        const c = document.getElementById('cekSyaratToken'); if(!c || !c.checked) return showToast("Setujui Persetujuan Mutlak di atas!", "error");
         try {
             await window.dbPush(window.dbRef(window.db, 'transaksi'), { timestamp: new Date().toISOString(), email: currentUser.email, nama: currentUser.nama, token: jml, nominal: harga, status: 'Pending' });
-            const msg = encodeURIComponent(`Halo Admin, saya ingin topup *Paket ${paket} (${jml} Token)* seharga *Rp ${harga.toLocaleString('id-ID')}*.\n\nEmail: ${currentUser.email}\nBukti TF terlampir. Tks.`);
+            const msg = encodeURIComponent(`Halo Admin, saya ingin Top-up *Paket ${paket} (${jml} Token)* seharga *Rp ${harga.toLocaleString('id-ID')}*.\n\nEmail: ${currentUser.email}\nBukti transfer saya lampirkan. Terima kasih.`);
             window.open(`https://wa.me/6285349450549?text=${msg}`, '_blank');
-        } catch(e) { showToast("Gagal Request", "error"); }
+        } catch(e) { showToast("Gagal menghubungi server", "error"); }
     }
 
     window.loadAdminUsers = async () => {
-        const tb = document.getElementById('adminUserTable'); tb.innerHTML = '<tr><td colspan="3" class="text-center p-4"><i class="fas fa-spin fa-circle-notch text-lime-500"></i></td></tr>';
+        const tb = document.getElementById('adminUserTable'); tb.innerHTML = '<tr><td colspan="3" class="text-center p-6"><i class="fas fa-spin fa-circle-notch text-blue-500 text-xl"></i></td></tr>';
         try {
             const sn = await window.dbGet(window.dbChild(window.dbRef(window.db), `users`));
             let h = ''; sn.forEach(c => {
                 let u = c.val(); let key = c.key;
-                h += `<tr class="border-b border-zinc-800/50">
-                    <td class="p-2 whitespace-nowrap"><span class="font-bold text-white">${u.nama}</span><br><span class="text-[8px] text-zinc-500">${u.email}</span></td>
-                    <td class="p-2 font-bold text-lime-400">${u.token}</td>
-                    <td class="p-2 text-right whitespace-nowrap"><button onclick="accToken('${key}', ${u.token})" class="bg-green-600 text-white px-2 py-1.5 rounded text-[8px] shadow-md hover:bg-green-500"><i class="fas fa-plus"></i> Isi 10 Tk</button></td>
+                h += `<tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                    <td class="p-3"><p class="font-bold text-slate-800 text-[11px]">${u.nama}</p><p class="text-[9px] text-slate-500">${u.email}</p></td>
+                    <td class="p-3 font-black text-blue-600">${u.token}</td>
+                    <td class="p-3 text-right"><button onclick="accToken('${key}', ${u.token})" class="bg-green-100 text-green-700 px-3 py-1.5 rounded-lg text-[10px] font-bold shadow-sm hover:bg-green-200 transition-colors"><i class="fas fa-plus"></i> 10 Tk</button></td>
                 </tr>`;
             }); tb.innerHTML = h;
-        } catch(e) { tb.innerHTML = '<tr><td colspan="3" class="text-center p-4">Gagal</td></tr>'; }
+        } catch(e) { tb.innerHTML = '<tr><td colspan="3" class="text-center p-6 text-red-500 font-bold">Gagal mengambil data</td></tr>'; }
     }
     
     window.accToken = async (key, cT) => {
         showLoadingUI(true);
-        try { await window.dbUpdate(window.dbRef(window.db, `users/${key}`), { token: cT + 10 }); showLoadingUI(false); showToast("Token Diisi", "success"); loadAdminUsers(); } catch(e) { showLoadingUI(false); }
+        try { await window.dbUpdate(window.dbRef(window.db, `users/${key}`), { token: cT + 10 }); showLoadingUI(false); showToast("Token Berhasil Ditambahkan", "success"); loadAdminUsers(); } catch(e) { showLoadingUI(false); showToast("Gagal menambah token", "error"); }
     }
 
     window.loadAdminKeuangan = async () => {
-        const tb = document.getElementById('tableKeuanganBody'); tb.innerHTML = '<tr><td colspan="3" class="text-center p-4"><i class="fas fa-spin fa-circle-notch text-lime-500"></i></td></tr>';
+        const tb = document.getElementById('tableKeuanganBody'); tb.innerHTML = '<tr><td colspan="3" class="text-center p-6"><i class="fas fa-spin fa-circle-notch text-yellow-500 text-xl"></i></td></tr>';
         try {
             const sn = await window.dbGet(window.dbChild(window.dbRef(window.db), `transaksi`));
             let h = ''; let tP = 0; let tT = 0; rincianTrx = [];
@@ -838,16 +899,22 @@
                 sn.forEach(c => {
                     let d = c.val(); rincianTrx.push(d);
                     if(d.status === 'Pending') {
-                       h += `<tr class="border-b border-zinc-800/50"><td class="p-2 text-[8px] text-zinc-400">${new Date(d.timestamp).toLocaleString('id-ID')}</td><td class="p-2 text-[9px] text-white">${d.nama}<br><span class="text-lime-400 font-bold">+${d.token} Tk</span></td><td class="p-2 text-right"><button onclick="accTrx('${c.key}', '${encodeEmail(d.email)}', ${d.token})" class="bg-blue-600 text-white px-2 py-1 rounded text-[8px]">Acc Rp${(d.nominal/1000)}k</button></td></tr>`;
+                       h += `<tr class="border-b border-slate-100 hover:bg-slate-50">
+                        <td class="p-3 text-[9px] text-slate-500 font-medium">${new Date(d.timestamp).toLocaleString('id-ID')}</td>
+                        <td class="p-3"><p class="text-[11px] font-bold text-slate-800">${d.nama}</p><span class="inline-block mt-1 text-[9px] font-bold text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded">+${d.token} Token</span></td>
+                        <td class="p-3 text-right"><button onclick="accTrx('${c.key}', '${encodeEmail(d.email)}', ${d.token})" class="bg-blue-600 text-white px-3 py-1.5 rounded-lg text-[10px] font-bold shadow-md hover:bg-blue-700">Setujui Rp${(d.nominal/1000)}k</button></td></tr>`;
                     } else {
-                       h += `<tr class="border-b border-zinc-800/50"><td class="p-2 text-[8px] text-zinc-400">${new Date(d.timestamp).toLocaleString('id-ID')}</td><td class="p-2 text-[9px] text-white">${d.nama}<br><span class="text-lime-400 font-bold">+${d.token} Tk</span></td><td class="p-2 text-right text-green-400 font-bold">Sukses</td></tr>`;
+                       h += `<tr class="border-b border-slate-100 hover:bg-slate-50">
+                        <td class="p-3 text-[9px] text-slate-500 font-medium">${new Date(d.timestamp).toLocaleString('id-ID')}</td>
+                        <td class="p-3"><p class="text-[11px] font-bold text-slate-800">${d.nama}</p><span class="inline-block mt-1 text-[9px] font-bold text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded">+${d.token} Token</span></td>
+                        <td class="p-3 text-right text-green-600 font-black"><i class="fas fa-check-circle"></i> Sukses</td></tr>`;
                        tP += d.nominal; tT += d.token;
                     }
                 });
             }
-            tb.innerHTML = h || '<tr><td colspan="3" class="text-center p-4">Tidak ada data</td></tr>';
+            tb.innerHTML = h || '<tr><td colspan="3" class="text-center p-6 italic text-slate-500">Tidak ada data transaksi</td></tr>';
             document.getElementById('totalPendapatan').innerText = 'Rp ' + tP.toLocaleString('id-ID'); document.getElementById('totalTokenTerjual').innerText = tT;
-        } catch(e) { tb.innerHTML = '<tr><td colspan="3" class="text-center p-4">Gagal</td></tr>'; }
+        } catch(e) { tb.innerHTML = '<tr><td colspan="3" class="text-center p-6 text-red-500 font-bold">Gagal mengambil data</td></tr>'; }
     }
 
     window.accTrx = async (tKey, uKey, tokenBeli) => {
@@ -857,32 +924,32 @@
             let cT = sn.exists() ? sn.val().token : 0;
             await window.dbUpdate(window.dbRef(window.db, `users/${uKey}`), { token: cT + tokenBeli });
             await window.dbUpdate(window.dbRef(window.db, `transaksi/${tKey}`), { status: 'Sukses' });
-            showLoadingUI(false); showToast("Disetujui", "success"); loadAdminKeuangan();
-        } catch(e) { showLoadingUI(false); }
+            showLoadingUI(false); showToast("Transaksi Berhasil Disetujui", "success"); loadAdminKeuangan();
+        } catch(e) { showLoadingUI(false); showToast("Gagal menyetujui transaksi", "error"); }
     }
 
     window.exportKeuanganKePDF = async () => {
-        if(rincianTrx.length === 0) return showToast("Tidak ada data", "error");
+        if(rincianTrx.length === 0) return showToast("Data kosong, tidak dapat diekspor", "error");
         showLoadingUI(true);
-        const payload = { action: 'exportKeuangan', json: JSON.stringify(rincianTrx), filterText: "Semua Waktu" };
+        const payload = { action: 'exportKeuangan', json: JSON.stringify(rincianTrx), filterText: "Semua Transaksi Masuk" };
         try {
             const res = await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify(payload) });
             const data = await res.json();
-            if(data.url) { window.open(data.url, '_blank'); showLoadingUI(false); showToast("Sukses Export", "success"); } 
-            else { showLoadingUI(false); showToast("Gagal Export", "error"); }
-        } catch(e) { showLoadingUI(false); showToast("Gagal Connect Backend", "error"); }
+            if(data.url) { window.open(data.url, '_blank'); showLoadingUI(false); showToast("PDF Berhasil Dibuat", "success"); } 
+            else { showLoadingUI(false); showToast("Gagal membuat PDF", "error"); }
+        } catch(e) { showLoadingUI(false); showToast("Gagal terhubung ke server", "error"); }
     }
 
     // 8. EKSEKUSI API GOOGLE APPS SCRIPT (PEMBUATAN DOKUMEN & POTONG TOKEN)
     window.tampilkanReview = (e) => {
         e.preventDefault();
-        if(currentUser.token <= 0) return showToast("Token Habis! Hubungi Admin.", "error");
-        if(!currentUser.ttd) return showToast("Tanda Tangan Belum Diset di Menu Profil!", "error");
+        if(currentUser.token <= 0) return showToast("Token Laporan Anda Habis! Silakan Top-Up di menu Token.", "error");
+        if(!currentUser.ttd) return showToast("Tanda Tangan digital belum di-upload di Menu Profil!", "error");
         
-        let info = `<div class="p-2.5 bg-lime-900/20 rounded-xl mb-2"><p class="font-bold text-lime-300 text-[10px] uppercase">Data Auto-Fill Terkunci:</p><ul class="list-disc pl-4 mt-1 text-[9px]"><li>Pelapor: ${currentUser.nama}</li><li>Jabatan: ${currentUser.jabatan}</li><li>Kab: ${currentUser.kabupaten}</li></ul></div>`;
-        info += `<p class="mb-1"><b>RHK:</b> ${document.getElementById('kegiatanSelect').value}</p>`;
-        info += `<p><b>Waktu:</b> ${document.getElementById('tanggalLaporan').value} / Jam ${document.getElementById('jamMulai').value}</p>`;
-        info += `<p class="mt-2 text-[9px] text-orange-400 italic font-bold text-justify">Penting: AI akan membuat Laporan Formal berdasar Permensos. Eksekusi ini Mutlak akan memotong 1 Token Anda.</p>`;
+        let info = `<div class="p-3 bg-blue-50 border border-blue-200 rounded-xl mb-3"><p class="font-bold text-blue-700 text-[10px] uppercase tracking-wider mb-2"><i class="fas fa-lock mr-1"></i> Data Otomatis Terkunci:</p><ul class="list-disc pl-5 text-[11px] font-medium text-slate-700 space-y-1"><li>Nama Pelapor: ${currentUser.nama}</li><li>Jabatan: ${currentUser.jabatan}</li><li>Kabupaten Tugas: ${currentUser.kabupaten}</li></ul></div>`;
+        info += `<p class="mb-1 text-[11px] text-slate-700 font-medium"><b>Laporan Harian (RHK):</b><br>${document.getElementById('kegiatanSelect').value}</p>`;
+        info += `<p class="mb-3 text-[11px] text-slate-700 font-medium"><b>Waktu Pelaksanaan:</b><br>${document.getElementById('tanggalLaporan').value} / Pukul ${document.getElementById('jamMulai').value}</p>`;
+        info += `<div class="p-3 bg-red-50 border border-red-200 rounded-xl"><p class="text-[10px] text-red-700 italic font-bold text-justify leading-relaxed"><i class="fas fa-exclamation-triangle mr-1"></i> Penting: AI akan men-generate laporan formal berdasarkan data lapangan Anda dan merujuk pada Permensos. Eksekusi ini mutlak memotong 1 Token dari akun Anda.</p></div>`;
         
         document.getElementById('reviewContent').innerHTML = info; document.getElementById('modalReview').classList.remove('hidden');
     }
@@ -902,7 +969,7 @@
         if(document.getElementById('formatPDF').checked) selF.push('PDF');
         if(document.getElementById('formatDOCX').checked) selF.push('DOCX');
 
-        // PAYLOAD INI SESUAI DENGAN FORMAT LAMA AGAR CODE.GS ASLI BEKERJA SEMPURNA
+        // PAYLOAD INI SESUAI DENGAN FORMAT LAMA AGAR CODE.GS ASLI BEKERJA SEMPURNA TANPA PERLU DIUBAH (BLUEPRINT LOCK)
         const payload = {
             action: 'generate', payload: {
                 currentUserEmail: currentUser.email, currentUserRole: currentUser.role,
@@ -918,6 +985,7 @@
             const data = await res.json();
             
             if(data.status === 'success' && data.files) {
+                // Konversi Base64 ke File Lokal
                 data.files.forEach(f => {
                     const bytes = new Uint8Array(atob(f.base64).split('').map(c => c.charCodeAt(0)));
                     const url = window.URL.createObjectURL(new Blob([bytes], {type: f.mimeType}));
@@ -934,13 +1002,14 @@
                 
                 document.getElementById('reportForm').reset(); arrayFotoBase64 = []; arrayLampiranBase64 = [];
                 document.getElementById('previewContainer').innerHTML = ''; document.getElementById('previewLampiranContainer').innerHTML = '';
-                document.getElementById('photoStatus').innerText = '0/10'; document.getElementById('lampiranStatus').innerText = '0/3';
-                terapkanSesi(); showLoadingUI(false); showToast("Dokumen Sukses Diunduh!", "success");
+                document.getElementById('photoStatus').innerText = '0 / 10 Foto'; document.getElementById('lampiranStatus').innerText = '0 / 3 File';
+                
+                terapkanSesi(); showLoadingUI(false); showToast("Laporan Selesai & Berhasil Diunduh!", "success");
             } else {
-                await window.dbPush(window.dbRef(window.db, 'riwayat'), { email: currentUser.email, nama: currentUser.nama, tanggal: payload.payload.tanggalLaporan, jam: payload.payload.jamMulai, kegiatan: payload.payload.kegiatan, status: 'Gagal', timestamp: new Date().toISOString() });
-                showLoadingUI(false); showToast(data.message || "Gagal membuat laporan", "error"); 
+                await window.dbPush(window.dbRef(window.db, 'riwayat'), { email: currentUser.email, nama: currentUser.nama, jabatan: currentUser.jabatan, tanggal: payload.payload.tanggalLaporan, jam: payload.payload.jamMulai, kegiatan: payload.payload.kegiatan, status: 'Gagal', timestamp: new Date().toISOString() });
+                showLoadingUI(false); showToast(data.message || "Gagal menyusun laporan AI", "error"); 
             }
-        } catch(e) { showLoadingUI(false); showToast("Koneksi ke Web App API Terputus", "error"); }
+        } catch(e) { showLoadingUI(false); showToast("Koneksi ke Web App (API) Terputus", "error"); }
     }
   </script>
 </body>

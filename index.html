@@ -5,44 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#ffffff">
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="display" content="standalone">
-  <title>E-GenLap | SDM PKH Enterprise</title>
+  <title>E-GenLap | SDM PKH Pro</title>
   
-  <link rel="apple-touch-icon" href="https://drive.google.com/uc?export=download&id=1uPpCYwoX2w2ZrA0-mvmi69cBafF88J1e">
-
-  <!-- Tailwind & Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- Library Excel Parsing -->
+  <!-- LIBRARY SHEETJS UNTUK SUPER ADMIN UPLOAD EXCEL RHK -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
   <style>
-    /* TEMA BIRU, UNGU, PUTIH - DOMINAN PUTIH GLOSSY */
-    body { background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 50%, #faf5ff 100%); background-attachment: fixed; color: #334155; }
+    /* TEMA PUTIH GLOSSY, BIRU, UNGU */
+    body { background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 50%, #f3e8ff 100%); background-attachment: fixed; color: #334155; }
     
     .glossy-monster { 
-        background: rgba(255, 255, 255, 0.85); 
+        background: rgba(255, 255, 255, 0.9); 
         box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08); 
-        backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); 
+        backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); 
         border: 1px solid rgba(255, 255, 255, 1); 
         border-radius: 1.5rem;
     }
     
     .glossy-input { 
-        background: rgba(255, 255, 255, 0.7); 
-        border: 1px solid rgba(199, 210, 254, 0.6);
-        color: #1e293b; backdrop-filter: blur(5px); transition: all 0.3s ease; 
+        background: rgba(255, 255, 255, 0.8); 
+        border: 1px solid rgba(199, 210, 254, 0.8);
+        color: #1e293b; transition: all 0.3s ease; 
     }
     
     .glossy-input:focus { 
         background: #ffffff; border-color: #8b5cf6; outline: none; 
         box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.15); 
     }
-    
-    .glossy-input option { background: #ffffff; color: #1e293b; }
     
     .section-hidden { display: none !important; }
     
@@ -64,78 +57,76 @@
 </head>
 <body class="font-sans antialiased selection:bg-purple-500 selection:text-white">
 
-  <!-- FULLSCREEN LOADING -->
-  <div id="fullscreenLoading" class="fixed inset-0 bg-white/90 backdrop-blur-xl z-[900] hidden flex-col items-center justify-center transition-opacity duration-500 opacity-0 h-screen w-screen">
-      <div class="relative w-32 h-32 flex items-center justify-center mb-8 mx-auto">
+  <!-- FULLSCREEN LOADING (DI TENGAH PRESISI) -->
+  <div id="fullscreenLoading" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-white/90 backdrop-blur-md hidden transition-opacity duration-300">
+      <div class="relative w-28 h-28 flex items-center justify-center mb-6">
           <div class="absolute inset-0 border-4 border-blue-200 rounded-full animate-ping"></div>
-          <div class="absolute inset-2 border-4 border-purple-300 rounded-full animate-spin shadow-lg" style="animation-direction: reverse; animation-duration: 3s;"></div>
-          <div class="absolute inset-4 border-4 border-blue-500 rounded-full border-t-transparent animate-spin shadow-xl" style="animation-duration: 1.5s;"></div>
-          <div class="relative z-10 bg-white w-16 h-16 rounded-full flex items-center justify-center border border-purple-200 shadow-xl">
-              <i class="fas fa-bolt text-3xl text-purple-600 animate-pulse"></i>
+          <div class="absolute inset-2 border-4 border-purple-300 rounded-full animate-spin shadow-lg" style="animation-direction: reverse; animation-duration: 2s;"></div>
+          <div class="absolute inset-4 border-4 border-blue-500 rounded-full border-t-transparent animate-spin shadow-xl"></div>
+          <div class="relative z-10 bg-white w-14 h-14 rounded-full flex items-center justify-center shadow-xl">
+              <i class="fas fa-bolt text-2xl text-purple-600 animate-pulse"></i>
           </div>
       </div>
-      <h2 class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 tracking-[0.2em] mb-3 animate-pulse text-center">MEMPROSES DATA</h2>
+      <h2 class="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 tracking-[0.2em] animate-pulse">MEMPROSES...</h2>
   </div>
 
-  <div id="toastContainer" class="fixed top-5 left-1/2 transform -translate-x-1/2 w-11/12 max-w-sm z-[999] flex flex-col gap-2"></div>
+  <div id="toastContainer" class="fixed top-5 left-1/2 transform -translate-x-1/2 w-11/12 max-w-sm z-[9999] flex flex-col gap-2"></div>
 
-  <!-- CONTAINER UTAMA: Responsif All Device -->
-  <div class="w-full max-w-md md:max-w-4xl lg:max-w-5xl mx-auto relative min-h-screen flex flex-col pb-24 shadow-2xl bg-white/40">
+  <!-- CONTAINER UTAMA: SUPPORT ALL DEVICE (Responsif Terpusat seperti Aplikasi) -->
+  <div class="w-full max-w-md md:max-w-xl mx-auto relative min-h-screen flex flex-col pb-24 shadow-2xl bg-white/60">
     
-    <header class="glossy-monster p-4 rounded-b-3xl flex-shrink-0 z-10 sticky top-0 !rounded-t-none border-t-0">
+    <header class="glossy-monster p-4 flex-shrink-0 z-10 sticky top-0 !rounded-none border-t-0 border-x-0">
         <div class="flex justify-between items-center px-2">
-            <h1 class="text-2xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600"><i class="fas fa-bolt mr-1 text-purple-500"></i> E-GenLap</h1>
-            <div class="flex items-center gap-4">
-                <div class="text-right text-sm">
-                  <div id="realtimeClock" class="font-mono font-bold text-blue-600">00:00:00</div>
-                  <div id="realtimeDate" class="text-[10px] text-slate-500 uppercase tracking-wide font-bold">Tanggal</div>
+            <h1 class="text-xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600"><i class="fas fa-bolt mr-1 text-purple-500"></i> E-GenLap</h1>
+            <div class="flex items-center gap-3">
+                <div class="text-right">
+                  <div id="realtimeClock" class="font-mono font-bold text-blue-600 text-sm">00:00</div>
+                  <div id="realtimeDate" class="text-[9px] text-slate-500 uppercase font-bold">Tanggal</div>
                 </div>
                 
                 <!-- MENU ADMIN KHUSUS -->
                 <div id="adminHeaderMenu" class="hidden flex items-center gap-2 border-l border-slate-200 pl-3">
-                    <button onclick="nav('keuangan')" class="bg-blue-50 text-blue-600 w-9 h-9 rounded-full border border-blue-200 flex items-center justify-center hover:bg-blue-100 transition-all shadow-sm" title="Menu Keuangan"><i class="fas fa-wallet text-sm"></i></button>
-                    <button onclick="nav('admin')" class="bg-purple-50 text-purple-600 w-9 h-9 rounded-full border border-purple-200 flex items-center justify-center hover:bg-purple-100 transition-all shadow-sm" title="Menu Super Admin"><i class="fas fa-user-shield text-sm"></i></button>
+                    <button onclick="nav('keuangan')" class="bg-blue-50 text-blue-600 w-8 h-8 rounded-full border border-blue-200 flex items-center justify-center shadow-sm"><i class="fas fa-wallet text-xs"></i></button>
+                    <button onclick="nav('admin')" class="bg-purple-50 text-purple-600 w-8 h-8 rounded-full border border-purple-200 flex items-center justify-center shadow-sm"><i class="fas fa-user-shield text-xs"></i></button>
                 </div>
-                <button onclick="logout()" id="btnLogoutHeader" class="hidden bg-red-50 text-red-500 w-9 h-9 rounded-full border border-red-200 flex items-center justify-center hover:bg-red-100 transition-all shadow-sm"><i class="fas fa-power-off text-sm"></i></button>
+                <button onclick="logout()" id="btnLogoutHeader" class="hidden bg-red-50 text-red-500 w-8 h-8 rounded-full border border-red-200 flex items-center justify-center shadow-sm"><i class="fas fa-power-off text-xs"></i></button>
             </div>
         </div>
     </header>
 
-    <main class="p-4 md:p-8 flex-grow" id="mainContent">
+    <main class="p-4 flex-grow" id="mainContent">
       
       <!-- 1. AUTHENTICATION -->
-      <section id="sec-auth" class="glossy-monster p-6 md:p-10 rounded-3xl mb-6 mt-4 md:mt-10 max-w-md mx-auto">
-        <div class="text-center mb-8">
-             <div class="w-20 h-20 bg-gradient-to-tr from-blue-100 to-purple-100 rounded-full flex items-center justify-center mx-auto mb-4 shadow-inner border border-white">
-                 <i class="fas fa-user-lock text-4xl text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500"></i>
+      <section id="sec-auth" class="glossy-monster p-6 rounded-3xl mb-6 mt-6">
+        <div class="text-center mb-6">
+             <div class="w-16 h-16 bg-gradient-to-tr from-blue-100 to-purple-100 rounded-full flex items-center justify-center mx-auto mb-3 shadow-inner">
+                 <i class="fas fa-user-lock text-3xl text-purple-500"></i>
              </div>
-            <h2 class="text-2xl font-black text-slate-800">Selamat Datang</h2>
-            <p class="text-xs text-slate-500 mt-1 font-medium">Sistem Pelaporan SDM PKH Terintegrasi.</p>
+            <h2 class="text-xl font-black text-slate-800">Sistem Login</h2>
+            <p class="text-xs text-slate-500 mt-1 font-medium">E-GenLap Cloud Database</p>
         </div>
 
         <div id="formLogin" class="space-y-4">
             <div>
-                <label class="block text-xs font-bold text-slate-500 mb-1 ml-1">Alamat Email</label>
-                <input type="email" id="logEmail" class="w-full p-3.5 text-sm rounded-xl glossy-input shadow-sm" placeholder="Masukkan email terdaftar" required>
+                <input type="email" id="logEmail" class="w-full p-3.5 text-sm rounded-xl glossy-input shadow-sm" placeholder="Alamat Email" required>
             </div>
             <div class="relative">
-                <label class="block text-xs font-bold text-slate-500 mb-1 ml-1">Kata Sandi / PIN</label>
-                <input type="password" id="logPassword" class="w-full p-3.5 text-sm rounded-xl glossy-input shadow-sm pr-10" placeholder="Masukkan password">
+                <input type="password" id="logPassword" class="w-full p-3.5 text-sm rounded-xl glossy-input shadow-sm pr-10" placeholder="Kata Sandi / PIN">
                 <button type="button" onclick="togglePass('logPassword', 'eyeLog')" class="absolute bottom-3.5 right-4 flex items-center text-slate-400 hover:text-purple-500"><i id="eyeLog" class="fas fa-eye"></i></button>
             </div>
-            <button onclick="prosesLogin()" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-extrabold py-3.5 rounded-xl hover:shadow-[0_8px_25px_rgba(139,92,246,0.3)] transition-all text-sm mt-2"><i class="fas fa-sign-in-alt mr-2"></i> Masuk Sekarang</button>
-            <p class="text-center text-xs text-slate-500 mt-4 font-medium">Belum punya akun? <span onclick="toggleAuthForm()" class="text-purple-600 cursor-pointer font-bold hover:underline">Daftar Disini</span></p>
+            <button onclick="prosesLogin()" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-extrabold py-3.5 rounded-xl hover:shadow-[0_8px_25px_rgba(139,92,246,0.3)] transition-all text-sm mt-2"><i class="fas fa-sign-in-alt mr-2"></i> Masuk</button>
+            <p class="text-center text-xs text-slate-500 mt-2 font-medium">Belum punya akun? <span onclick="toggleAuthForm()" class="text-purple-600 cursor-pointer font-bold hover:underline">Daftar Disini</span></p>
         </div>
         
         <div id="formRegister" class="hidden space-y-4">
-            <input type="text" id="regNama" class="w-full p-3.5 text-sm rounded-xl glossy-input shadow-sm" placeholder="Nama Lengkap" required>
+            <input type="text" id="regNama" class="w-full p-3.5 text-sm rounded-xl glossy-input shadow-sm" placeholder="Nama Lengkap & Gelar" required>
             <input type="email" id="regEmail" class="w-full p-3.5 text-sm rounded-xl glossy-input shadow-sm" placeholder="Email Valid" required>
             <div class="relative">
                 <input type="password" id="regPassword" class="w-full p-3.5 text-sm rounded-xl glossy-input shadow-sm pr-10" placeholder="Buat Password" required>
                 <button type="button" onclick="togglePass('regPassword', 'eyeReg')" class="absolute bottom-3.5 right-4 flex items-center text-slate-400"><i id="eyeReg" class="fas fa-eye"></i></button>
             </div>
-            <button onclick="eksekusiRegister()" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-extrabold py-3.5 rounded-xl hover:shadow-lg transition-all text-sm mt-2"><i class="fas fa-user-plus mr-2"></i> Daftar Akun</button>
-            <p class="text-center text-xs text-slate-500 mt-4 font-medium">Sudah punya akun? <span onclick="toggleAuthForm()" class="text-blue-600 cursor-pointer font-bold hover:underline">Kembali Login</span></p>
+            <button onclick="eksekusiRegister()" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-extrabold py-3.5 rounded-xl transition-all text-sm mt-2 shadow-lg"><i class="fas fa-user-plus mr-2"></i> Daftar Akun</button>
+            <p class="text-center text-xs text-slate-500 mt-2 font-medium">Sudah punya akun? <span onclick="toggleAuthForm()" class="text-blue-600 cursor-pointer font-bold hover:underline">Kembali Login</span></p>
         </div>
       </section>
 
@@ -144,57 +135,39 @@
         <div class="flex justify-between items-center mb-6">
             <div>
                 <h2 class="text-xl font-black text-slate-800" id="userGreeting">Halo, User</h2>
-                <span class="inline-block mt-1 px-2.5 py-1 bg-purple-100 text-purple-700 text-[10px] font-bold rounded-md" id="userRoleBadge">Role: User</span>
+                <span class="inline-block mt-1 px-2.5 py-1 bg-purple-100 text-purple-700 text-[10px] font-bold rounded-md" id="userRoleBadge">Role</span>
             </div>
             <div class="bg-blue-50 border border-blue-200 px-4 py-2 rounded-2xl text-center shadow-sm">
                 <p class="text-[9px] text-blue-600 font-bold uppercase tracking-widest">SISA TOKEN</p>
                 <p class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-br from-blue-600 to-purple-600" id="sisaTokenDash">0</p>
             </div>
         </div>
-        
         <div class="grid grid-cols-2 gap-4 mt-2">
-          <div class="bg-gradient-to-br from-white to-green-50 p-5 rounded-2xl text-center border border-green-200 shadow-sm relative overflow-hidden">
-            <i class="fas fa-check-circle absolute -right-3 -bottom-3 text-5xl text-green-100"></i>
-            <h3 class="text-4xl font-black text-green-600 relative z-10" id="countSukses">0</h3>
-            <p class="text-xs font-bold text-green-800 mt-1 uppercase tracking-wider relative z-10">Sukses</p>
+          <div class="bg-gradient-to-br from-white to-green-50 p-4 rounded-2xl text-center border border-green-200 shadow-sm relative overflow-hidden">
+            <h3 class="text-3xl font-black text-green-600 relative z-10" id="countSukses">0</h3>
+            <p class="text-[10px] font-bold text-green-800 mt-1 uppercase tracking-wider relative z-10">Sukses</p>
           </div>
-          <div class="bg-gradient-to-br from-white to-red-50 p-5 rounded-2xl text-center border border-red-200 shadow-sm relative overflow-hidden">
-            <i class="fas fa-times-circle absolute -right-3 -bottom-3 text-5xl text-red-100"></i>
-            <h3 class="text-4xl font-black text-red-500 relative z-10" id="countGagal">0</h3>
-            <p class="text-xs font-bold text-red-800 mt-1 uppercase tracking-wider relative z-10">Gagal</p>
+          <div class="bg-gradient-to-br from-white to-red-50 p-4 rounded-2xl text-center border border-red-200 shadow-sm relative overflow-hidden">
+            <h3 class="text-3xl font-black text-red-500 relative z-10" id="countGagal">0</h3>
+            <p class="text-[10px] font-bold text-red-800 mt-1 uppercase tracking-wider relative z-10">Gagal</p>
           </div>
-        </div>
-
-        <div class="mt-6 bg-white/60 p-5 rounded-2xl border border-slate-200 shadow-sm">
-           <h3 class="text-sm font-bold text-slate-700 mb-3 flex items-center gap-2"><i class="fas fa-chart-bar text-blue-500"></i> Ringkasan Kegiatan Anda</h3>
-           <div class="rounded-xl border border-slate-200 overflow-hidden">
-               <table class="w-full text-left text-[11px] text-slate-600 bg-white">
-                 <thead class="bg-slate-50 text-slate-800 font-bold border-b border-slate-200">
-                    <tr><th class="p-3">Nama Kegiatan Harian</th><th class="p-3 text-center">Jumlah Dokumen</th></tr>
-                 </thead>
-                 <tbody id="ringkasanKegiatanTable" class="divide-y divide-slate-100">
-                    <tr><td colspan="2" class="text-center italic text-slate-400 p-4">Memuat data...</td></tr>
-                 </tbody>
-               </table>
-           </div>
         </div>
       </section>
 
-      <!-- 3. PENGATURAN (PROFIL AUTO-FILL) -->
+      <!-- 3. PENGATURAN (DUAL JABATAN: PKH & ASN) -->
       <section id="sec-pengaturan" class="glossy-monster p-6 rounded-3xl mb-6 section-hidden border-t-4 border-t-purple-500">
-        <h2 class="text-xl font-black text-slate-800 border-b border-slate-200 pb-3 mb-4 flex items-center gap-2"><i class="fas fa-user-cog text-purple-500"></i> Profil & Auto-Fill</h2>
-        <p class="text-[11px] text-slate-500 mb-6 font-medium leading-relaxed bg-blue-50 p-3 rounded-lg border border-blue-100">
-            <i class="fas fa-info-circle text-blue-500 mr-1"></i> Data di bawah ini akan terkunci otomatis pada Laporan Anda. Pilihan <b>Jabatan</b> menentukan Filter RHK Laporan secara cerdas.
-        </p>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
-            <div><label class="block text-xs font-bold text-slate-700 mb-1.5 ml-1">Nama Lengkap & Gelar</label><input type="text" id="setNama" class="w-full p-3 text-sm rounded-xl glossy-input shadow-sm"></div>
-            <div><label class="block text-xs font-bold text-slate-700 mb-1.5 ml-1">NIP / NI PPPK (Opsional)</label><input type="text" id="setNIP" class="w-full p-3 text-sm rounded-xl glossy-input shadow-sm"></div>
+        <h2 class="text-lg font-black text-slate-800 border-b border-slate-200 pb-3 mb-4"><i class="fas fa-user-cog text-purple-500 mr-2"></i> Profil & Auto-Fill</h2>
+        <div class="bg-blue-50 p-3 rounded-xl border border-blue-100 mb-5">
+            <p class="text-[10px] text-blue-700 font-bold text-justify leading-relaxed"><i class="fas fa-info-circle mr-1"></i> "Jabatan PKH" berfungsi untuk membaca data Master Excel (Filter Kegiatan). Sedangkan "Jabatan ASN" akan digunakan sebagai teks cetak pada Laporan PDF.</p>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
-            <div>
-                <label class="block text-xs font-bold text-purple-700 mb-1.5 ml-1">Jabatan Fungsional (Smart Filter)</label>
-                <select id="setJabatan" class="w-full p-3 text-sm rounded-xl glossy-input shadow-sm font-bold text-slate-800 border-purple-300">
+        
+        <div class="space-y-4 mb-5">
+            <div><label class="block text-[11px] font-bold text-slate-700 mb-1 ml-1">Nama Lengkap & Gelar</label><input type="text" id="setNama" class="w-full p-3.5 text-sm rounded-xl glossy-input shadow-sm"></div>
+            <div><label class="block text-[11px] font-bold text-slate-700 mb-1 ml-1">NIP / NI PPPK (Opsional)</label><input type="text" id="setNIP" class="w-full p-3.5 text-sm rounded-xl glossy-input shadow-sm"></div>
+            
+            <div class="bg-purple-50/50 p-3 rounded-xl border border-purple-100">
+                <label class="block text-[11px] font-black text-purple-700 mb-1 ml-1">Jabatan PKH (Untuk Filter Master RHK Excel)</label>
+                <select id="setJabatanPKH" class="w-full p-3.5 text-sm rounded-xl glossy-input shadow-sm font-bold text-slate-800 border-purple-300">
                     <option value="KATIM PROV">KATIM PROV</option>
                     <option value="KORKAB">KORKAB</option>
                     <option value="PENDAMPING SOSIAL">PENDAMPING SOSIAL</option>
@@ -202,94 +175,100 @@
                     <option value="Pengelola layanan operasional">Pengelola layanan operasional</option>
                 </select>
             </div>
-            <div><label class="block text-xs font-bold text-slate-700 mb-1.5 ml-1">Kabupaten/Kota Tempat Tugas</label><input type="text" id="setKab" class="w-full p-3 text-sm rounded-xl glossy-input shadow-sm"></div>
+            
+            <div><label class="block text-[11px] font-bold text-slate-700 mb-1 ml-1">Jabatan ASN (Muncuk di Cetak Laporan PDF)</label><input type="text" id="setJabatanASN" class="w-full p-3.5 text-sm rounded-xl glossy-input shadow-sm" placeholder="Contoh: Penata Layanan Operasional"></div>
+            
+            <div><label class="block text-[11px] font-bold text-slate-700 mb-1 ml-1">Kabupaten/Kota</label><input type="text" id="setKab" class="w-full p-3.5 text-sm rounded-xl glossy-input shadow-sm"></div>
         </div>
 
-        <div class="mb-6 p-4 border border-dashed border-purple-300 rounded-2xl bg-purple-50/50">
-            <label class="block text-xs font-bold text-slate-700 mb-2"><i class="fas fa-signature text-purple-500 mr-1"></i> Upload Tanda Tangan (Wajib PNG Transparan)</label>
-            <input type="file" accept="image/png" class="w-full text-sm glossy-input text-slate-500 file:mr-4 file:py-2.5 file:px-5 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-purple-100 file:text-purple-700 hover:file:bg-purple-200 cursor-pointer p-1 bg-white" onchange="prosesTtdSettings(event)">
-            <div id="previewTtdSettings" class="hidden mt-4 relative w-[140px] h-[70px] bg-white rounded-xl p-2 border border-slate-200 shadow-sm">
+        <div class="mb-6 p-4 border border-dashed border-slate-300 rounded-2xl bg-white">
+            <label class="block text-[11px] font-bold text-slate-700 mb-2"><i class="fas fa-signature text-purple-500 mr-1"></i> Upload Tanda Tangan (Wajib PNG Transparan)</label>
+            <input type="file" accept="image/png" class="w-full text-[10px] glossy-input text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:font-bold file:bg-purple-100 file:text-purple-700 cursor-pointer" onchange="prosesTtdSettings(event)">
+            <div id="previewTtdSettings" class="hidden mt-4 relative w-[140px] h-[70px] bg-slate-50 rounded-xl p-2 border border-slate-200">
                <img id="imgTtdSettingsPreview" src="" class="w-full h-full object-contain">
-               <div onclick="hapusTtdSettings()" class="absolute -top-2 -right-2 bg-red-500 text-white w-6 h-6 flex items-center justify-center rounded-full cursor-pointer shadow-md hover:bg-red-600 transition-all"><i class="fas fa-times text-xs"></i></div>
+               <div onclick="hapusTtdSettings()" class="absolute -top-2 -right-2 bg-red-500 text-white w-6 h-6 flex items-center justify-center rounded-full cursor-pointer shadow-md"><i class="fas fa-times text-xs"></i></div>
             </div>
         </div>
         
-        <button onclick="simpanPengaturan()" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-extrabold py-3.5 rounded-xl hover:shadow-lg transition-all text-sm"><i class="fas fa-save mr-2"></i> Simpan Profil Anda</button>
+        <button onclick="simpanPengaturan()" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-black py-3.5 rounded-xl shadow-lg hover:shadow-xl transition-all text-sm"><i class="fas fa-save mr-2"></i> Simpan Pengaturan Profil</button>
       </section>
 
       <!-- 4. GENERATE LAPORAN AI -->
       <section id="sec-generate" class="glossy-monster p-5 md:p-8 rounded-3xl mb-6 section-hidden border-t-4 border-t-blue-500">
         <div class="flex justify-between items-center border-b border-slate-200 pb-3 mb-5">
-             <h2 class="text-xl font-black text-slate-800"><i class="fas fa-magic mr-2 text-blue-500"></i> Form Laporan AI</h2>
-             <span class="text-[10px] bg-blue-100 text-blue-700 px-3 py-1.5 rounded-lg font-bold shadow-sm">Token Aktif: <b id="formTokenCount">0</b></span>
+             <h2 class="text-xl font-black text-slate-800"><i class="fas fa-magic mr-2 text-blue-500"></i> Form Laporan</h2>
+             <span class="text-[10px] bg-blue-100 text-blue-700 px-3 py-1.5 rounded-lg font-bold shadow-sm">Token: <b id="formTokenCount">0</b></span>
         </div>
 
         <div class="bg-gradient-to-r from-slate-50 to-blue-50 p-4 rounded-2xl border border-slate-200 flex justify-between items-center mb-6 shadow-sm">
             <div>
-                <p class="text-[9px] text-blue-600 uppercase tracking-widest font-extrabold mb-1"><i class="fas fa-lock mr-1"></i> Data Profil Terkunci</p>
+                <p class="text-[9px] text-blue-600 uppercase tracking-widest font-black mb-1"><i class="fas fa-lock mr-1"></i> Data Terkunci (Dari Profil)</p>
                 <p class="text-sm font-black text-slate-800" id="infoPelaporNama">-</p>
                 <p class="text-[10px] text-slate-500 font-medium" id="infoPelaporJabatan">-</p>
             </div>
-            <button type="button" onclick="nav('pengaturan')" class="text-[10px] bg-white text-blue-600 px-4 py-2 rounded-xl shadow-sm border border-slate-200 font-bold hover:bg-blue-50"><i class="fas fa-edit mr-1"></i> Ubah</button>
+            <button type="button" onclick="nav('pengaturan')" class="text-[10px] bg-white text-blue-600 px-3 py-2 rounded-xl shadow-sm border border-slate-200 font-bold"><i class="fas fa-edit"></i> Edit</button>
         </div>
       
         <form id="reportForm" onsubmit="tampilkanReview(event)">
            
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+          <div class="space-y-4 mb-5">
                <div class="bg-white/60 p-4 rounded-2xl border border-slate-200 shadow-sm">
-                <p class="text-xs text-slate-700 font-bold mb-3 flex items-center gap-2"><i class="fas fa-envelope-open-text text-purple-500"></i> Referensi Surat Tugas</p>
+                <p class="text-[10px] text-slate-700 font-bold mb-3 flex items-center gap-2"><i class="fas fa-envelope-open-text text-purple-500"></i> Referensi Surat Tugas</p>
                  <div id="containerDataSurat">
                      <div class="surat-item grid grid-cols-2 gap-2 mb-2 relative">
-                       <div><input type="text" class="input-dasar-surat w-full p-2.5 text-xs rounded-lg glossy-input border-slate-300 bg-white" placeholder="Dasar / No Surat"></div>
-                       <div><input type="text" class="input-perihal-surat w-full p-2.5 text-xs rounded-lg glossy-input border-slate-300 bg-white" placeholder="Perihal Kegiatan"></div>
+                       <div><input type="text" class="input-dasar-surat w-full p-2.5 text-xs rounded-lg glossy-input bg-white" placeholder="Dasar/No Surat"></div>
+                       <div><input type="text" class="input-perihal-surat w-full p-2.5 text-xs rounded-lg glossy-input bg-white" placeholder="Perihal"></div>
                      </div>
                 </div>
                 <button type="button" onclick="tambahSurat()" class="text-[10px] text-purple-600 font-bold mt-2 bg-purple-50 px-3 py-1.5 rounded-lg"><i class="fas fa-plus mr-1"></i> Tambah Surat</button>
               </div>
 
               <div class="bg-white/60 p-4 rounded-2xl border border-slate-200 shadow-sm">
-                  <p class="text-xs text-slate-700 font-bold mb-3 flex items-center gap-2"><i class="fas fa-calendar-alt text-blue-500"></i> Waktu & Lokasi</p>
+                  <p class="text-[10px] text-slate-700 font-bold mb-3 flex items-center gap-2"><i class="fas fa-calendar-alt text-blue-500"></i> Waktu & Lokasi</p>
                   <div class="grid grid-cols-2 gap-3 mb-3">
-                     <div><label class="block text-[10px] font-bold text-slate-500 mb-1 ml-1">Tgl Laporan</label><input type="date" id="tanggalLaporan" class="w-full p-2.5 text-xs rounded-lg glossy-input border-slate-300 bg-white" required></div>
-                     <div><label class="block text-[10px] font-bold text-slate-500 mb-1 ml-1">Tgl Pelaksanaan</label><input type="date" id="waktu" class="w-full p-2.5 text-xs rounded-lg glossy-input border-slate-300 bg-white"></div>
+                     <div><label class="block text-[10px] font-bold text-slate-500 mb-1 ml-1">Tgl Laporan</label><input type="date" id="tanggalLaporan" class="w-full p-2.5 text-xs rounded-lg glossy-input bg-white" required></div>
+                     <div><label class="block text-[10px] font-bold text-slate-500 mb-1 ml-1">Tgl Pelaksanaan</label><input type="date" id="waktu" class="w-full p-2.5 text-xs rounded-lg glossy-input bg-white"></div>
                   </div>
                   <div class="grid grid-cols-2 gap-3">
-                      <div><label class="block text-[10px] font-bold text-slate-500 mb-1 ml-1">Jam Mulai</label><input type="time" id="jamMulai" class="w-full p-2.5 text-xs rounded-lg glossy-input border-slate-300 bg-white" required></div>
-                      <div><label class="block text-[10px] font-bold text-slate-500 mb-1 ml-1">Lokasi</label><input type="text" id="lokasi" class="w-full p-2.5 text-xs rounded-lg glossy-input border-slate-300 bg-white" required placeholder="Desa / Kec..."></div>
+                      <div><label class="block text-[10px] font-bold text-slate-500 mb-1 ml-1">Jam Mulai</label><input type="time" id="jamMulai" class="w-full p-2.5 text-xs rounded-lg glossy-input bg-white" required></div>
+                      <div><label class="block text-[10px] font-bold text-slate-500 mb-1 ml-1">Lokasi</label><input type="text" id="lokasi" class="w-full p-2.5 text-xs rounded-lg glossy-input bg-white" required placeholder="Desa / Kec..."></div>
                   </div>
               </div>
           </div>
 
-          <div class="mb-6 bg-blue-50 p-5 rounded-2xl border border-blue-200 shadow-sm">
-             <label class="block text-sm font-black text-blue-800 mb-1">Kegiatan Harian (Smart Filter)</label>
-             <p class="text-[10px] text-slate-500 mb-3 font-medium">Tersinkronisasi database pusat untuk Jabatan: <span id="lblJabatanFilter" class="text-purple-600 font-bold bg-white px-2 py-0.5 rounded border border-purple-100"></span></p>
-             <select id="kegiatanSelect" class="w-full p-3.5 text-sm rounded-xl glossy-input font-bold text-slate-700 border-blue-300 bg-white shadow-sm" onchange="renderDynamicForm()" required>
+          <!-- SMART FILTER KONEKSI DATABASE RHK -->
+          <div class="mb-5 bg-blue-50 p-4 rounded-2xl border border-blue-200 shadow-sm">
+             <label class="block text-sm font-black text-blue-800 mb-1">Kegiatan Harian (Smart Filter Cloud)</label>
+             <p class="text-[9px] text-slate-500 mb-3 font-medium">Tersinkronisasi otomatis dari Excel Admin untuk Jabatan: <span id="lblJabatanFilter" class="text-purple-600 font-bold bg-white px-1.5 py-0.5 rounded border border-purple-100"></span></p>
+             <select id="kegiatanSelect" class="w-full p-3 text-sm rounded-xl glossy-input font-bold text-slate-700 bg-white" onchange="renderDynamicForm()" required>
                 <option value="">Memuat data dari cloud...</option>
              </select>
           </div>
 
+          <!-- FORM DINAMIS BLUEPRINT -->
           <div id="dynamicFormArea" class="space-y-4 mb-5 transition-all duration-300"></div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
-              <div class="bg-white/60 border border-slate-200 p-4 rounded-2xl min-h-[90px] shadow-sm">
+          <!-- FOTO & LAMPIRAN -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
+              <div class="bg-white/60 border border-slate-200 p-4 rounded-2xl shadow-sm">
                   <div class="flex justify-between items-center mb-3">
-                      <label class="block text-xs font-bold text-slate-700"><i class="fas fa-camera text-blue-500 mr-1"></i> Dokumentasi Foto</label>
-                      <span id="photoStatus" class="text-[9px] bg-slate-100 text-slate-600 px-2 py-1 rounded-md font-bold">0 / 10 Max</span>
+                      <label class="block text-xs font-bold text-slate-700"><i class="fas fa-camera text-blue-500 mr-1"></i> Foto (Max 10)</label>
+                      <span id="photoStatus" class="text-[9px] bg-slate-100 text-slate-600 px-2 py-1 rounded-md font-bold">0/10</span>
                   </div>
                   <div class="flex flex-wrap gap-2 items-center">
-                       <div onclick="document.getElementById('inputGaleri').click()" class="w-12 h-12 bg-blue-50 border border-dashed border-blue-300 flex flex-col items-center justify-center rounded-xl cursor-pointer text-blue-500 hover:bg-blue-100 transition-colors shrink-0"><i class="fas fa-plus"></i></div>
+                       <div onclick="document.getElementById('inputGaleri').click()" class="w-12 h-12 bg-blue-50 border border-dashed border-blue-300 flex items-center justify-center rounded-xl cursor-pointer text-blue-500 shrink-0"><i class="fas fa-plus"></i></div>
                        <div id="previewContainer" class="flex flex-wrap gap-2"></div>
                   </div>
                   <input type="file" id="inputGaleri" accept="image/*" multiple class="hidden" onchange="prosesFoto(event)">
               </div>
 
-              <div class="bg-white/60 border border-slate-200 p-4 rounded-2xl min-h-[90px] shadow-sm">
+              <div class="bg-white/60 border border-slate-200 p-4 rounded-2xl shadow-sm">
                  <div class="flex justify-between items-center mb-3">
-                     <label class="block text-xs font-bold text-slate-700"><i class="fas fa-paperclip text-purple-500 mr-1"></i> Lampiran Dokumen</label>
-                     <span id="lampiranStatus" class="text-[9px] bg-slate-100 text-slate-600 px-2 py-1 rounded-md font-bold">0 / 3 Max</span>
+                     <label class="block text-xs font-bold text-slate-700"><i class="fas fa-paperclip text-purple-500 mr-1"></i> Lampiran (Max 3)</label>
+                     <span id="lampiranStatus" class="text-[9px] bg-slate-100 text-slate-600 px-2 py-1 rounded-md font-bold">0/3</span>
                  </div>
                  <div class="flex flex-wrap gap-2 items-center">
-                       <div onclick="document.getElementById('lampiranFile').click()" class="w-12 h-12 bg-purple-50 border border-dashed border-purple-300 flex flex-col items-center justify-center rounded-xl cursor-pointer text-purple-500 hover:bg-purple-100 transition-colors shrink-0"><i class="fas fa-plus"></i></div>
+                       <div onclick="document.getElementById('lampiranFile').click()" class="w-12 h-12 bg-purple-50 border border-dashed border-purple-300 flex items-center justify-center rounded-xl cursor-pointer text-purple-500 shrink-0"><i class="fas fa-plus"></i></div>
                        <div id="previewLampiranContainer" class="flex flex-wrap gap-2"></div>
                 </div>
                 <input type="file" id="lampiranFile" accept="image/*" multiple class="hidden" onchange="prosesLampiran(event)">
@@ -302,25 +281,25 @@
               <label class="flex items-center gap-2 text-sm text-slate-600 cursor-pointer font-bold"><input type="checkbox" id="formatDOCX" value="DOCX" class="accent-blue-500 w-4 h-4"> DOCX</label>
           </div>
 
-        <button type="submit" id="btnSubmit" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-black py-4 px-4 rounded-xl shadow-[0_10px_20px_rgba(139,92,246,0.3)] hover:shadow-[0_10px_30px_rgba(139,92,246,0.5)] transform hover:-translate-y-1 transition-all text-sm tracking-wide">
-              <i class="fas fa-magic mr-2"></i> Mulai Proses AI (Potong 1 Token)
+        <button type="submit" id="btnSubmit" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-black py-4 px-4 rounded-xl shadow-[0_10px_20px_rgba(139,92,246,0.3)] hover:-translate-y-1 transform transition-all text-sm tracking-wide flex justify-center items-center gap-2">
+            <i class="fas fa-magic"></i> Proses Dokumen AI (1 Token)
         </button>
         </form>
       </section>
 
       <!-- 5. RIWAYAT -->
-      <section id="sec-report" class="glossy-monster p-5 md:p-8 rounded-3xl mb-6 section-hidden">
-        <div class="flex justify-between items-center mb-6 border-b border-slate-200 pb-3">
-            <h2 class="text-xl font-black text-slate-800"><i class="fas fa-history mr-2 text-blue-500"></i> Riwayat Dokumen</h2>
-            <button onclick="loadRiwayatData()" class="text-xs bg-slate-100 text-slate-600 hover:bg-blue-100 hover:text-blue-600 font-bold px-4 py-2 rounded-lg transition-colors"><i class="fas fa-sync-alt mr-1"></i> Segarkan</button>
+      <section id="sec-report" class="glossy-monster p-5 md:p-8 rounded-3xl mb-6 section-hidden border-t-4 border-t-slate-500">
+        <div class="flex justify-between items-center mb-5 border-b border-slate-200 pb-3">
+            <h2 class="text-xl font-black text-slate-800"><i class="fas fa-history mr-2 text-blue-500"></i> Riwayat Anda</h2>
+            <button onclick="loadRiwayatData()" class="text-[10px] bg-slate-100 text-slate-600 font-bold px-3 py-2 rounded-lg hover:bg-slate-200"><i class="fas fa-sync-alt mr-1"></i> Segarkan</button>
         </div>
-        <div class="overflow-x-auto custom-scrollbar rounded-xl border border-slate-200 w-full shadow-sm bg-white">
+        <div class="overflow-x-auto custom-scrollbar rounded-xl border border-slate-200 bg-white shadow-sm w-full">
            <table class="min-w-full text-left text-[11px] text-slate-600">
-            <thead class="bg-slate-50 text-slate-800 font-bold border-b border-slate-200">
-              <tr><th class="p-4">Identitas</th><th class="p-4">Waktu</th><th class="p-4">Kegiatan</th><th class="p-4 text-center">Status</th></tr>
+            <thead class="bg-slate-50 font-bold border-b border-slate-200 text-slate-800">
+              <tr><th class="p-4">Identitas</th><th class="p-4">Waktu</th><th class="p-4">Kegiatan</th><th class="p-4">Status</th></tr>
             </thead>
             <tbody id="tableRiwayatBody" class="divide-y divide-slate-100">
-                 <tr><td colspan="4" class="text-center p-8 italic text-slate-400">Memuat data riwayat...</td></tr>
+                 <tr><td colspan="4" class="text-center p-8 italic text-slate-400">Memuat...</td></tr>
              </tbody>
            </table>
         </div>
@@ -329,20 +308,18 @@
       <!-- 6. TOKEN -->
       <section id="sec-token" class="glossy-monster p-5 md:p-8 rounded-3xl mb-6 section-hidden border-t-4 border-t-yellow-400">
         <h2 class="text-xl font-black text-slate-800 border-b border-slate-200 pb-3"><i class="fas fa-gem mr-2 text-yellow-500"></i> Top-Up Token AI</h2>
-        
-        <div class="mb-4 bg-white border border-slate-200 p-5 rounded-2xl flex justify-between items-center mt-6 shadow-sm hover:border-blue-300 transition-colors">
-            <div><h3 class="font-black text-slate-800 text-base">Paket Basic</h3><p class="text-[11px] text-slate-500 font-medium">6 Token Laporan / Dokumen</p></div>
-            <div class="text-right"><p class="text-lg font-black text-blue-600 mb-1">Rp 10.000</p><button onclick="konfirmasiWA('Basic', 6, 10000)" class="bg-green-100 text-green-700 font-bold py-1.5 px-4 rounded-lg text-xs hover:bg-green-200"><i class="fab fa-whatsapp mr-1"></i> Beli</button></div>
+        <div class="mb-4 bg-white border border-slate-200 p-5 rounded-2xl flex justify-between items-center mt-6 shadow-sm">
+            <div><h3 class="font-black text-slate-800 text-base">Paket Basic</h3><p class="text-[11px] text-slate-500 font-medium">6 Token Laporan</p></div>
+            <div class="text-right"><p class="text-lg font-black text-blue-600 mb-1">Rp 10.000</p><button onclick="konfirmasiWA('Basic', 6, 10000)" class="bg-green-100 text-green-700 font-bold py-1.5 px-4 rounded-lg text-xs"><i class="fab fa-whatsapp"></i> Beli</button></div>
         </div>
         <div class="mb-4 bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200 p-5 rounded-2xl flex justify-between items-center shadow-sm">
-             <div><h3 class="font-black text-purple-700 text-base flex items-center gap-1">Paket Pro <i class="fas fa-star text-yellow-500 text-xs"></i></h3><p class="text-[11px] text-slate-500 font-medium">20 Token Laporan / Dokumen</p></div>
-            <div class="text-right"><p class="text-lg font-black text-purple-700 mb-1">Rp 30.000</p><button onclick="konfirmasiWA('Pro', 20, 30000)" class="bg-green-500 text-white font-bold py-1.5 px-4 rounded-lg text-xs shadow-md hover:bg-green-600"><i class="fab fa-whatsapp mr-1"></i> Beli</button></div>
+             <div><h3 class="font-black text-purple-700 text-base flex items-center gap-1">Paket Pro <i class="fas fa-star text-yellow-500 text-xs"></i></h3><p class="text-[11px] text-slate-500 font-medium">20 Token Laporan</p></div>
+            <div class="text-right"><p class="text-lg font-black text-purple-700 mb-1">Rp 30.000</p><button onclick="konfirmasiWA('Pro', 20, 30000)" class="bg-green-500 text-white font-bold py-1.5 px-4 rounded-lg text-xs shadow-md"><i class="fab fa-whatsapp"></i> Beli</button></div>
         </div>
-        
         <div class="p-4 bg-red-50 border border-red-200 rounded-xl mt-6">
             <label class="flex items-start gap-3 cursor-pointer">
                 <input type="checkbox" id="cekSyaratToken" class="mt-0.5 w-4 h-4 accent-red-500 shrink-0">
-                <span class="text-[10px] text-red-800 leading-relaxed font-medium"><b>PERSETUJUAN MUTLAK:</b> Dana tidak dapat dikembalikan dengan alasan apapun. Token akan hangus jika proses pengunduhan gagal karena koneksi internet Anda terputus.</span>
+                <span class="text-[10px] text-red-800 leading-relaxed font-medium"><b>PERSETUJUAN MUTLAK:</b> Dana tidak dapat dikembalikan dengan alasan apapun. Token akan hangus jika proses pengunduhan gagal karena koneksi terputus.</span>
             </label>
         </div>
       </section>
@@ -351,20 +328,15 @@
       <section id="sec-panduan" class="glossy-monster p-5 md:p-8 rounded-3xl mb-6 section-hidden border-t-4 border-t-green-500">
          <h2 class="text-xl font-black text-slate-800 border-b border-slate-200 pb-3 mb-5"><i class="fas fa-book-open mr-2 text-green-500"></i> Panduan Penggunaan</h2>
          <div class="text-[11px] text-slate-600 space-y-4 leading-relaxed font-medium">
-            <div class="bg-blue-50 border border-blue-200 p-4 rounded-xl mb-4">
-                <p class="text-blue-800 font-black mb-1"><i class="fas fa-info-circle mr-1"></i> Alur Kerja Sistem E-GenLap</p>
-                <p>Sistem ini dirancang menggunakan kecerdasan buatan (Gemini AI) untuk menganalisis data lapangan sederhana yang Anda masukkan, dan mengubahnya menjadi narasi Laporan Pemerintahan formal yang merujuk pada Permensos dan UU terkait.</p>
-            </div>
-            <p class="flex items-start gap-3"><span class="bg-blue-600 text-white font-bold w-6 h-6 shrink-0 flex items-center justify-center rounded-full text-[10px]">1</span> <b>Lengkapi Profil Anda:</b> Buka menu Profil, isikan Nama, Jabatan, NIP, Kabupaten, dan Tanda Tangan. Jabatan Anda akan menentukan RHK apa saja yang tersedia.</p>
-            <p class="flex items-start gap-3"><span class="bg-blue-600 text-white font-bold w-6 h-6 shrink-0 flex items-center justify-center rounded-full text-[10px]">2</span> <b>Menu Lapor:</b> Isi tanggal, pilih Kegiatan (RHK), isi data lapangan, dan lampirkan foto dokumentasi. Pastikan koneksi stabil.</p>
-            <p class="flex items-start gap-3"><span class="bg-blue-600 text-white font-bold w-6 h-6 shrink-0 flex items-center justify-center rounded-full text-[10px]">3</span> <b>Eksekusi & Unduh:</b> Klik tombol Proses AI. Sistem akan memotong 1 Token Anda dan memproses file PDF/Word langsung ke HP/Laptop Anda.</p>
+            <p class="flex items-start gap-3"><span class="bg-blue-600 text-white font-bold w-6 h-6 shrink-0 flex items-center justify-center rounded-full text-[10px]">1</span> Lengkapi Profil Anda di menu Profil. Jabatan PKH akan memfilter Pilihan Laporan Harian (RHK).</p>
+            <p class="flex items-start gap-3"><span class="bg-blue-600 text-white font-bold w-6 h-6 shrink-0 flex items-center justify-center rounded-full text-[10px]">2</span> Lakukan Top-Up Token Laporan. Pembayaran via konfirmasi WhatsApp Admin.</p>
+            <p class="flex items-start gap-3"><span class="bg-blue-600 text-white font-bold w-6 h-6 shrink-0 flex items-center justify-center rounded-full text-[10px]">3</span> Isi form Laporan dan data lapangan. Gemini AI akan menganalisis dan menyusun paragraf formal beserta Undang-Undang secara otomatis.</p>
          </div>
       </section>
 
       <!-- 8. KEUANGAN ADMIN -->
       <section id="sec-keuangan" class="glossy-monster p-5 md:p-8 rounded-3xl mb-6 section-hidden border-t-4 border-t-yellow-400">
-         <h2 class="text-xl font-black text-slate-800 border-b border-slate-200 pb-3 mb-5"><i class="fas fa-chart-line mr-2 text-yellow-500"></i> Rekap Pendapatan</h2>
-         
+         <h2 class="text-xl font-black text-slate-800 border-b border-slate-200 pb-3 mb-5"><i class="fas fa-chart-line mr-2 text-yellow-500"></i> Keuangan Admin</h2>
          <div class="grid grid-cols-2 gap-4 mb-6">
              <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
                  <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Total Pendapatan</p>
@@ -375,39 +347,35 @@
                  <h3 class="text-xl font-black text-blue-600 mt-1" id="totalTokenTerjual">0</h3>
              </div>
          </div>
-
          <div class="flex justify-between items-center mb-3">
             <h4 class="text-sm font-bold text-slate-700"><i class="fas fa-list mr-1 text-slate-400"></i> Log Transaksi</h4>
             <div class="flex gap-2">
-                <button onclick="loadAdminKeuangan()" class="bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg text-[10px] font-bold border border-blue-200 hover:bg-blue-100"><i class="fas fa-sync-alt"></i> Refresh</button>
-                <button onclick="exportKeuanganKePDF()" class="bg-red-500 text-white px-3 py-1.5 rounded-lg text-[10px] font-bold shadow-md hover:bg-red-600"><i class="fas fa-file-pdf mr-1"></i> Export PDF</button>
+                <button onclick="loadAdminKeuangan()" class="bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg text-[10px] font-bold"><i class="fas fa-sync-alt"></i></button>
+                <button onclick="exportKeuanganKePDF()" class="bg-red-500 text-white px-3 py-1.5 rounded-lg text-[10px] font-bold shadow-md hover:bg-red-600"><i class="fas fa-file-pdf mr-1"></i> Export</button>
             </div>
          </div>
-         
          <div class="overflow-x-auto custom-scrollbar rounded-xl border border-slate-200 bg-white w-full">
              <table class="min-w-full text-left text-[11px] text-slate-600">
-                <thead class="bg-slate-50 font-bold text-slate-800 border-b border-slate-200"><tr><th class="p-3">Waktu</th><th class="p-3">Pembeli & Token</th><th class="p-3 text-right">Status</th></tr></thead>
+                <thead class="bg-slate-50 font-bold text-slate-800 border-b border-slate-200"><tr><th class="p-3">Waktu</th><th class="p-3">Pembeli</th><th class="p-3 text-right">Aksi</th></tr></thead>
                 <tbody id="tableKeuanganBody" class="divide-y divide-slate-100"></tbody>
              </table>
          </div>
       </section>
 
-      <!-- 9. SUPER ADMIN PANEL -->
+      <!-- 9. SUPER ADMIN (UPLOAD RHK EXCEL) -->
       <section id="sec-admin" class="glossy-monster p-5 md:p-8 rounded-3xl mb-6 section-hidden border-t-4 border-t-red-500">
          <h2 class="text-xl font-black text-slate-800 border-b border-slate-200 pb-3 mb-6"><i class="fas fa-cogs mr-2 text-red-500"></i> Panel Super Admin</h2>
          
-         <!-- UPLOAD RHK EXCEL (ALGORITMA FORWARD-FILL) -->
          <div class="bg-red-50/50 p-5 rounded-2xl border border-red-100 mb-6">
              <h3 class="font-black text-red-700 mb-2 text-sm"><i class="fas fa-file-excel mr-1 text-green-600"></i> Import RHK dari Excel</h3>
-             <p class="text-[10px] text-slate-600 mb-4 font-medium leading-relaxed">Sistem mendeteksi kolom: JABATAN, RENCANA HASIL KERJA, PILIHAN LAPORAN HARIAN, TARGET TAHUNAN, TARGET BULANAN secara cerdas (mendukung cell kosong/merge di Excel).</p>
+             <p class="text-[10px] text-slate-600 mb-4 font-medium leading-relaxed">Sistem mendeteksi kolom: JABATAN, RENCANA HASIL KERJA, PILIHAN LAPORAN HARIAN, TARGET TAHUNAN, TARGET BULANAN secara cerdas (mendukung Algoritma Forward-Fill / Cell kosong yang ter-merge di Excel).</p>
              <input type="file" id="excelRHKUpload" accept=".xlsx, .xls" class="w-full text-xs rounded-xl glossy-input text-slate-600 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:font-bold file:bg-red-600 file:text-white cursor-pointer bg-white" onchange="uploadMasterRHK(event)">
          </div>
 
-         <!-- MANAJEMEN DATABASE RHK -->
          <div class="bg-white p-5 rounded-2xl border border-slate-200 mb-6 shadow-sm">
              <div class="flex justify-between items-center mb-4">
-                 <h3 class="font-black text-slate-800 text-sm"><i class="fas fa-database mr-1 text-blue-500"></i> Database RHK Aktif</h3>
-                 <button onclick="loadAdminRHK()" class="text-[10px] bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg border border-blue-200 font-bold hover:bg-blue-100"><i class="fas fa-sync mr-1"></i> Segarkan</button>
+                 <h3 class="font-black text-slate-800 text-sm"><i class="fas fa-database mr-1 text-blue-500"></i> Database RHK Master</h3>
+                 <button onclick="loadAdminRHK()" class="text-[10px] bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg font-bold"><i class="fas fa-sync"></i></button>
              </div>
              <select id="filterAdminRHK" class="w-full p-3 mb-4 text-xs rounded-xl glossy-input text-slate-700 font-bold bg-slate-50 border-slate-300" onchange="loadAdminRHK()">
                 <option value="KATIM PROV">Filter: KATIM PROV</option>
@@ -423,13 +391,12 @@
                  <tbody id="adminRHKTable" class="divide-y divide-slate-100"><tr><td colspan="3" class="text-center p-4 italic">Memuat data...</td></tr></tbody>
                </table>
             </div>
-            <button onclick="tambahRHKManual()" class="w-full bg-slate-100 text-slate-700 border border-slate-300 py-2.5 rounded-xl text-xs font-bold hover:bg-slate-200 transition-colors"><i class="fas fa-plus mr-1"></i> Tambah RHK Manual</button>
+            <button onclick="tambahRHKManual()" class="w-full bg-slate-100 text-slate-700 border border-slate-300 py-2.5 rounded-xl text-xs font-bold hover:bg-slate-200"><i class="fas fa-plus mr-1"></i> Tambah RHK Manual</button>
          </div>
 
-         <!-- MANAJEMEN USER -->
          <div class="flex justify-between items-center mb-3">
              <h3 class="text-sm font-black text-slate-800"><i class="fas fa-users text-purple-500 mr-1"></i> Kelola User & Token</h3>
-             <button onclick="loadAdminUsers()" class="text-[10px] bg-purple-50 text-purple-600 border border-purple-200 px-3 py-1.5 rounded-lg font-bold hover:bg-purple-100"><i class="fas fa-sync"></i> Refresh User</button>
+             <button onclick="loadAdminUsers()" class="text-[10px] bg-purple-50 text-purple-600 border border-purple-200 px-3 py-1.5 rounded-lg font-bold"><i class="fas fa-sync"></i></button>
          </div>
          <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
             <table class="min-w-full text-left text-[11px] text-slate-600">
@@ -439,12 +406,11 @@
          </div>
        </section>
        
-       <div class="text-center py-6 text-[10px] text-slate-400 font-bold pb-24">Hak Cipta 2026 &copy; E-GenLap SDM PKH<br>Sistem Pintar Berbasis Cloud AI</div>
+       <div class="text-center py-6 text-[10px] text-slate-400 font-bold pb-20">Hak Cipta 2026 &copy; E-GenLap SDM PKH</div>
     </main>
 
-    <!-- NAVIGATION BOTTOM (HARDCODED HTML - RAPI & SESUAI ORIGINAL) -->
-    <!-- Max-w disamakan dengan container body agar sejajar dan cantik -->
-    <nav id="bottomNav" class="fixed bottom-0 w-full max-w-md md:max-w-4xl lg:max-w-5xl bg-white border-t border-slate-200 shadow-[0_-10px_20px_rgba(0,0,0,0.05)] flex justify-between px-3 py-2 z-40 h-16 items-center rounded-t-3xl hidden">
+    <!-- NAVIGATION BOTTOM: MENGIKUTI LEBAR CONTAINER DI PC AGAR RAPIH -->
+    <nav id="bottomNav" class="fixed bottom-0 w-full max-w-md md:max-w-xl mx-auto bg-white border-t border-slate-200 shadow-[0_-10px_20px_rgba(0,0,0,0.05)] flex justify-between px-3 py-2 z-40 h-16 items-center rounded-t-3xl hidden">
         <button onclick="nav('dashboard')" class="nav-btn flex-1 flex flex-col items-center text-blue-600 transition-colors"><i class="fas fa-home text-lg mb-1"></i><span class="text-[9px] font-black">Beranda</span></button>
         <button onclick="nav('report')" class="nav-btn flex-1 flex flex-col items-center text-slate-400 hover:text-blue-500 transition-colors"><i class="fas fa-history text-lg mb-1"></i><span class="text-[9px] font-bold">Riwayat</span></button>
 
@@ -469,12 +435,12 @@
           <div id="reviewContent" class="max-h-[50vh] overflow-y-auto custom-scrollbar pr-2 mb-5 text-[11px] text-slate-600 font-medium"></div>
           <div class="flex gap-3">
               <button type="button" onclick="document.getElementById('modalReview').classList.add('hidden')" class="w-1/2 p-3 rounded-xl bg-slate-100 text-slate-600 font-bold hover:bg-slate-200 transition-all text-xs">Cek Ulang</button>
-              <button type="button" onclick="executeGenerate()" class="w-1/2 p-3 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-extrabold shadow-lg hover:shadow-xl text-xs">Buat Dokumen</button>
+              <button type="button" onclick="executeGenerate()" class="w-1/2 p-3 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-extrabold shadow-lg hover:shadow-xl text-xs">Buat Laporan</button>
           </div>
       </div>
   </div>
 
-  <!-- MODAL EDIT/TAMBAH RHK (ADMIN ONLY) -->
+  <!-- MODAL RHK -->
   <div id="modalRHK" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[960] hidden flex-col items-center justify-center p-4 transition-opacity">
     <div class="glossy-monster bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl relative border-0">
         <h3 class="text-base font-black text-slate-800 border-b border-slate-100 pb-3 mb-4"><i class="fas fa-edit mr-2 text-blue-500"></i> Editor Database RHK</h3>
@@ -508,12 +474,12 @@
     };
     const app = initializeApp(firebaseConfig);
     
-    // Bind global untuk diakses skrip reguler
+    // EXPOSE KE GLOBAL WINDOW AGAR BISA DIAKSES SCRIPT BAWAH TANPA ERROR MODULE
     window.db = getDatabase(app);
     window.dbSet = set; window.dbGet = get; window.dbRef = ref; window.dbChild = child; window.dbUpdate = update; window.dbPush = push; window.dbRemove = remove;
   </script>
 
-  <!-- LOGIKA APP (ORIGINAL DIADAPTASI) -->
+  <!-- LOGIKA APP UTAMA -->
   <script>
     // KUNCI URL API GOOGLE APPS SCRIPT ANDA (GANTI SETELAH DEPLOY CODE.GS BARU)
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbws-HjTuy1LMTyqfcFzl1rXE8ivom7L4OfgVUdzeXuiYSpcsw8HgFjkIkd5DneqtPcY/exec";
@@ -526,7 +492,7 @@
     
     window.showToast = function(msg, type = 'success') {
         const t = document.createElement('div');
-        const icon = type === 'success' ? '<i class="fas fa-check-circle text-green-500 text-xl"></i>' : '<i class="fas fa-exclamation-circle text-red-500 text-xl"></i>';
+        const icon = type === 'success' ? '<i class="fas fa-check-circle text-green-500 text-2xl"></i>' : '<i class="fas fa-exclamation-circle text-red-500 text-2xl"></i>';
         t.className = `flex items-center gap-3 p-4 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] border transform transition-all duration-300 translate-y-[-20px] opacity-0 bg-white border-slate-200 text-slate-800 z-[9999] w-[90%] max-w-sm`;
         t.innerHTML = `${icon} <span class="text-sm font-bold">${msg}</span>`;
         document.getElementById('toastContainer').appendChild(t);
@@ -547,14 +513,16 @@
         document.getElementById('formLogin').classList.toggle('hidden'); document.getElementById('formRegister').classList.toggle('hidden');
     }
 
-    // 1. AUTHENTICATION (KUNCI SUPER ADMIN FIX)
+    // =====================================
+    // 1. AUTHENTICATION & SECURITY (KUNCI SUPER ADMIN FIX)
+    // =====================================
     window.eksekusiRegister = async () => {
         const email = document.getElementById('regEmail').value, pass = document.getElementById('regPassword').value, nama = document.getElementById('regNama').value;
         if(!email || !pass || !nama) return showToast("Lengkapi semua isian form!", "error");
         
         showLoadingUI(true); const emailKey = encodeEmail(email);
         
-        // KUNCI MUTLAK SUPER ADMIN (Sesuai Permintaan Anda)
+        // KUNCI MUTLAK SUPER ADMIN 
         const role = (email.toLowerCase() === 'zaensyachrullah90@gmail.com') ? 'super_admin' : 'user';
         
         try {
@@ -562,10 +530,10 @@
             if (snap.exists()) { showLoadingUI(false); return showToast("Email sudah terdaftar", "error"); }
             
             await window.dbSet(window.dbRef(window.db, 'users/' + emailKey), {
-                email, password: pass, nama: nama, jabatan: "Penata layanan operasional", kabupaten: "Tapin", nip: "", token: 1, role: role, ttd: ""
+                email, password: pass, nama: nama, jabatanPKH: "Penata layanan operasional", jabatanASN: "Penata layanan operasional", kabupaten: "Tapin", nip: "", token: 1, role: role, ttd: ""
             });
             showLoadingUI(false); showToast(`Pendaftaran sukses!`, "success"); toggleAuthForm();
-        } catch(e) { showLoadingUI(false); showToast("Gagal mendaftar ke server", "error"); }
+        } catch(e) { showLoadingUI(false); showToast("Gagal mendaftar ke server", "error"); console.error(e); }
     }
 
     window.prosesLogin = async () => {
@@ -581,7 +549,7 @@
                 currentUser = userData; localStorage.setItem('egenlap_user', JSON.stringify(currentUser));
                 terapkanSesi(); showLoadingUI(false); showToast("Login Berhasil", "success");
             } else { showLoadingUI(false); showToast("Kredensial tidak valid", "error"); }
-        } catch(e) { showLoadingUI(false); showToast("Gangguan koneksi database", "error"); }
+        } catch(e) { showLoadingUI(false); showToast("Gangguan koneksi database", "error"); console.error(e); }
     }
     window.logout = () => { localStorage.removeItem('egenlap_user'); location.reload(); }
 
@@ -596,13 +564,14 @@
         }
         
         document.getElementById('userGreeting').innerText = "Halo, " + (currentUser.nama || "User");
-        document.getElementById('userRoleBadge').innerText = `${currentUser.role.toUpperCase()} - ${currentUser.jabatan || ""}`;
+        document.getElementById('userRoleBadge').innerText = `${currentUser.role.toUpperCase()} - ${currentUser.jabatanASN || currentUser.jabatanPKH || ""}`;
         document.getElementById('sisaTokenDash').innerText = currentUser.token;
         document.getElementById('formTokenCount').innerText = currentUser.token;
 
         document.getElementById('setNama').value = currentUser.nama || "";
         document.getElementById('setNIP').value = currentUser.nip || "";
-        document.getElementById('setJabatan').value = currentUser.jabatan || "Penata layanan operasional";
+        document.getElementById('setJabatanPKH').value = currentUser.jabatanPKH || "Penata layanan operasional";
+        document.getElementById('setJabatanASN').value = currentUser.jabatanASN || currentUser.jabatanPKH || "Penata layanan operasional";
         document.getElementById('setKab').value = currentUser.kabupaten || "Tapin";
         if (currentUser.ttd) {
             tempTtdSettings = currentUser.ttd; document.getElementById('imgTtdSettingsPreview').src = tempTtdSettings; document.getElementById('previewTtdSettings').classList.remove('hidden');
@@ -613,7 +582,7 @@
     }
 
     window.onload = () => {
-        if(typeof XLSX === 'undefined') console.warn("Pustaka SheetJS (Excel) belum dimuat. Pastikan koneksi internet aktif.");
+        if(typeof XLSX === 'undefined') console.warn("Pustaka SheetJS (Excel) belum dimuat.");
         const stored = localStorage.getItem('egenlap_user');
         if (stored) { setTimeout(() => { currentUser = JSON.parse(stored); terapkanSesi(); }, 500); }
         setInterval(() => {
@@ -635,7 +604,7 @@
         
         if(t === 'generate') {
             document.getElementById('infoPelaporNama').innerText = currentUser.nama || "Belum diset";
-            document.getElementById('infoPelaporJabatan').innerText = `${currentUser.jabatan} | NIP: ${currentUser.nip || '-'}`;
+            document.getElementById('infoPelaporJabatan').innerText = `${currentUser.jabatanASN || currentUser.jabatanPKH} | NIP: ${currentUser.nip || '-'}`;
             applySmartFilterRHK();
         }
         if(t === 'admin') { loadAdminUsers(); loadAdminRHK(); }
@@ -643,7 +612,9 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // 3. PENGATURAN (PROFIL AUTO-FILL & TTD)
+    // =====================================
+    // 3. PENGATURAN (DUAL JABATAN) & TTD
+    // =====================================
     window.prosesTtdSettings = (e) => {
         const file = e.target.files[0]; if(!file) return; const reader = new FileReader();
         reader.onload = (ev) => {
@@ -659,15 +630,24 @@
     
     window.simpanPengaturan = async () => {
         showLoadingUI(true);
-        const uD = { nama: document.getElementById('setNama').value, nip: document.getElementById('setNIP').value, jabatan: document.getElementById('setJabatan').value, kabupaten: document.getElementById('setKab').value, ttd: tempTtdSettings || "" };
+        const uD = { 
+            nama: document.getElementById('setNama').value, 
+            nip: document.getElementById('setNIP').value, 
+            jabatanPKH: document.getElementById('setJabatanPKH').value, 
+            jabatanASN: document.getElementById('setJabatanASN').value, 
+            kabupaten: document.getElementById('setKab').value, 
+            ttd: tempTtdSettings || currentUser.ttd || "" 
+        };
         try {
             await window.dbUpdate(window.dbRef(window.db, `users/${encodeEmail(currentUser.email)}`), uD);
             currentUser = { ...currentUser, ...uD }; localStorage.setItem('egenlap_user', JSON.stringify(currentUser)); terapkanSesi(); 
             showLoadingUI(false); showToast("Profil Disimpan. Filter RHK Tersinkronisasi.", "success");
-        } catch(e) { showLoadingUI(false); showToast("Gagal menyimpan profil", "error"); }
+        } catch(e) { showLoadingUI(false); showToast("Gagal menyimpan ke Database (Cek Rules Firebase)", "error"); console.error(e); }
     }
 
+    // =====================================
     // 4. DATA RIWAYAT & DASHBOARD
+    // =====================================
     window.loadDashboardData = async () => {
         if(!currentUser) return;
         try {
@@ -698,10 +678,10 @@
                 let h = '';
                 data.forEach(d => {
                     h += `<tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
-                        <td class="p-3"><p class="text-[10px] font-bold text-slate-700 leading-tight">${d.nama}</p><p class="text-[9px] text-slate-500 mt-0.5">${d.jabatan || ''}</p></td>
-                        <td class="p-3"><p class="text-[10px] text-slate-600 leading-tight">${d.tanggal}</p><span class="inline-block mt-1 text-[9px] text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-100 font-bold">${d.jam}</span></td>
-                        <td class="p-3 text-[10px] text-slate-600 font-medium">${d.kegiatan}</td>
-                        <td class="p-3 text-center text-[10px] font-bold ${d.status==='Sukses' ? 'text-green-600':'text-red-500'}"><span class="${d.status==='Sukses' ? 'bg-green-50' : 'bg-red-50'} px-2 py-1 rounded-md">${d.status}</span></td>
+                        <td class="p-4"><p class="text-[11px] font-bold text-slate-700 leading-tight">${d.nama}</p><p class="text-[9px] text-slate-500 mt-0.5">${d.jabatan || ''}</p></td>
+                        <td class="p-4"><p class="text-[10px] text-slate-600 leading-tight">${d.tanggal}</p><span class="inline-block mt-1 text-[9px] text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-100 font-bold">${d.jam}</span></td>
+                        <td class="p-4 text-[10px] text-slate-600 font-medium">${d.kegiatan}</td>
+                        <td class="p-4 text-center text-[10px] font-bold ${d.status==='Sukses' ? 'text-green-600':'text-red-500'}"><span class="${d.status==='Sukses' ? 'bg-green-50' : 'bg-red-50'} px-2 py-1 rounded-md">${d.status}</span></td>
                     </tr>`;
                 });
                 tb.innerHTML = h || '<tr><td colspan="4" class="text-center p-8 italic text-slate-400">Belum ada riwayat dokumen</td></tr>';
@@ -709,7 +689,9 @@
         } catch(e){ tb.innerHTML = '<tr><td colspan="4" class="text-center p-8 text-red-500">Gagal mengambil data server</td></tr>'; }
     }
 
-    // 5. SUPER ADMIN: CRUD RHK & EXCEL FORWARD FILL (SANGAT CERDAS)
+    // =====================================
+    // 5. SUPER ADMIN: CRUD RHK & EXCEL FORWARD FILL
+    // =====================================
     window.uploadMasterRHK = async (event) => {
         const file = event.target.files[0]; if(!file) return;
         if(typeof XLSX === 'undefined') return showToast("Library Excel gagal dimuat. Refresh web.", "error");
@@ -721,7 +703,7 @@
                 const sheetName = workbook.SheetNames[0]; const jsonData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {defval: ""});
 
                 let cJ="", cR="", cTT="", cTB=""; let finalData = [];
-                // Algoritma Forward-Fill untuk membaca cell merge Excel
+                // Algoritma Forward-Fill Cerdas untuk File Excel Anda
                 jsonData.forEach(row => {
                     if(row['JABATAN'] && String(row['JABATAN']).trim() !== "") cJ = String(row['JABATAN']).trim();
                     if(row['RENCANA HASIL KERJA'] && String(row['RENCANA HASIL KERJA']).trim() !== "") cR = String(row['RENCANA HASIL KERJA']).trim();
@@ -800,9 +782,11 @@
         } catch(e) { showLoadingUI(false); showToast("Gagal Simpan", "error"); }
     }
 
-    // 6. SMART FILTER RHK CLOUD (Sinkron dengan Excel Admin)
+    // =====================================
+    // 6. SMART FILTER RHK CLOUD (Berdasarkan Jabatan PKH)
+    // =====================================
     window.applySmartFilterRHK = async () => {
-        const jabatan = currentUser?.jabatan || "Penata layanan operasional";
+        const jabatan = currentUser?.jabatanPKH || currentUser?.jabatan || "Penata layanan operasional";
         document.getElementById('lblJabatanFilter').innerText = jabatan;
         const sel = document.getElementById('kegiatanSelect'); sel.innerHTML = '<option value="">Memuat dari Cloud Database...</option>';
         try {
@@ -821,15 +805,15 @@
        let html = '';
        if (sel.includes("GRADUASI")) { html += `<div class="bg-blue-50 border border-blue-200 p-4 rounded-xl mb-4"><h3 class="text-xs font-bold text-blue-700 mb-3 uppercase tracking-wider"><i class="fas fa-user-graduate mr-1"></i> Data Graduasi KPM</h3><div id="containerGraduasi"></div><button type="button" onclick="tambahGraduasi()" class="text-[10px] font-bold text-blue-600 mt-2 bg-white px-3 py-1.5 rounded border border-blue-200 shadow-sm"><i class="fas fa-plus"></i> Tambah KPM</button></div>`; }
        else if (sel.includes("P2K2")) { html += `<div class="bg-blue-50 border border-blue-200 p-4 rounded-xl mb-4"><h3 class="text-xs font-bold text-blue-700 mb-3 uppercase tracking-wider"><i class="fas fa-users mr-1"></i> Data P2K2</h3><div id="containerP2K2"></div><button type="button" onclick="tambahP2K2()" class="text-[10px] font-bold text-blue-600 mt-2 bg-white px-3 py-1.5 rounded border border-blue-200 shadow-sm"><i class="fas fa-plus"></i> Tambah Kelompok</button></div>`; }
-       else if (sel.includes("VERIFIKASI") || sel.includes("VERKOM")) { html += `<div class="mb-4 bg-white p-3 rounded-xl border border-slate-200 shadow-sm"><label class="block text-xs font-bold text-slate-700 mb-1 ml-1">Nama Faskes / Sekolah</label><input type="text" id="verkomLokasi" class="w-full p-3 text-sm rounded-xl glossy-input"></div>`; }
-       else if (sel.includes("SUPERVISI")) { html += `<div class="mb-4 bg-white p-3 rounded-xl border border-slate-200 shadow-sm"><label class="block text-xs font-bold text-slate-700 mb-1 ml-1">Nama Yang Disupervisi</label><input type="text" id="supervisiNama" class="w-full p-3 text-sm rounded-xl glossy-input"></div>`; }
-       html += `<div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm"><label class="block text-xs font-bold text-slate-700 mb-2 ml-1">Rincian Hasil Lapangan (Dianalisa AI)</label><textarea id="hasilKegiatan" class="w-full p-3 text-sm rounded-xl glossy-input" rows="4" placeholder="Ketik rincian pelaksanaan dan hasil secara singkat..."></textarea></div>`;
+       else if (sel.includes("VERIFIKASI") || sel.includes("VERKOM")) { html += `<div class="mb-4 bg-white p-3 rounded-xl border border-slate-200 shadow-sm"><label class="block text-xs font-bold text-slate-700 mb-1 ml-1">Nama Faskes / Sekolah</label><input type="text" id="verkomLokasi" class="w-full p-3 text-sm rounded-xl glossy-input border-slate-200"></div>`; }
+       else if (sel.includes("SUPERVISI")) { html += `<div class="mb-4 bg-white p-3 rounded-xl border border-slate-200 shadow-sm"><label class="block text-xs font-bold text-slate-700 mb-1 ml-1">Nama Yang Disupervisi</label><input type="text" id="supervisiNama" class="w-full p-3 text-sm rounded-xl glossy-input border-slate-200"></div>`; }
+       html += `<div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm"><label class="block text-xs font-bold text-slate-700 mb-2 ml-1">Rincian Hasil Lapangan (Dianalisa AI)</label><textarea id="hasilKegiatan" class="w-full p-3 text-sm rounded-xl glossy-input border-slate-200" rows="4" placeholder="Ketik rincian pelaksanaan dan hasil secara singkat..."></textarea></div>`;
        area.innerHTML = html;
        if(sel.includes("GRADUASI")) tambahGraduasi(); if(sel.includes("P2K2")) tambahP2K2();
     }
-    window.tambahSurat = () => { document.getElementById('containerDataSurat').insertAdjacentHTML('beforeend', `<div class="surat-item grid grid-cols-2 gap-2 mb-2 relative pt-3 border-t border-slate-200 mt-2"><button type="button" onclick="this.parentElement.remove()" class="absolute top-1 right-0 text-red-500 text-[10px] font-bold"><i class="fas fa-times bg-red-50 p-1 rounded-full"></i></button><div><input type="text" class="input-dasar-surat w-full p-2.5 text-xs rounded-lg glossy-input border-slate-300 bg-white" placeholder="Dasar Surat Tambahan"></div><div><input type="text" class="input-perihal-surat w-full p-2.5 text-xs rounded-lg glossy-input border-slate-300 bg-white" placeholder="Perihal Tambahan"></div></div>`); };
-    window.tambahGraduasi = () => { document.getElementById('containerGraduasi').insertAdjacentHTML('beforeend', `<div class="graduasi-item border-b border-blue-200 pb-3 mb-3 relative bg-white p-3 rounded-lg"><button type="button" onclick="this.parentElement.remove()" class="absolute top-2 right-2 text-red-500 text-[10px] font-bold bg-red-50 px-2 py-1 rounded"><i class="fas fa-times"></i> Hapus</button><div class="grid grid-cols-2 gap-2 mb-2 pt-2"><div><label class="block text-[9px] text-slate-500 font-bold mb-1 ml-1">No / NIK</label><input type="text" class="gradNIK w-full p-2 text-xs rounded-lg glossy-input border-blue-100"></div><div><label class="block text-[9px] text-slate-500 font-bold mb-1 ml-1">Nama KPM</label><input type="text" class="gradNama w-full p-2 text-xs rounded-lg glossy-input border-blue-100"></div></div><div class="grid grid-cols-2 gap-2"><div><label class="block text-[9px] text-slate-500 font-bold mb-1 ml-1">Desa / Kec</label><input type="text" class="gradDesa w-full p-2 text-xs rounded-lg glossy-input border-blue-100"></div><div><label class="block text-[9px] text-slate-500 font-bold mb-1 ml-1">Keterangan</label><input type="text" class="gradKet w-full p-2 text-xs rounded-lg glossy-input border-blue-100"></div></div></div>`); };
-    window.tambahP2K2 = () => { document.getElementById('containerP2K2').insertAdjacentHTML('beforeend', `<div class="p2k2-item border-b border-blue-200 pb-3 mb-3 relative bg-white p-3 rounded-lg"><button type="button" onclick="this.parentElement.remove()" class="absolute top-2 right-2 text-red-500 text-[10px] font-bold bg-red-50 px-2 py-1 rounded"><i class="fas fa-times"></i></button><div class="mb-2 pt-2"><label class="block text-[9px] text-slate-500 font-bold mb-1 ml-1">Nama Kelompok</label><input type="text" class="p2k2Kelompok w-full p-2 text-xs rounded-lg glossy-input border-blue-100"></div><div class="grid grid-cols-2 gap-2"><div><label class="block text-[9px] text-slate-500 font-bold mb-1 ml-1">Jml Hadir</label><input type="number" class="p2k2Hadir w-full p-2 text-xs rounded-lg glossy-input border-blue-100"></div><div><label class="block text-[9px] text-slate-500 font-bold mb-1 ml-1">Jml Absen</label><input type="number" class="p2k2Absen w-full p-2 text-xs rounded-lg glossy-input border-blue-100"></div></div></div>`); };
+    window.tambahSurat = () => { document.getElementById('containerDataSurat').insertAdjacentHTML('beforeend', `<div class="surat-item grid grid-cols-2 gap-2 mb-2 relative pt-3 border-t border-slate-200 mt-2"><button type="button" onclick="this.parentElement.remove()" class="absolute top-1 right-0 text-red-500 text-[10px] font-bold"><i class="fas fa-times bg-red-50 p-1 rounded-full"></i></button><div><input type="text" class="input-dasar-surat w-full p-2.5 text-xs rounded-lg glossy-input bg-slate-50 border-slate-200" placeholder="Dasar Surat Tambahan"></div><div><input type="text" class="input-perihal-surat w-full p-2.5 text-xs rounded-lg glossy-input bg-slate-50 border-slate-200" placeholder="Perihal Tambahan"></div></div>`); };
+    window.tambahGraduasi = () => { document.getElementById('containerGraduasi').insertAdjacentHTML('beforeend', `<div class="graduasi-item border-b border-blue-200 pb-3 mb-3 relative bg-white p-3 rounded-lg shadow-sm"><button type="button" onclick="this.parentElement.remove()" class="absolute top-2 right-2 text-red-500 text-[10px] font-bold bg-red-50 px-2 py-1 rounded"><i class="fas fa-times"></i> Hapus</button><div class="grid grid-cols-2 gap-2 mb-2 pt-2"><div><label class="block text-[9px] text-slate-500 font-bold mb-1 ml-1">No / NIK</label><input type="text" class="gradNIK w-full p-2 text-xs rounded-lg glossy-input border-blue-100"></div><div><label class="block text-[9px] text-slate-500 font-bold mb-1 ml-1">Nama KPM</label><input type="text" class="gradNama w-full p-2 text-xs rounded-lg glossy-input border-blue-100"></div></div><div class="grid grid-cols-2 gap-2"><div><label class="block text-[9px] text-slate-500 font-bold mb-1 ml-1">Desa / Kec</label><input type="text" class="gradDesa w-full p-2 text-xs rounded-lg glossy-input border-blue-100"></div><div><label class="block text-[9px] text-slate-500 font-bold mb-1 ml-1">Keterangan</label><input type="text" class="gradKet w-full p-2 text-xs rounded-lg glossy-input border-blue-100"></div></div></div>`); };
+    window.tambahP2K2 = () => { document.getElementById('containerP2K2').insertAdjacentHTML('beforeend', `<div class="p2k2-item border-b border-blue-200 pb-3 mb-3 relative bg-white p-3 rounded-lg shadow-sm"><button type="button" onclick="this.parentElement.remove()" class="absolute top-2 right-2 text-red-500 text-[10px] font-bold bg-red-50 px-2 py-1 rounded"><i class="fas fa-times"></i></button><div class="mb-2 pt-2"><label class="block text-[9px] text-slate-500 font-bold mb-1 ml-1">Nama Kelompok</label><input type="text" class="p2k2Kelompok w-full p-2 text-xs rounded-lg glossy-input border-blue-100"></div><div class="grid grid-cols-2 gap-2"><div><label class="block text-[9px] text-slate-500 font-bold mb-1 ml-1">Jml Hadir</label><input type="number" class="p2k2Hadir w-full p-2 text-xs rounded-lg glossy-input border-blue-100"></div><div><label class="block text-[9px] text-slate-500 font-bold mb-1 ml-1">Jml Absen</label><input type="number" class="p2k2Absen w-full p-2 text-xs rounded-lg glossy-input border-blue-100"></div></div></div>`); };
 
     window.prosesFoto = (e) => procImgs(e, arrayFotoBase64, 10, 'previewContainer', 'photoStatus');
     window.prosesLampiran = (e) => procImgs(e, arrayLampiranBase64, 3, 'previewLampiranContainer', 'lampiranStatus');
@@ -837,7 +821,7 @@
         let f = e.target.files; if (!f.length) return; let idx = 0;
         function nxt() {
             if (idx >= f.length) { e.target.value = ""; return; }
-            if (arrRef.length >= max) { showToast(`Batas maksimal ${max} file`, 'error'); e.target.value = ""; return; }
+            if (arrRef.length >= max) { showToast(`Maksimal ${max} file`, 'error'); e.target.value = ""; return; }
             let r = new FileReader(); r.onload = (ev) => {
                 let img = new Image(); img.onload = () => {
                     let c = document.createElement('canvas'), ctx = c.getContext('2d'); let m = 800, w = img.width, h = img.height;
@@ -860,7 +844,9 @@
         else { arrayLampiranBase64.splice(i, 1); rndrImg(arrayLampiranBase64, cId, sId, max); }
     }
 
-    // 7. ADMIN USER & KEUANGAN LOGIC (FIREBASE)
+    // =====================================
+    // 7. ADMIN USER & KEUANGAN LOGIC 
+    // =====================================
     window.konfirmasiWA = async (paket, jml, harga) => {
         const c = document.getElementById('cekSyaratToken'); if(!c || !c.checked) return showToast("Setujui Persetujuan Mutlak di atas!", "error");
         try {
@@ -877,9 +863,9 @@
             let h = ''; sn.forEach(c => {
                 let u = c.val(); let key = c.key;
                 h += `<tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
-                    <td class="p-3"><p class="font-bold text-slate-800 text-[11px]">${u.nama}</p><p class="text-[9px] text-slate-500">${u.email}</p></td>
-                    <td class="p-3 font-black text-blue-600">${u.token}</td>
-                    <td class="p-3 text-right"><button onclick="accToken('${key}', ${u.token})" class="bg-green-100 text-green-700 px-3 py-1.5 rounded-lg text-[10px] font-bold shadow-sm hover:bg-green-200 transition-colors"><i class="fas fa-plus"></i> 10 Tk</button></td>
+                    <td class="p-4"><p class="font-bold text-slate-800 text-[11px]">${u.nama}</p><p class="text-[9px] text-slate-500">${u.email}</p></td>
+                    <td class="p-4 font-black text-blue-600">${u.token}</td>
+                    <td class="p-4 text-right"><button onclick="accToken('${key}', ${u.token})" class="bg-green-100 text-green-700 px-3 py-1.5 rounded-lg text-[10px] font-bold shadow-sm hover:bg-green-200 transition-colors"><i class="fas fa-plus"></i> 10 Tk</button></td>
                 </tr>`;
             }); tb.innerHTML = h;
         } catch(e) { tb.innerHTML = '<tr><td colspan="3" class="text-center p-6 text-red-500 font-bold">Gagal mengambil data</td></tr>'; }
@@ -937,16 +923,18 @@
             const data = await res.json();
             if(data.url) { window.open(data.url, '_blank'); showLoadingUI(false); showToast("PDF Berhasil Dibuat", "success"); } 
             else { showLoadingUI(false); showToast("Gagal membuat PDF", "error"); }
-        } catch(e) { showLoadingUI(false); showToast("Gagal terhubung ke server", "error"); }
+        } catch(e) { showLoadingUI(false); showToast("Gagal terhubung ke server API", "error"); }
     }
 
+    // =====================================
     // 8. EKSEKUSI API GOOGLE APPS SCRIPT (PEMBUATAN DOKUMEN & POTONG TOKEN)
+    // =====================================
     window.tampilkanReview = (e) => {
         e.preventDefault();
         if(currentUser.token <= 0) return showToast("Token Laporan Anda Habis! Silakan Top-Up di menu Token.", "error");
         if(!currentUser.ttd) return showToast("Tanda Tangan digital belum di-upload di Menu Profil!", "error");
         
-        let info = `<div class="p-3 bg-blue-50 border border-blue-200 rounded-xl mb-3"><p class="font-bold text-blue-700 text-[10px] uppercase tracking-wider mb-2"><i class="fas fa-lock mr-1"></i> Data Otomatis Terkunci:</p><ul class="list-disc pl-5 text-[11px] font-medium text-slate-700 space-y-1"><li>Nama Pelapor: ${currentUser.nama}</li><li>Jabatan: ${currentUser.jabatan}</li><li>Kabupaten Tugas: ${currentUser.kabupaten}</li></ul></div>`;
+        let info = `<div class="p-3 bg-blue-50 border border-blue-200 rounded-xl mb-3"><p class="font-bold text-blue-700 text-[10px] uppercase tracking-wider mb-2"><i class="fas fa-lock mr-1"></i> Data Otomatis Terkunci:</p><ul class="list-disc pl-5 text-[11px] font-medium text-slate-700 space-y-1"><li>Nama Pelapor: ${currentUser.nama}</li><li>Jabatan PDF: ${currentUser.jabatanASN || currentUser.jabatanPKH}</li><li>Kabupaten Tugas: ${currentUser.kabupaten}</li></ul></div>`;
         info += `<p class="mb-1 text-[11px] text-slate-700 font-medium"><b>Laporan Harian (RHK):</b><br>${document.getElementById('kegiatanSelect').value}</p>`;
         info += `<p class="mb-3 text-[11px] text-slate-700 font-medium"><b>Waktu Pelaksanaan:</b><br>${document.getElementById('tanggalLaporan').value} / Pukul ${document.getElementById('jamMulai').value}</p>`;
         info += `<div class="p-3 bg-red-50 border border-red-200 rounded-xl"><p class="text-[10px] text-red-700 italic font-bold text-justify leading-relaxed"><i class="fas fa-exclamation-triangle mr-1"></i> Penting: AI akan men-generate laporan formal berdasarkan data lapangan Anda dan merujuk pada Permensos. Eksekusi ini mutlak memotong 1 Token dari akun Anda.</p></div>`;
@@ -969,11 +957,13 @@
         if(document.getElementById('formatPDF').checked) selF.push('PDF');
         if(document.getElementById('formatDOCX').checked) selF.push('DOCX');
 
-        // PAYLOAD INI SESUAI DENGAN FORMAT LAMA AGAR CODE.GS ASLI BEKERJA SEMPURNA TANPA PERLU DIUBAH (BLUEPRINT LOCK)
+        // PAYLOAD INI MENGGUNAKAN JABATAN ASN UNTUK CETAK PDF (Sesuai Permintaan)
         const payload = {
             action: 'generate', payload: {
                 currentUserEmail: currentUser.email, currentUserRole: currentUser.role,
-                namaPetugas: currentUser.nama, jabatan: currentUser.jabatan, nip: currentUser.nip, kabupaten: currentUser.kabupaten, ttdData: currentUser.ttd,
+                namaPetugas: currentUser.nama, 
+                jabatan: currentUser.jabatanASN || currentUser.jabatanPKH, // KHUSUS PDF (ASN)
+                nip: currentUser.nip, kabupaten: currentUser.kabupaten, ttdData: currentUser.ttd,
                 tanggalLaporan: document.getElementById('tanggalLaporan').value, jamMulai: document.getElementById('jamMulai').value, waktu: document.getElementById('waktu').value, lokasi: document.getElementById('lokasi').value,
                 kegiatan: document.getElementById('kegiatanSelect').value, dasarSurat: dS.join(' | '), perihalSurat: pS.join(' | '),
                 formatOutput: selF, dynamicData: dynD, koleksiFoto: arrayFotoBase64, lampiranPendukung: arrayLampiranBase64
@@ -998,7 +988,7 @@
                 currentUser.token -= 1; localStorage.setItem('egenlap_user', JSON.stringify(currentUser));
                 
                 // Simpan Riwayat
-                await window.dbPush(window.dbRef(window.db, 'riwayat'), { email: currentUser.email, nama: currentUser.nama, jabatan: currentUser.jabatan, tanggal: payload.payload.tanggalLaporan, jam: payload.payload.jamMulai, kegiatan: payload.payload.kegiatan, status: 'Sukses', timestamp: new Date().toISOString() });
+                await window.dbPush(window.dbRef(window.db, 'riwayat'), { email: currentUser.email, nama: currentUser.nama, jabatan: currentUser.jabatanASN || currentUser.jabatanPKH, tanggal: payload.payload.tanggalLaporan, jam: payload.payload.jamMulai, kegiatan: payload.payload.kegiatan, status: 'Sukses', timestamp: new Date().toISOString() });
                 
                 document.getElementById('reportForm').reset(); arrayFotoBase64 = []; arrayLampiranBase64 = [];
                 document.getElementById('previewContainer').innerHTML = ''; document.getElementById('previewLampiranContainer').innerHTML = '';
@@ -1006,10 +996,10 @@
                 
                 terapkanSesi(); showLoadingUI(false); showToast("Laporan Selesai & Berhasil Diunduh!", "success");
             } else {
-                await window.dbPush(window.dbRef(window.db, 'riwayat'), { email: currentUser.email, nama: currentUser.nama, jabatan: currentUser.jabatan, tanggal: payload.payload.tanggalLaporan, jam: payload.payload.jamMulai, kegiatan: payload.payload.kegiatan, status: 'Gagal', timestamp: new Date().toISOString() });
+                await window.dbPush(window.dbRef(window.db, 'riwayat'), { email: currentUser.email, nama: currentUser.nama, jabatan: currentUser.jabatanASN || currentUser.jabatanPKH, tanggal: payload.payload.tanggalLaporan, jam: payload.payload.jamMulai, kegiatan: payload.payload.kegiatan, status: 'Gagal', timestamp: new Date().toISOString() });
                 showLoadingUI(false); showToast(data.message || "Gagal menyusun laporan AI", "error"); 
             }
-        } catch(e) { showLoadingUI(false); showToast("Koneksi ke Web App (API) Terputus", "error"); }
+        } catch(e) { showLoadingUI(false); showToast("Koneksi ke Web App API Terputus", "error"); }
     }
   </script>
 </body>
